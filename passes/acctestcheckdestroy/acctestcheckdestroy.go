@@ -1,9 +1,5 @@
-// Copyright 2014 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
-// Package unsafeptr defines an Analyzer that checks for invalid
-// conversions of uintptr to unsafe.Pointer.
+// Package acctestcheckdestroy defines an Analyzer that checks for
+// TestCase missing CheckDestroy
 package acctestcheckdestroy
 
 import (
@@ -15,13 +11,14 @@ import (
 	"golang.org/x/tools/go/ast/inspector"
 )
 
-const Doc = `check for invalid conversions of uintptr to unsafe.Pointer
+const Doc = `check for TestCase missing CheckDestroy
 
-The unsafeptr analyzer reports likely incorrect uses of unsafe.Pointer
-to convert integers to pointers. A conversion from uintptr to
-unsafe.Pointer is invalid if it implies that there is a uintptr-typed
-word in memory that holds a pointer value, because that word will be
-invisible to stack copying and to the garbage collector.`
+The acctestcheckdestroy analyzer reports likely incorrect uses of TestCase
+which do not define a CheckDestroy function. CheckDestroy is used to verify
+that test infrastructure has been removed at the end of an acceptance test.
+
+More information can be found at:
+https://www.terraform.io/docs/extend/testing/acceptance-tests/testcase.html#checkdestroy`
 
 var Analyzer = &analysis.Analyzer{
 	Name:     "acctest",
