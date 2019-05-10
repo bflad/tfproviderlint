@@ -11,11 +11,11 @@ package main
 
 import (
 	"golang.org/x/tools/go/analysis/multichecker"
-	"github.com/terraform-providers/terraform-provider-aws/linter/passes/acctest"
+	"github.com/terraform-providers/terraform-provider-aws/linter/passes/acctestcheckdestroy"
 )
 
 func main() {
 	multichecker.Main(
-		acctest.Analyzer,
+		acctestcheckdestroy.Analyzer,
 	)
 }

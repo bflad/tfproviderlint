@@ -4,7 +4,7 @@
 
 // Package unsafeptr defines an Analyzer that checks for invalid
 // conversions of uintptr to unsafe.Pointer.
-package acctest
+package acctestcheckdestroy
 
 import (
 	"go/ast"
