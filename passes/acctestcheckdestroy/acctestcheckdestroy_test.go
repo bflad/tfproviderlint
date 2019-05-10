@@ -11,7 +11,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-aws/linter/passes/acctestcheckdestroy"
 )
 
-func Test(t *testing.T) {
+func TestAccTestCheckDestroy(t *testing.T) {
 	testdata := analysistest.TestData()
 	analysistest.Run(t, testdata, acctestcheckdestroy.Analyzer, "a")
 }
