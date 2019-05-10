@@ -21,7 +21,7 @@ More information can be found at:
 https://www.terraform.io/docs/extend/testing/acceptance-tests/testcase.html#checkdestroy`
 
 var Analyzer = &analysis.Analyzer{
-	Name:     "acctest",
+	Name:     "acctestcheckdestroy",
 	Doc:      Doc,
 	Requires: []*analysis.Analyzer{inspect.Analyzer},
 	Run:      run,
