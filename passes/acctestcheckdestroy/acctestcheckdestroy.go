@@ -5,6 +5,8 @@ package acctestcheckdestroy
 import (
 	"go/ast"
 	"go/token"
+	"go/types"
+	"strings"
 
 	"golang.org/x/tools/go/analysis"
 	"golang.org/x/tools/go/analysis/passes/inspect"
@@ -41,8 +43,17 @@ func run(pass *analysis.Pass) (interface{}, error) {
 		default:
 			return
 		case *ast.SelectorExpr:
-			if v.Sel.Name != "TestCase" {
+			switch t := pass.TypesInfo.TypeOf(v).(type) {
+			default:
 				return
+			case *types.Named:
+				if t.Obj().Name() != "TestCase" {
+					return
+				}
+				// HasSuffix here due to vendoring
+				if !strings.HasSuffix(t.Obj().Pkg().Path(), "github.com/hashicorp/terraform/helper/resource") {
+					return
+				}
 			}
 			pos = v.Sel.Pos()
 		}

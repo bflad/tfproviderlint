@@ -8,6 +8,7 @@ package main
 
 import (
 	"golang.org/x/tools/go/analysis/multichecker"
+
 	"github.com/terraform-providers/terraform-provider-aws/linter/passes/acctestcheckdestroy"
 )
 
