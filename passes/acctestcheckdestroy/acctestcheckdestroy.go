@@ -4,7 +4,6 @@ package acctestcheckdestroy
 
 import (
 	"go/ast"
-	"go/token"
 	"go/types"
 	"strings"
 
@@ -30,46 +29,68 @@ var Analyzer = &analysis.Analyzer{
 }
 
 func run(pass *analysis.Pass) (interface{}, error) {
-	inspect := pass.ResultOf[inspect.Analyzer].(*inspector.Inspector)
+	testCases := ResourceTestCases(pass)
+	for _, testCase := range testCases {
+		var found bool
 
+		for _, elt := range testCase.Elts {
+			switch v := elt.(type) {
+			default:
+				continue
+			case *ast.KeyValueExpr:
+				if v.Key.(*ast.Ident).Name == "CheckDestroy" {
+					found = true
+					break
+				}
+			}
+		}
+
+		if !found {
+			pass.Reportf(testCase.Type.(*ast.SelectorExpr).Sel.Pos(), "missing CheckDestroy")
+		}
+	}
+
+	return nil, nil
+}
+
+// ResourceTestCases returns all github.com/hashicorp/terraform/helper/resource.TestCase AST
+func ResourceTestCases(pass *analysis.Pass) []*ast.CompositeLit {
+	inspect := pass.ResultOf[inspect.Analyzer].(*inspector.Inspector)
 	nodeFilter := []ast.Node{
 		(*ast.CompositeLit)(nil),
 	}
+	var result []*ast.CompositeLit
+
 	inspect.Preorder(nodeFilter, func(n ast.Node) {
 		x := n.(*ast.CompositeLit)
-		var pos token.Pos
 
-		switch v := x.Type.(type) {
-		default:
+		if !IsResourceTestCase(pass, x) {
 			return
-		case *ast.SelectorExpr:
-			switch t := pass.TypesInfo.TypeOf(v).(type) {
-			default:
-				return
-			case *types.Named:
-				if t.Obj().Name() != "TestCase" {
-					return
-				}
-				// HasSuffix here due to vendoring
-				if !strings.HasSuffix(t.Obj().Pkg().Path(), "github.com/hashicorp/terraform/helper/resource") {
-					return
-				}
-			}
-			pos = v.Sel.Pos()
 		}
 
-		for _, elt := range x.Elts {
-			switch v := elt.(type) {
-			default:
-				return
-			case *ast.KeyValueExpr:
-				if v.Key.(*ast.Ident).Name == "CheckDestroy" {
-					return
-				}
-			}
-		}
-
-		pass.Reportf(pos, "missing CheckDestroy")
+		result = append(result, x)
 	})
-	return nil, nil
+
+	return result
+}
+
+func IsResourceTestCase(pass *analysis.Pass, cl *ast.CompositeLit) bool {
+	switch v := cl.Type.(type) {
+	default:
+		return false
+	case *ast.SelectorExpr:
+		switch t := pass.TypesInfo.TypeOf(v).(type) {
+		default:
+			return false
+		case *types.Named:
+			if t.Obj().Name() != "TestCase" {
+				return false
+			}
+			// HasSuffix here due to vendoring
+			if !strings.HasSuffix(t.Obj().Pkg().Path(), "github.com/hashicorp/terraform/helper/resource") {
+				return false
+			}
+		}
+	}
+	return true
 }
