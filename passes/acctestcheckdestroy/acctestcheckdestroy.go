@@ -4,12 +4,11 @@ package acctestcheckdestroy
 
 import (
 	"go/ast"
-	"go/types"
-	"strings"
 
 	"golang.org/x/tools/go/analysis"
-	"golang.org/x/tools/go/analysis/passes/inspect"
-	"golang.org/x/tools/go/ast/inspector"
+
+	"github.com/terraform-providers/terraform-provider-aws/linter/passes/acctestcase"
+	"github.com/terraform-providers/terraform-provider-aws/linter/passes/commentignore"
 )
 
 const Doc = `check for TestCase missing CheckDestroy
@@ -21,16 +20,26 @@ that test infrastructure has been removed at the end of an acceptance test.
 More information can be found at:
 https://www.terraform.io/docs/extend/testing/acceptance-tests/testcase.html#checkdestroy`
 
+const analyzerName = "acctestcheckdestroy"
+
 var Analyzer = &analysis.Analyzer{
-	Name:     "acctestcheckdestroy",
-	Doc:      Doc,
-	Requires: []*analysis.Analyzer{inspect.Analyzer},
-	Run:      run,
+	Name: analyzerName,
+	Doc:  Doc,
+	Requires: []*analysis.Analyzer{
+		acctestcase.Analyzer,
+		commentignore.Analyzer,
+	},
+	Run: run,
 }
 
 func run(pass *analysis.Pass) (interface{}, error) {
-	testCases := ResourceTestCases(pass)
+	ignorer := pass.ResultOf[commentignore.Analyzer].(*commentignore.Ignorer)
+	testCases := pass.ResultOf[acctestcase.Analyzer].([]*ast.CompositeLit)
 	for _, testCase := range testCases {
+		if ignorer.ShouldIgnore(analyzerName, testCase) {
+			continue
+		}
+
 		var found bool
 
 		for _, elt := range testCase.Elts {
@@ -51,46 +60,4 @@ func run(pass *analysis.Pass) (interface{}, error) {
 	}
 
 	return nil, nil
-}
-
-// ResourceTestCases returns all github.com/hashicorp/terraform/helper/resource.TestCase AST
-func ResourceTestCases(pass *analysis.Pass) []*ast.CompositeLit {
-	inspect := pass.ResultOf[inspect.Analyzer].(*inspector.Inspector)
-	nodeFilter := []ast.Node{
-		(*ast.CompositeLit)(nil),
-	}
-	var result []*ast.CompositeLit
-
-	inspect.Preorder(nodeFilter, func(n ast.Node) {
-		x := n.(*ast.CompositeLit)
-
-		if !IsResourceTestCase(pass, x) {
-			return
-		}
-
-		result = append(result, x)
-	})
-
-	return result
-}
-
-func IsResourceTestCase(pass *analysis.Pass, cl *ast.CompositeLit) bool {
-	switch v := cl.Type.(type) {
-	default:
-		return false
-	case *ast.SelectorExpr:
-		switch t := pass.TypesInfo.TypeOf(v).(type) {
-		default:
-			return false
-		case *types.Named:
-			if t.Obj().Name() != "TestCase" {
-				return false
-			}
-			// HasSuffix here due to vendoring
-			if !strings.HasSuffix(t.Obj().Pkg().Path(), "github.com/hashicorp/terraform/helper/resource") {
-				return false
-			}
-		}
-	}
-	return true
 }
