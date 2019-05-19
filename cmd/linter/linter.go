@@ -10,12 +10,16 @@ import (
 	"golang.org/x/tools/go/analysis/multichecker"
 
 	"github.com/terraform-providers/terraform-provider-aws/linter/passes/acctestcheckdestroy"
+	"github.com/terraform-providers/terraform-provider-aws/linter/passes/acctestfuncnameimport"
+	"github.com/terraform-providers/terraform-provider-aws/linter/passes/acctestfuncnameunderscore"
 	"github.com/terraform-providers/terraform-provider-aws/linter/passes/acctestproviderconfig"
 )
 
 func main() {
 	multichecker.Main(
 		acctestcheckdestroy.Analyzer,
+		acctestfuncnameimport.Analyzer,
+		acctestfuncnameunderscore.Analyzer,
 		acctestproviderconfig.Analyzer,
 	)
 }
