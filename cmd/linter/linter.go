@@ -14,6 +14,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-aws/linter/passes/acctestfuncnameunderscore"
 	"github.com/terraform-providers/terraform-provider-aws/linter/passes/acctestproviderconfig"
 	"github.com/terraform-providers/terraform-provider-aws/linter/passes/resourceexistsfunc"
+	"github.com/terraform-providers/terraform-provider-aws/linter/passes/schematypemapelem"
 )
 
 func main() {
@@ -23,5 +24,6 @@ func main() {
 		acctestfuncnameunderscore.Analyzer,
 		acctestproviderconfig.Analyzer,
 		resourceexistsfunc.Analyzer,
+		schematypemapelem.Analyzer,
 	)
 }
