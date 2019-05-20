@@ -18,8 +18,10 @@ The acctestproviderconfig analyzer reports likely incorrect uses of TestStep
 Config which define a provider configuration. Provider configurations should
 be handled outside individual test configurations (e.g. environment variables).`
 
+const analyzerName = "acctestproviderconfig"
+
 var Analyzer = &analysis.Analyzer{
-	Name:     "acctestproviderconfig",
+	Name:     analyzerName,
 	Doc:      Doc,
 	Requires: []*analysis.Analyzer{inspect.Analyzer},
 	Run:      run,
@@ -42,7 +44,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 			return
 		}
 
-		pass.Reportf(x.ValuePos, "provider declaration should be omitted")
+		pass.Reportf(x.ValuePos, "%s: provider declaration should be omitted", analyzerName)
 	})
 	return nil, nil
 }

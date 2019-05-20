@@ -39,7 +39,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 		}
 
 		if !strings.Contains(testAccFunc.Name.Name, "_") {
-			pass.Reportf(testAccFunc.Name.NamePos, "acceptance test function name should include underscore")
+			pass.Reportf(testAccFunc.Name.NamePos, "%s: acceptance test function name should include underscore", analyzerName)
 		}
 	}
 

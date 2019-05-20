@@ -43,7 +43,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 		funcName := testAccFunc.Name.Name
 
 		if strings.Contains(funcName, "_import") || strings.Contains(funcName, "_Import") || strings.HasSuffix(funcName, "Import") {
-			pass.Reportf(testAccFunc.Name.NamePos, "acceptance test function name should not include import")
+			pass.Reportf(testAccFunc.Name.NamePos, "%s: acceptance test function name should not include import", analyzerName)
 		}
 	}
 

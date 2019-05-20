@@ -55,7 +55,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 		}
 
 		if !found {
-			pass.Reportf(testCase.Type.(*ast.SelectorExpr).Sel.Pos(), "missing CheckDestroy")
+			pass.Reportf(testCase.Type.(*ast.SelectorExpr).Sel.Pos(), "%s: missing CheckDestroy", analyzerName)
 		}
 	}
 

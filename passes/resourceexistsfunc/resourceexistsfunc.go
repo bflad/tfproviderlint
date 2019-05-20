@@ -43,7 +43,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 				continue
 			case *ast.KeyValueExpr:
 				if v.Key.(*ast.Ident).Name == "Exists" {
-					pass.Reportf(v.Key.Pos(), "resource should not include Exists function")
+					pass.Reportf(v.Key.Pos(), "%s: resource should not include Exists function", analyzerName)
 					break
 				}
 			}
