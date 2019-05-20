@@ -13,6 +13,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-aws/linter/passes/acctestfuncnameimport"
 	"github.com/terraform-providers/terraform-provider-aws/linter/passes/acctestfuncnameunderscore"
 	"github.com/terraform-providers/terraform-provider-aws/linter/passes/acctestproviderconfig"
+	"github.com/terraform-providers/terraform-provider-aws/linter/passes/resourceexistsfunc"
 )
 
 func main() {
@@ -21,5 +22,6 @@ func main() {
 		acctestfuncnameimport.Analyzer,
 		acctestfuncnameunderscore.Analyzer,
 		acctestproviderconfig.Analyzer,
+		resourceexistsfunc.Analyzer,
 	)
 }
