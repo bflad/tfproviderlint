@@ -13,6 +13,8 @@ import (
 	"github.com/terraform-providers/terraform-provider-aws/linter/passes/acctestfuncnameimport"
 	"github.com/terraform-providers/terraform-provider-aws/linter/passes/acctestfuncnameunderscore"
 	"github.com/terraform-providers/terraform-provider-aws/linter/passes/acctestproviderconfig"
+	"github.com/terraform-providers/terraform-provider-aws/linter/passes/resourcedatasetkey"
+	"github.com/terraform-providers/terraform-provider-aws/linter/passes/resourcedatasetvaluederef"
 	"github.com/terraform-providers/terraform-provider-aws/linter/passes/resourceexistsfunc"
 	"github.com/terraform-providers/terraform-provider-aws/linter/passes/schematypemapelem"
 )
@@ -23,6 +25,8 @@ func main() {
 		acctestfuncnameimport.Analyzer,
 		acctestfuncnameunderscore.Analyzer,
 		acctestproviderconfig.Analyzer,
+		resourcedatasetkey.Analyzer,
+		resourcedatasetvaluederef.Analyzer,
 		resourceexistsfunc.Analyzer,
 		schematypemapelem.Analyzer,
 	)

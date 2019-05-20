@@ -1,0 +1,53 @@
+// Package resourcedatasetvaluederef defines an Analyzer that checks for
+// ResourceData.Set() calls using * dereferences
+package resourcedatasetvaluederef
+
+import (
+	"go/ast"
+
+	"golang.org/x/tools/go/analysis"
+
+	"github.com/terraform-providers/terraform-provider-aws/linter/passes/commentignore"
+	"github.com/terraform-providers/terraform-provider-aws/linter/passes/resourcedataset"
+)
+
+const Doc = `check for Resource having Exists functions
+
+The resourcedatasetvaluederef analyzer reports likely extraneous uses of
+star (*) dereferences for a Set() call. The Set() function automatically
+handles pointers and * dereferences without nil checks can panic.`
+
+const analyzerName = "resourcedatasetvaluederef"
+
+var Analyzer = &analysis.Analyzer{
+	Name: analyzerName,
+	Doc:  Doc,
+	Requires: []*analysis.Analyzer{
+		resourcedataset.Analyzer,
+		commentignore.Analyzer,
+	},
+	Run: run,
+}
+
+func run(pass *analysis.Pass) (interface{}, error) {
+	ignorer := pass.ResultOf[commentignore.Analyzer].(*commentignore.Ignorer)
+	sets := pass.ResultOf[resourcedataset.Analyzer].([]*ast.CallExpr)
+	for _, set := range sets {
+		if ignorer.ShouldIgnore(analyzerName, set) {
+			continue
+		}
+
+		if len(set.Args) < 2 {
+			continue
+		}
+
+		switch v := set.Args[1].(type) {
+		default:
+			continue
+		case *ast.StarExpr:
+			pass.Reportf(v.Pos(), "%s: ResourceData.Set() pointer value dereference is extraneous", analyzerName)
+		}
+	}
+
+	return nil, nil
+}
