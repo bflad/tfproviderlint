@@ -80,9 +80,9 @@ This project is built on the [`go/analysis`](https://godoc.org/golang.org/x/tool
 ### Updating Dependencies
 
 ```console
-go get URL
-go mod tidy
-go mod vendor
+$ go get URL
+$ go mod tidy
+$ go mod vendor
 ```
 
 ### Docker Build Testing
