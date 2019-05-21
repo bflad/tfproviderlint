@@ -3,8 +3,8 @@ package acctestproviderconfig_test
 import (
 	"testing"
 
+	"github.com/bflad/tfproviderlint/passes/acctestproviderconfig"
 	"golang.org/x/tools/go/analysis/analysistest"
-	"github.com/terraform-providers/terraform-provider-aws/linter/passes/acctestproviderconfig"
 )
 
 func TestAccTestProviderConfig(t *testing.T) {

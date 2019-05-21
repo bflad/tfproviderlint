@@ -5,7 +5,7 @@ import (
 
 	"golang.org/x/tools/go/analysis/analysistest"
 
-	"github.com/terraform-providers/terraform-provider-aws/linter/passes/acctestfuncnameunderscore"
+	"github.com/bflad/tfproviderlint/passes/acctestfuncnameunderscore"
 )
 
 func TestAccTestFuncNameUnderscore(t *testing.T) {

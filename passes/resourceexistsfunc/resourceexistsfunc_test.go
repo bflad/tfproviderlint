@@ -5,7 +5,7 @@ import (
 
 	"golang.org/x/tools/go/analysis/analysistest"
 
-	"github.com/terraform-providers/terraform-provider-aws/linter/passes/resourceexistsfunc"
+	"github.com/bflad/tfproviderlint/passes/resourceexistsfunc"
 )
 
 func TestResourceExistsFunc(t *testing.T) {

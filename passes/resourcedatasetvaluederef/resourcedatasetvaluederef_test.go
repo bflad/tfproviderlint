@@ -5,7 +5,7 @@ import (
 
 	"golang.org/x/tools/go/analysis/analysistest"
 
-	"github.com/terraform-providers/terraform-provider-aws/linter/passes/resourcedatasetvaluederef"
+	"github.com/bflad/tfproviderlint/passes/resourcedatasetvaluederef"
 )
 
 func TestResourceDataSetValueDeref(t *testing.T) {

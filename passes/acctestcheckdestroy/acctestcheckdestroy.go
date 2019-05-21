@@ -7,8 +7,8 @@ import (
 
 	"golang.org/x/tools/go/analysis"
 
-	"github.com/terraform-providers/terraform-provider-aws/linter/passes/acctestcase"
-	"github.com/terraform-providers/terraform-provider-aws/linter/passes/commentignore"
+	"github.com/bflad/tfproviderlint/passes/acctestcase"
+	"github.com/bflad/tfproviderlint/passes/commentignore"
 )
 
 const Doc = `check for TestCase missing CheckDestroy

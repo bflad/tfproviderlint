@@ -9,14 +9,14 @@ package main
 import (
 	"golang.org/x/tools/go/analysis/multichecker"
 
-	"github.com/terraform-providers/terraform-provider-aws/linter/passes/acctestcheckdestroy"
-	"github.com/terraform-providers/terraform-provider-aws/linter/passes/acctestfuncnameimport"
-	"github.com/terraform-providers/terraform-provider-aws/linter/passes/acctestfuncnameunderscore"
-	"github.com/terraform-providers/terraform-provider-aws/linter/passes/acctestproviderconfig"
-	"github.com/terraform-providers/terraform-provider-aws/linter/passes/resourcedatasetkey"
-	"github.com/terraform-providers/terraform-provider-aws/linter/passes/resourcedatasetvaluederef"
-	"github.com/terraform-providers/terraform-provider-aws/linter/passes/resourceexistsfunc"
-	"github.com/terraform-providers/terraform-provider-aws/linter/passes/schematypemapelem"
+	"github.com/bflad/tfproviderlint/passes/acctestcheckdestroy"
+	"github.com/bflad/tfproviderlint/passes/acctestfuncnameimport"
+	"github.com/bflad/tfproviderlint/passes/acctestfuncnameunderscore"
+	"github.com/bflad/tfproviderlint/passes/acctestproviderconfig"
+	"github.com/bflad/tfproviderlint/passes/resourcedatasetkey"
+	"github.com/bflad/tfproviderlint/passes/resourcedatasetvaluederef"
+	"github.com/bflad/tfproviderlint/passes/resourceexistsfunc"
+	"github.com/bflad/tfproviderlint/passes/schematypemapelem"
 )
 
 func main() {

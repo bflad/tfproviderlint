@@ -5,7 +5,7 @@ import (
 
 	"golang.org/x/tools/go/analysis/analysistest"
 
-	"github.com/terraform-providers/terraform-provider-aws/linter/passes/acctestcheckdestroy"
+	"github.com/bflad/tfproviderlint/passes/acctestcheckdestroy"
 )
 
 func TestAccTestCheckDestroy(t *testing.T) {

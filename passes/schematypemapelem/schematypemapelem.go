@@ -9,8 +9,8 @@ import (
 
 	"golang.org/x/tools/go/analysis"
 
-	"github.com/terraform-providers/terraform-provider-aws/linter/passes/commentignore"
-	"github.com/terraform-providers/terraform-provider-aws/linter/passes/schemaschema"
+	"github.com/bflad/tfproviderlint/passes/commentignore"
+	"github.com/bflad/tfproviderlint/passes/schemaschema"
 )
 
 const Doc = `check for Schema of TypeMap missing Elem

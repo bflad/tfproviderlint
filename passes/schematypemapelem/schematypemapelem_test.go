@@ -5,7 +5,7 @@ import (
 
 	"golang.org/x/tools/go/analysis/analysistest"
 
-	"github.com/terraform-providers/terraform-provider-aws/linter/passes/schematypemapelem"
+	"github.com/bflad/tfproviderlint/passes/schematypemapelem"
 )
 
 func TestSchemaTypeMapElem(t *testing.T) {

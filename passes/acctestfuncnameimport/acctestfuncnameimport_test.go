@@ -5,7 +5,7 @@ import (
 
 	"golang.org/x/tools/go/analysis/analysistest"
 
-	"github.com/terraform-providers/terraform-provider-aws/linter/passes/acctestfuncnameimport"
+	"github.com/bflad/tfproviderlint/passes/acctestfuncnameimport"
 )
 
 func TestAccTestFuncNameImport(t *testing.T) {

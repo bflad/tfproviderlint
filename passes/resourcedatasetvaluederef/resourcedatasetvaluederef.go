@@ -7,8 +7,8 @@ import (
 
 	"golang.org/x/tools/go/analysis"
 
-	"github.com/terraform-providers/terraform-provider-aws/linter/passes/commentignore"
-	"github.com/terraform-providers/terraform-provider-aws/linter/passes/resourcedataset"
+	"github.com/bflad/tfproviderlint/passes/commentignore"
+	"github.com/bflad/tfproviderlint/passes/resourcedataset"
 )
 
 const Doc = `check for Resource having Exists functions

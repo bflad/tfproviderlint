@@ -8,8 +8,8 @@ import (
 
 	"golang.org/x/tools/go/analysis"
 
-	"github.com/terraform-providers/terraform-provider-aws/linter/passes/acctestfunc"
-	"github.com/terraform-providers/terraform-provider-aws/linter/passes/commentignore"
+	"github.com/bflad/tfproviderlint/passes/acctestfunc"
+	"github.com/bflad/tfproviderlint/passes/commentignore"
 )
 
 const Doc = `check for acceptance test function names including the word import
