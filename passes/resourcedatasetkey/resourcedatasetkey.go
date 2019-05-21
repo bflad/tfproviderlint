@@ -1,5 +1,5 @@
 // Package resourcedatasetkey defines an Analyzer that checks for
-// ResourceData.Set() calls using * dereferences
+// ResourceData.Set() calls using complex key argument
 package resourcedatasetkey
 
 import (
@@ -11,7 +11,7 @@ import (
 	"github.com/bflad/tfproviderlint/passes/resourcedataset"
 )
 
-const Doc = `check for Resource having Exists functions
+const Doc = `check for ResourceData.Set() calls using complex key argument
 
 The resourcedatasetkey analyzer reports a complex key argument for a Set()
 call. It is preferred to explicitly use a string literal as the key argument.`

@@ -11,7 +11,7 @@ import (
 	"github.com/bflad/tfproviderlint/passes/resourcedataset"
 )
 
-const Doc = `check for Resource having Exists functions
+const Doc = `check for ResourceData.Set() calls using * dereferences
 
 The resourcedatasetvaluederef analyzer reports likely extraneous uses of
 star (*) dereferences for a Set() call. The Set() function automatically
