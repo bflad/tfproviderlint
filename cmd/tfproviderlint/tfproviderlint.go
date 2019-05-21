@@ -1,4 +1,4 @@
-// The linter command is a static checker for Terraform Providers.
+// The tfproviderlint command is a static checker for Terraform Providers.
 //
 // Each analyzer flag name is preceded by the analyzer name: -NAME.flag.
 // In addition, the -NAME flag itself controls whether the
