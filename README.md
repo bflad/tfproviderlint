@@ -6,7 +6,9 @@ A linting tool for [Terraform Provider](https://www.terraform.io/docs/providers/
 
 ### Local Install
 
-To install the linter in your `$GOBIN` directory (e.g. `$GOPATH/bin`):
+Release binaries are available in the [Releases](https://github.com/bflad/tfproviderlint/releases) section.
+
+To instead use Go to install into your `$GOBIN` directory (e.g. `$GOPATH/bin`):
 
 ```console
 $ go get github.com/bflad/tfproviderlint/cmd/tfproviderlint
