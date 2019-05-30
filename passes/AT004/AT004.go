@@ -1,4 +1,4 @@
-// Package acctestcheckdestroy defines an Analyzer that checks for
+// Package AT004 defines an Analyzer that checks for
 // TestStep Config containing provider configuration
 package AT004
 
