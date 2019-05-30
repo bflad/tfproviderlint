@@ -1,0 +1,46 @@
+archives:
+-
+  format_overrides:
+  - goos: windows
+    format: zip
+before:
+  hooks:
+    - go mod download
+brew:
+  dependencies:
+  - go
+  description: Terraform Provider Linter
+  folder: Formula
+  github:
+    owner: bflad
+    name: homebrew-tap
+  homepage: https://github.com/bflad/tfproviderlint
+  test: |
+    system "#{bin}/tfproviderlint -v"
+builds:
+-
+  env:
+  - CGO_ENABLED=0
+  - GOFLAGS=-mod=vendor
+  goos:
+  - darwin
+  - windows
+  - linux
+  goarch:
+  - amd64
+  - 386
+  main: ./cmd/tfproviderlint
+changelog:
+  skip: true
+dockers:
+-
+  build_flag_templates:
+  - "--label=org.label-schema.schema-version=1.0"
+  - "--label=org.label-schema.version={{.Version}}"
+  - "--label=org.label-schema.name={{.ProjectName}}"
+  image_templates:
+  - 'bflad/tfproviderlint:{{ .Version }}'
+  - 'bflad/tfproviderlint:{{ .Major }}.{{ .Minor }}'
+  - 'bflad/tfproviderlint:latest'
+sign:
+  artifacts: checksum

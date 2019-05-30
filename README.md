@@ -18,6 +18,12 @@ $ go get github.com/bflad/tfproviderlint/cmd/tfproviderlint
 $ docker pull bflad/tfproviderlint
 ```
 
+### Homebrew Install
+
+```console
+$ brew install bflad/tap/tfproviderlint
+```
+
 ## Usage
 
 Additional information about usage and configuration options can be found by passing the `help` argument:
@@ -100,12 +106,6 @@ This project is built on the [`go/analysis`](https://godoc.org/golang.org/x/tool
 $ go get URL
 $ go mod tidy
 $ go mod vendor
-```
-
-### Docker Build Testing
-
-```console
-$ docker build .
 ```
 
 ### Unit Testing
