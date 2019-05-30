@@ -78,6 +78,7 @@ For additional information about each check, you can run `tfproviderlint help NA
 | Check | Description | Type |
 |---|---|---|
 | S001 | check for `Schema` of `TypeMap` missing `Elem` | AST |
+| S002 | check for `Schema` with both `Required` and `Optional` enabled | AST |
 
 ## Development and Testing
 
