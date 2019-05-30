@@ -6,10 +6,6 @@ import (
 
 func foutside() {
 	_ = schema.Schema{
-		Type: schema.TypeList,
-	}
-
-	_ = schema.Schema{
-		Type: schema.TypeSet,
+		Type: schema.TypeMap,
 	}
 }

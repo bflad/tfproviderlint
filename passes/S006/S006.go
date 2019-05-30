@@ -1,6 +1,6 @@
-// Package S001 defines an Analyzer that checks for
-// Schema of TypeList or TypeSet missing Elem
-package S001
+// Package S006 defines an Analyzer that checks for
+// Schema of TypeMap missing Elem
+package S006
 
 import (
 	"go/ast"
@@ -13,12 +13,13 @@ import (
 	"github.com/bflad/tfproviderlint/passes/schemaschema"
 )
 
-const Doc = `check for Schema of TypeList or TypeSet missing Elem
+const Doc = `check for Schema of TypeMap missing Elem
 
-The S001 analyzer reports cases of TypeList or TypeSet schemas missing Elem,
-which will fail schema validation.`
+The S006 analyzer reports cases of TypeMap schemas missing Elem,
+which currently passes Terraform schema validation, but breaks downstream tools
+and may be required in the future.`
 
-const analyzerName = "S001"
+const analyzerName = "S006"
 
 var Analyzer = &analysis.Analyzer{
 	Name: analyzerName,
@@ -38,7 +39,8 @@ func run(pass *analysis.Pass) (interface{}, error) {
 			continue
 		}
 
-		var elemFound, typeListOrSet bool
+		var elemFound bool
+		var typeMap bool
 
 		for _, elt := range schema.Elts {
 			switch v := elt.(type) {
@@ -61,7 +63,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 					continue
 				case *ast.SelectorExpr:
 					// Use AST over TypesInfo here as schema uses ValueType
-					if v.Sel.Name != "TypeList" && v.Sel.Name != "TypeSet" {
+					if v.Sel.Name != "TypeMap" {
 						continue
 					}
 
@@ -74,14 +76,14 @@ func run(pass *analysis.Pass) (interface{}, error) {
 							continue
 						}
 
-						typeListOrSet = true
+						typeMap = true
 					}
 				}
 			}
 		}
 
-		if typeListOrSet && !elemFound {
-			pass.Reportf(schema.Type.(*ast.SelectorExpr).Sel.Pos(), "%s: schema of TypeList or TypeSet should include Elem", analyzerName)
+		if typeMap && !elemFound {
+			pass.Reportf(schema.Type.(*ast.SelectorExpr).Sel.Pos(), "%s: schema of TypeMap should include Elem", analyzerName)
 		}
 	}
 

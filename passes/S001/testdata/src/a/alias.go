@@ -5,7 +5,11 @@ import (
 )
 
 func falias() {
-	_ = s.Schema{ // want "schema of TypeMap should include Elem"
-		Type: s.TypeMap,
+	_ = s.Schema{ // want "schema of TypeList or TypeSet should include Elem"
+		Type: s.TypeList,
+	}
+
+	_ = s.Schema{ // want "schema of TypeList or TypeSet should include Elem"
+		Type: s.TypeSet,
 	}
 }

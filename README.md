@@ -77,11 +77,12 @@ For additional information about each check, you can run `tfproviderlint help NA
 
 | Check | Description | Type |
 |---|---|---|
-| S001 | check for `Schema` of `TypeMap` missing `Elem` | AST |
+| S001 | check for `Schema` of `TypeList` or `TypeSet` missing `Elem` | AST |
 | S002 | check for `Schema` with both `Required` and `Optional` enabled | AST |
 | S003 | check for `Schema` with both `Required` and `Computed` enabled | AST |
 | S004 | check for `Schema` with both `Required` and `Default` configured | AST |
 | S005 | check for `Schema` with both `Computed` and `Default` configured | AST |
+| S006 | check for `Schema` of `TypeMap` missing `Elem` | AST |
 
 ## Development and Testing
 
