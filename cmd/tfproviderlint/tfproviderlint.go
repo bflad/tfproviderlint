@@ -9,25 +9,25 @@ package main
 import (
 	"golang.org/x/tools/go/analysis/multichecker"
 
-	"github.com/bflad/tfproviderlint/passes/acctestcheckdestroy"
-	"github.com/bflad/tfproviderlint/passes/acctestfuncnameimport"
-	"github.com/bflad/tfproviderlint/passes/acctestfuncnameunderscore"
-	"github.com/bflad/tfproviderlint/passes/acctestproviderconfig"
-	"github.com/bflad/tfproviderlint/passes/resourcedatasetkey"
-	"github.com/bflad/tfproviderlint/passes/resourcedatasetvaluederef"
-	"github.com/bflad/tfproviderlint/passes/resourceexistsfunc"
-	"github.com/bflad/tfproviderlint/passes/schematypemapelem"
+	"github.com/bflad/tfproviderlint/passes/AT001"
+	"github.com/bflad/tfproviderlint/passes/AT002"
+	"github.com/bflad/tfproviderlint/passes/AT003"
+	"github.com/bflad/tfproviderlint/passes/AT004"
+	"github.com/bflad/tfproviderlint/passes/R001"
+	"github.com/bflad/tfproviderlint/passes/R002"
+	"github.com/bflad/tfproviderlint/passes/R003"
+	"github.com/bflad/tfproviderlint/passes/S001"
 )
 
 func main() {
 	multichecker.Main(
-		acctestcheckdestroy.Analyzer,
-		acctestfuncnameimport.Analyzer,
-		acctestfuncnameunderscore.Analyzer,
-		acctestproviderconfig.Analyzer,
-		resourcedatasetkey.Analyzer,
-		resourcedatasetvaluederef.Analyzer,
-		resourceexistsfunc.Analyzer,
-		schematypemapelem.Analyzer,
+		AT001.Analyzer,
+		AT002.Analyzer,
+		AT003.Analyzer,
+		AT004.Analyzer,
+		R001.Analyzer,
+		R002.Analyzer,
+		R003.Analyzer,
+		S001.Analyzer,
 	)
 }

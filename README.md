@@ -56,16 +56,28 @@ A [GitHub Action](https://github.com/features/actions) is available: [tfprovider
 
 For additional information about each check, you can run `tfproviderlint help NAME`.
 
+### Acceptance Test Checks
+
 | Check | Description | Type |
 |---|---|---|
-| acctestcheckdestroy | check for `TestCase` missing `CheckDestroy` | AST |
-| acctestfuncnameimport | check for acceptance test function names including the word import | AST |
-| acctestfuncnameunderscore | check for acceptance test function names missing an underscore | AST |
-| acctestproviderconfig | check for `TestStep` `Config` containing provider configuration | AST |
-| resourcedatasetkey | check for `ResourceData.Set()` calls using complex key argument | AST |
-| resourcedatasetvaluederef | check for `ResourceData.Set()` calls using `*` dereferences | AST |
-| resourceexistsfunc | check for `Resource` having `Exists` functions | AST |
-| schematypemapelem | check for `Schema` of `TypeMap` missing `Elem` | AST |
+| AT001 | check for `TestCase` missing `CheckDestroy` | AST |
+| AT002 | check for acceptance test function names including the word import | AST |
+| AT003 | check for acceptance test function names missing an underscore | AST |
+| AT004 | check for `TestStep` `Config` containing provider configuration | AST |
+
+### Resource Checks
+
+| Check | Description | Type |
+|---|---|---|
+| R001 | check for `ResourceData.Set()` calls using complex key argument | AST |
+| R002 | check for `ResourceData.Set()` calls using `*` dereferences | AST |
+| R003 | check for `Resource` having `Exists` functions | AST |
+
+### Schema Checks
+
+| Check | Description | Type |
+|---|---|---|
+| S001 | check for `Schema` of `TypeMap` missing `Elem` | AST |
 
 ## Development and Testing
 
