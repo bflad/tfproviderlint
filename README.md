@@ -96,6 +96,11 @@ For additional information about each check, you can run `tfproviderlint help NA
 
 This project is built on the [`go/analysis`](https://godoc.org/golang.org/x/tools/go/analysis) framework and uses [Go Modules](https://github.com/golang/go/wiki/Modules) for dependency management.
 
+Helpful tooling for development:
+
+* [`astdump`](https://github.com/wingyplus/astdump): a tool for displaying the AST form of Go file
+* [`ssadump`](https://godoc.org/golang.org/x/tools/cmd/ssadump): a tool for displaying and interpreting the SSA form of Go programs
+
 ### Adding an Analyzer
 
 * Create new analyzer in `passes/`
