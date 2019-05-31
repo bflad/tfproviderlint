@@ -115,3 +115,9 @@ $ go mod vendor
 ```console
 $ go test ./...
 ```
+
+### Local Install Testing
+
+```console
+$ go install ./cmd/tfproviderlint
+```
