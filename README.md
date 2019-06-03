@@ -68,7 +68,7 @@ For additional information about each check, you can run `tfproviderlint help NA
 
 | Check | Description | Type |
 |---|---|---|
-| AT001 | check for `TestCase` missing `CheckDestroy` | AST |
+| [AT001](passes/AT001/README.md) | check for `TestCase` missing `CheckDestroy` | AST |
 | AT002 | check for acceptance test function names including the word import | AST |
 | AT003 | check for acceptance test function names missing an underscore | AST |
 | AT004 | check for `TestStep` `Config` containing provider configuration | AST |
