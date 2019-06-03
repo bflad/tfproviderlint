@@ -80,6 +80,7 @@ For additional information about each check, you can run `tfproviderlint help NA
 | R001 | check for `ResourceData.Set()` calls using complex key argument | AST |
 | R002 | check for `ResourceData.Set()` calls using `*` dereferences | AST |
 | R003 | check for `Resource` having `Exists` functions | AST |
+| R004 | check for `ResourceData.Set()` calls using incompatible value types | AST |
 
 ### Schema Checks
 

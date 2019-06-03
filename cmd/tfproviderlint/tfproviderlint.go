@@ -16,6 +16,7 @@ import (
 	"github.com/bflad/tfproviderlint/passes/R001"
 	"github.com/bflad/tfproviderlint/passes/R002"
 	"github.com/bflad/tfproviderlint/passes/R003"
+	"github.com/bflad/tfproviderlint/passes/R004"
 	"github.com/bflad/tfproviderlint/passes/S001"
 	"github.com/bflad/tfproviderlint/passes/S002"
 	"github.com/bflad/tfproviderlint/passes/S003"
@@ -33,6 +34,7 @@ func main() {
 		R001.Analyzer,
 		R002.Analyzer,
 		R003.Analyzer,
+		R004.Analyzer,
 		S001.Analyzer,
 		S002.Analyzer,
 		S003.Analyzer,
