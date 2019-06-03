@@ -69,29 +69,29 @@ For additional information about each check, you can run `tfproviderlint help NA
 | Check | Description | Type |
 |---|---|---|
 | [AT001](passes/AT001/README.md) | check for `TestCase` missing `CheckDestroy` | AST |
-| AT002 | check for acceptance test function names including the word import | AST |
-| AT003 | check for acceptance test function names missing an underscore | AST |
-| AT004 | check for `TestStep` `Config` containing provider configuration | AST |
+| [AT002](passes/AT002/README.md) | check for acceptance test function names including the word import | AST |
+| [AT003](passes/AT003/README.md) | check for acceptance test function names missing an underscore | AST |
+| [AT004](passes/AT004/README.md) | check for `TestStep` `Config` containing provider configuration | AST |
 
 ### Resource Checks
 
 | Check | Description | Type |
 |---|---|---|
-| R001 | check for `ResourceData.Set()` calls using complex key argument | AST |
-| R002 | check for `ResourceData.Set()` calls using `*` dereferences | AST |
-| R003 | check for `Resource` having `Exists` functions | AST |
-| R004 | check for `ResourceData.Set()` calls using incompatible value types | AST |
+| [R001](passes/R001/README.md) | check for `ResourceData.Set()` calls using complex key argument | AST |
+| [R002](passes/R002/README.md) | check for `ResourceData.Set()` calls using `*` dereferences | AST |
+| [R003](passes/R003/README.md) | check for `Resource` having `Exists` functions | AST |
+| [R004](passes/R004/README.md) | check for `ResourceData.Set()` calls using incompatible value types | AST |
 
 ### Schema Checks
 
 | Check | Description | Type |
 |---|---|---|
-| S001 | check for `Schema` of `TypeList` or `TypeSet` missing `Elem` | AST |
-| S002 | check for `Schema` with both `Required` and `Optional` enabled | AST |
-| S003 | check for `Schema` with both `Required` and `Computed` enabled | AST |
-| S004 | check for `Schema` with both `Required` and `Default` configured | AST |
-| S005 | check for `Schema` with both `Computed` and `Default` configured | AST |
-| S006 | check for `Schema` of `TypeMap` missing `Elem` | AST |
+| [S001](passes/S001/README.md) | check for `Schema` of `TypeList` or `TypeSet` missing `Elem` | AST |
+| [S002](passes/S002/README.md) | check for `Schema` with both `Required` and `Optional` enabled | AST |
+| [S003](passes/S003/README.md) | check for `Schema` with both `Required` and `Computed` enabled | AST |
+| [S004](passes/S004/README.md) | check for `Schema` with both `Required` and `Default` configured | AST |
+| [S005](passes/S005/README.md) | check for `Schema` with both `Computed` and `Default` configured | AST |
+| [S006](passes/S006/README.md) | check for `Schema` of `TypeMap` missing `Elem` | AST |
 
 ## Development and Testing
 
