@@ -12,10 +12,6 @@ https://www.terraform.io/docs/extend/testing/acceptance-tests/testcase.html#chec
 NOTE: This analyzer does not differentiate between resource acceptance tests and data source acceptance tests. This is by design to ensure authors add the equivalent resource `CheckDestroy` function to data source testing, if available.
 
 ```go
-# Trivial Example
-resource.Test(t, resource.TestCase{})
-
-# Real World Example
 func TestAccExampleThing_Attr1(t *testing.T) {
     resource.ParallelTest(t, resource.TestCase{
         PreCheck:  func() { testAccPreCheck(t) },
@@ -47,12 +43,6 @@ func testAccCheckExampleThingDestroy(s *terraform.State) error {
     return nil
 }
 
-# Trivial Example
-resource.Test(t, resource.TestCase{
-    CheckDestroy: testAccCheckExampleThingDestroy,
-})
-
-# Real World Example
 func TestAccExampleThing_Attr1(t *testing.T) {
     resource.ParallelTest(t, resource.TestCase{
         PreCheck:     func() { testAccPreCheck(t) },
