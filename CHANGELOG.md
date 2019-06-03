@@ -1,3 +1,9 @@
+# v0.2.0
+
+FEATURES:
+
+* **New Check** `R004` [GH-21]
+
 # v0.1.0
 
 * Initial release with checks:
