@@ -13,4 +13,10 @@ func f() {
 		Type: schema.TypeMap,
 		Elem: &schema.Schema{Type: schema.TypeString},
 	}
+
+	_ = map[string]*schema.Schema{ 
+		"name": { // want "schema of TypeMap should include Elem"
+			Type: schema.TypeMap,
+		},
+	}
 }

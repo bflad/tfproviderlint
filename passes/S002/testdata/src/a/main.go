@@ -17,4 +17,11 @@ func f() {
 	_ = schema.Schema{
 		Optional: true,
 	}
+
+	_ = map[string]*schema.Schema{ 
+		"name": { // want "schema should not enable Required and Optional"
+			Required: true,
+			Optional: true,
+		},
+	}
 }

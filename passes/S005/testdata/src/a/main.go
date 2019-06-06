@@ -22,4 +22,11 @@ func f() {
 	_ = schema.Schema{
 		Default: true,
 	}
+
+	_ = map[string]*schema.Schema{ 
+		"name": { // want "schema should not enable Computed and configure Default"
+			Computed: true,
+			Default:  true,
+		},
+	}
 }

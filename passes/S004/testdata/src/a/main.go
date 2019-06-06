@@ -22,4 +22,11 @@ func f() {
 	_ = schema.Schema{
 		Default: true,
 	}
+
+	_ = map[string]*schema.Schema{ 
+		"name": { // want "schema should not enable Required and configure Default"
+			Required: true,
+			Default:  true,
+		},
+	}
 }

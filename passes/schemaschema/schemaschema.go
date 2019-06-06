@@ -9,6 +9,8 @@ import (
 	"golang.org/x/tools/go/analysis"
 	"golang.org/x/tools/go/analysis/passes/inspect"
 	"golang.org/x/tools/go/ast/inspector"
+
+	"github.com/bflad/tfproviderlint/passes/schemamap"
 )
 
 var Analyzer = &analysis.Analyzer{
@@ -30,6 +32,23 @@ func run(pass *analysis.Pass) (interface{}, error) {
 
 	inspect.Preorder(nodeFilter, func(n ast.Node) {
 		x := n.(*ast.CompositeLit)
+
+		if schemamap.IsSchemaMap(pass, x) {
+			for _, elt := range x.Elts {
+				switch v := elt.(type) {
+				default:
+					continue
+				case *ast.KeyValueExpr:
+					switch v := v.Value.(type) {
+					default:
+						continue
+					case *ast.CompositeLit:
+						result = append(result, v)
+					}
+				}
+			}
+			return
+		}
 
 		if !isSchemaSchema(pass, x) {
 			return
