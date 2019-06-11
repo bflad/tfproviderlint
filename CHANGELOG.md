@@ -1,3 +1,9 @@
+# v0.3.0
+
+ENHANCEMENTS
+
+* Support `map[string]*schema.Schema` in schema checks [GH-24]
+
 # v0.2.0
 
 FEATURES:
