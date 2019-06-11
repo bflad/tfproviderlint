@@ -1,7 +1,6 @@
 package a
 
 import (
-	"github.com/hashicorp/terraform/helper/schema"
 	s "github.com/hashicorp/terraform/helper/schema"
 )
 
@@ -10,7 +9,7 @@ func falias() {
 		Type: s.TypeMap,
 	}
 
-	_ = map[string]*schema.Schema{
+	_ = map[string]*s.Schema{
 		"name": { // want "schema of TypeMap should include Elem"
 			Type: s.TypeMap,
 		},

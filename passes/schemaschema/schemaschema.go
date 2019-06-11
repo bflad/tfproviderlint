@@ -32,13 +32,13 @@ func run(pass *analysis.Pass) (interface{}, error) {
 	var result []*ast.CompositeLit
 
 	for _, smap := range schemamaps {
-		result = append(result, schemamap.SchemaAttributes(smap)...)
+		result = append(result, schemamap.GetSchemaAttributes(smap)...)
 	}
 
 	inspect.Preorder(nodeFilter, func(n ast.Node) {
 		x := n.(*ast.CompositeLit)
 
-		if !IsSchemaSchema(pass, x) {
+		if !isSchemaSchema(pass, x) {
 			return
 		}
 
@@ -48,7 +48,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 	return result, nil
 }
 
-func IsSchemaSchema(pass *analysis.Pass, cl *ast.CompositeLit) bool {
+func isSchemaSchema(pass *analysis.Pass, cl *ast.CompositeLit) bool {
 	switch v := cl.Type.(type) {
 	default:
 		return false

@@ -5,6 +5,7 @@ import (
 	"strings"
 )
 
+// IsTypeHelperSchema returns if the type is a schema from the terraform helper package
 func IsTypeHelperSchema(t types.Type) bool {
 	switch t := t.(type) {
 	default:
