@@ -7,6 +7,8 @@ import (
 	"golang.org/x/tools/go/analysis"
 	"golang.org/x/tools/go/analysis/passes/inspect"
 	"golang.org/x/tools/go/ast/inspector"
+
+	"github.com/bflad/tfproviderlint/helper/terraformtype"
 )
 
 var Analyzer = &analysis.Analyzer{
@@ -57,25 +59,27 @@ func IsSchemaMap(pass *analysis.Pass, cl *ast.CompositeLit) bool {
 		default:
 			return false
 		case *ast.StarExpr:
-			switch x := mv.X.(type) {
-			default:
-				return false
-			case *ast.SelectorExpr:
-				switch x2 := x.X.(type) {
-				default:
-					return false
-				case *ast.Ident:
-					if x2.Name != "schema" {
-						return false
-					}
-				}
-
-				if x.Sel.Name != "Schema" {
-					return false
-				}
-			}
-
+			return terraformtype.IsTypeHelperSchema(pass.TypesInfo.TypeOf(mv.X))
 		}
 	}
 	return true
+}
+
+func SchemaAttributes(schemamap *ast.CompositeLit) []*ast.CompositeLit {
+	var result []*ast.CompositeLit
+
+	for _, elt := range schemamap.Elts {
+		switch v := elt.(type) {
+		default:
+			continue
+		case *ast.KeyValueExpr:
+			switch v := v.Value.(type) {
+			default:
+				continue
+			case *ast.CompositeLit:
+				result = append(result, v)
+			}
+		}
+	}
+	return result
 }

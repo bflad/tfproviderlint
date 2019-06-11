@@ -70,11 +70,11 @@ func run(pass *analysis.Pass) (interface{}, error) {
 		}
 
 		if optionalEnabled && requiredEnabled {
-			switch schema.Type.(type) {
+			switch t := schema.Type.(type) {
 			default:
 				pass.Reportf(schema.Lbrace, "%s: schema should not enable Required and Optional", analyzerName)
 			case *ast.SelectorExpr:
-				pass.Reportf(schema.Type.(*ast.SelectorExpr).Sel.Pos(), "%s: schema should not enable Required and Optional", analyzerName)
+				pass.Reportf(t.Sel.Pos(), "%s: schema should not enable Required and Optional", analyzerName)
 			}
 		}
 	}

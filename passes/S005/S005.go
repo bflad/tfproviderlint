@@ -74,11 +74,11 @@ func run(pass *analysis.Pass) (interface{}, error) {
 		}
 
 		if computedEnabled && defaultConfigured {
-			switch schema.Type.(type) {
+			switch t := schema.Type.(type) {
 			default:
 				pass.Reportf(schema.Lbrace, "%s: schema should not enable Computed and configure Default", analyzerName)
 			case *ast.SelectorExpr:
-				pass.Reportf(schema.Type.(*ast.SelectorExpr).Sel.Pos(), "%s: schema should not enable Computed and configure Default", analyzerName)
+				pass.Reportf(t.Sel.Pos(), "%s: schema should not enable Computed and configure Default", analyzerName)
 			}
 		}
 	}

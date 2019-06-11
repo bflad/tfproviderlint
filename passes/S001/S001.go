@@ -81,11 +81,11 @@ func run(pass *analysis.Pass) (interface{}, error) {
 		}
 
 		if typeListOrSet && !elemFound {
-			switch schema.Type.(type) {
+			switch t := schema.Type.(type) {
 			default:
 				pass.Reportf(schema.Lbrace, "%s: schema of TypeList or TypeSet should include Elem", analyzerName)
 			case *ast.SelectorExpr:
-				pass.Reportf(schema.Type.(*ast.SelectorExpr).Sel.Pos(), "%s: schema of TypeList or TypeSet should include Elem", analyzerName)
+				pass.Reportf(t.Sel.Pos(), "%s: schema of TypeList or TypeSet should include Elem", analyzerName)
 			}
 		}
 	}

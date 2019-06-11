@@ -83,11 +83,11 @@ func run(pass *analysis.Pass) (interface{}, error) {
 		}
 
 		if typeMap && !elemFound {
-			switch schema.Type.(type) {
+			switch t := schema.Type.(type) {
 			default:
 				pass.Reportf(schema.Lbrace, "%s: schema of TypeMap should include Elem", analyzerName)
 			case *ast.SelectorExpr:
-				pass.Reportf(schema.Type.(*ast.SelectorExpr).Sel.Pos(), "%s: schema of TypeMap should include Elem", analyzerName)
+				pass.Reportf(t.Sel.Pos(), "%s: schema of TypeMap should include Elem", analyzerName)
 			}
 		}
 	}

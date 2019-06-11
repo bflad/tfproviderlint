@@ -2,14 +2,13 @@ package schemaschema
 
 import (
 	"go/ast"
-	"go/types"
 	"reflect"
-	"strings"
 
 	"golang.org/x/tools/go/analysis"
 	"golang.org/x/tools/go/analysis/passes/inspect"
 	"golang.org/x/tools/go/ast/inspector"
 
+	"github.com/bflad/tfproviderlint/helper/terraformtype"
 	"github.com/bflad/tfproviderlint/passes/schemamap"
 )
 
@@ -18,6 +17,7 @@ var Analyzer = &analysis.Analyzer{
 	Doc:  "find github.com/hashicorp/terraform/helper/schema.Schema literals for later passes",
 	Requires: []*analysis.Analyzer{
 		inspect.Analyzer,
+		schemamap.Analyzer,
 	},
 	Run:        run,
 	ResultType: reflect.TypeOf([]*ast.CompositeLit{}),
@@ -25,32 +25,20 @@ var Analyzer = &analysis.Analyzer{
 
 func run(pass *analysis.Pass) (interface{}, error) {
 	inspect := pass.ResultOf[inspect.Analyzer].(*inspector.Inspector)
+	schemamaps := pass.ResultOf[schemamap.Analyzer].([]*ast.CompositeLit)
 	nodeFilter := []ast.Node{
 		(*ast.CompositeLit)(nil),
 	}
 	var result []*ast.CompositeLit
 
+	for _, smap := range schemamaps {
+		result = append(result, schemamap.SchemaAttributes(smap)...)
+	}
+
 	inspect.Preorder(nodeFilter, func(n ast.Node) {
 		x := n.(*ast.CompositeLit)
 
-		if schemamap.IsSchemaMap(pass, x) {
-			for _, elt := range x.Elts {
-				switch v := elt.(type) {
-				default:
-					continue
-				case *ast.KeyValueExpr:
-					switch v := v.Value.(type) {
-					default:
-						continue
-					case *ast.CompositeLit:
-						result = append(result, v)
-					}
-				}
-			}
-			return
-		}
-
-		if !isSchemaSchema(pass, x) {
+		if !IsSchemaSchema(pass, x) {
 			return
 		}
 
@@ -60,23 +48,13 @@ func run(pass *analysis.Pass) (interface{}, error) {
 	return result, nil
 }
 
-func isSchemaSchema(pass *analysis.Pass, cl *ast.CompositeLit) bool {
+func IsSchemaSchema(pass *analysis.Pass, cl *ast.CompositeLit) bool {
 	switch v := cl.Type.(type) {
 	default:
 		return false
 	case *ast.SelectorExpr:
-		switch t := pass.TypesInfo.TypeOf(v).(type) {
-		default:
-			return false
-		case *types.Named:
-			if t.Obj().Name() != "Schema" {
-				return false
-			}
-			// HasSuffix here due to vendoring
-			if !strings.HasSuffix(t.Obj().Pkg().Path(), "github.com/hashicorp/terraform/helper/schema") {
-				return false
-			}
-		}
+		return terraformtype.IsTypeHelperSchema(pass.TypesInfo.TypeOf(v))
 	}
+
 	return true
 }

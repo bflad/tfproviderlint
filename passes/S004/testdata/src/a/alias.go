@@ -9,4 +9,11 @@ func falias() {
 		Required: true,
 		Default:  true,
 	}
+
+	_ = map[string]*s.Schema{
+		"name": { // want "schema should not enable Required and configure Default"
+			Required: true,
+			Default:  true,
+		},
+	}
 }

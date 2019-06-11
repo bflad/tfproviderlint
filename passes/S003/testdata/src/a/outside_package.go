@@ -9,4 +9,11 @@ func foutside() {
 		Required: true,
 		Computed: true,
 	}
+
+	_ = map[string]*schema.Schema{
+		"name": {
+			Required: true,
+			Computed: true,
+		},
+	}
 }
