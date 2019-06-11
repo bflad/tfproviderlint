@@ -17,4 +17,11 @@ func f() {
 	_ = schema.Schema{
 		Computed: true,
 	}
+
+	_ = map[string]*schema.Schema{ 
+		"name": { // want "schema should not enable Required and Computed"
+			Required: true,
+			Computed: true,
+		},
+	}
 }

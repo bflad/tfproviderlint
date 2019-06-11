@@ -22,4 +22,10 @@ func f() {
 		Type: schema.TypeSet,
 		Elem: &schema.Schema{Type: schema.TypeString},
 	}
+
+	_ = map[string]*schema.Schema{ 
+		"name": { // want "schema of TypeList or TypeSet should include Elem"
+			Type:     schema.TypeList,
+		},
+	}
 }
