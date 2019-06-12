@@ -1,3 +1,9 @@
+# v0.4.0
+
+BUG FIXES
+
+* passes/AT001: Ignore file names beginning with `data_source_` [GH-25]
+
 # v0.3.0
 
 ENHANCEMENTS
