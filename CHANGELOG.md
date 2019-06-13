@@ -1,5 +1,9 @@
 # v0.4.0
 
+FEATURES
+
+* **New Check:** `S007`: check for `Schema` with both `Required` and `ConflictsWith` configured
+
 BUG FIXES
 
 * passes/AT001: Ignore file names beginning with `data_source_` [GH-25]

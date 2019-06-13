@@ -92,6 +92,7 @@ For additional information about each check, you can run `tfproviderlint help NA
 | [S004](passes/S004/README.md) | check for `Schema` with both `Required` and `Default` configured | AST |
 | [S005](passes/S005/README.md) | check for `Schema` with both `Computed` and `Default` configured | AST |
 | [S006](passes/S006/README.md) | check for `Schema` of `TypeMap` missing `Elem` | AST |
+| [S007](passes/S007/README.md) | check for `Schema` with both `Required` and `ConflictsWith` configured | AST |
 
 ## Development and Testing
 
