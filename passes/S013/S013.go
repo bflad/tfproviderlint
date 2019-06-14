@@ -12,7 +12,7 @@ import (
 	"github.com/bflad/tfproviderlint/passes/schemamap"
 )
 
-const Doc = `check for Schema that Type is configured
+const Doc = `check for Schema that are missing required fields
 
 The S013 analyzer reports cases of schemas which one of Computed,
 Optional, or Required is not configured, which will fail provider
