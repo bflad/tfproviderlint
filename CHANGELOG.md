@@ -13,6 +13,7 @@ FEATURES
 * **New Check:** `S015`: check for `map[string]*Schema` that attribute names are valid
 * **New Check:** `S016`: check for `Schema` that `Set` is only configured for `TypeSet`
 * **New Check:** `S017`: check for `Schema` that `MaxItems` and `MinItems` are only configured for `TypeList`, `TypeMap`, or `TypeSet`
+* **New Check:** `S018`: check for `Schema` that should prefer `TypeList` with `MaxItems: 1`
 
 BUG FIXES
 
