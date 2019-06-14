@@ -95,6 +95,7 @@ For additional information about each check, you can run `tfproviderlint help NA
 | [S007](passes/S007/README.md) | check for `Schema` with both `Required` and `ConflictsWith` configured | AST |
 | [S008](passes/S008/README.md) | check for `Schema` of `TypeList` or `TypeSet` with `Default` configured | AST |
 | [S009](passes/S009/README.md) | check for `Schema` of `TypeList` or `TypeSet` with `ValidateFunc` configured | AST |
+| [S010](passes/S010/README.md) | check for `Schema` of `Computed` only with `ValidateFunc` configured | AST |
 
 ## Development and Testing
 
