@@ -1,17 +1,19 @@
 # S008
 
-The S008 analyzer reports cases of `TypeList` or `TypeSet` schemas missing `Elem`,
+The S008 analyzer reports cases of `TypeList` or `TypeSet` schemas configuring `Default`,
 which will fail schema validation.
 
 ## Flagged Code
 
 ```go
 &schema.Schema{
-    Type: schema.TypeList,
+    Type:    schema.TypeList,
+    Default: /* ... */,
 }
 
 &schema.Schema{
-    Type: schema.TypeSet,
+    Type:    schema.TypeSet,
+    Default: /* ... */,
 }
 ```
 
@@ -20,11 +22,9 @@ which will fail schema validation.
 ```go
 &schema.Schema{
     Type: schema.TypeList,
-    Elem: &schema.Schema{Type: schema.TypeString},
 }
 
 &schema.Schema{
     Type: schema.TypeSet,
-    Elem: &schema.Schema{Type: schema.TypeString},
 }
 ```
