@@ -6,7 +6,8 @@ archives:
 before:
   hooks:
     - go mod download
-brew:
+brews:
+-
   dependencies:
   - go
   description: Terraform Provider Linter
