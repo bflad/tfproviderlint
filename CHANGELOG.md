@@ -9,6 +9,7 @@ FEATURES
 * **New Check:** `S011`: check for `Schema` of only `Computed` enabled with `DiffSuppressFunc` configured
 * **New Check:** `S012`: check for `Schema` that `Type` is configured
 * **New Check:** `S013`: check for `map[string]*Schema` that one of `Computed`, `Optional`, or `Required` is configured
+* **New Check:** `S014`: check for `Schema` within `Elem` that `Computed`, `Optional`, or `Required` are not configured
 
 BUG FIXES
 

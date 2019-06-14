@@ -99,6 +99,7 @@ For additional information about each check, you can run `tfproviderlint help NA
 | [S011](passes/S011/README.md) | check for `Schema` of `Computed` only with `DiffSuppressFunc` configured | AST |
 | [S012](passes/S012/README.md) | check for `Schema` that `Type` is configured | AST |
 | [S013](passes/S013/README.md) | check for `map[string]*Schema` that one of `Computed`, `Optional`, or `Required` is configured | AST |
+| [S014](passes/S014/README.md) | check for `Schema` within `Elem` that `Computed`, `Optional`, and `Required` are not configured | AST |
 
 ## Development and Testing
 
