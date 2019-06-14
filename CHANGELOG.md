@@ -10,6 +10,7 @@ FEATURES
 * **New Check:** `S012`: check for `Schema` that `Type` is configured
 * **New Check:** `S013`: check for `map[string]*Schema` that one of `Computed`, `Optional`, or `Required` is configured
 * **New Check:** `S014`: check for `Schema` within `Elem` that `Computed`, `Optional`, or `Required` are not configured
+* **New Check:** `S015`: check for `map[string]*Schema` that attribute names are valid
 
 BUG FIXES
 

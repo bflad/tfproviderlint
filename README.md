@@ -100,6 +100,7 @@ For additional information about each check, you can run `tfproviderlint help NA
 | [S012](passes/S012/README.md) | check for `Schema` that `Type` is configured | AST |
 | [S013](passes/S013/README.md) | check for `map[string]*Schema` that one of `Computed`, `Optional`, or `Required` is configured | AST |
 | [S014](passes/S014/README.md) | check for `Schema` within `Elem` that `Computed`, `Optional`, and `Required` are not configured | AST |
+| [S015](passes/S015/README.md) | check for `map[string]*Schema` that attribute names are valid | AST |
 
 ## Development and Testing
 

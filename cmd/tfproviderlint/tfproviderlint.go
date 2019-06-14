@@ -31,6 +31,7 @@ import (
 	"github.com/bflad/tfproviderlint/passes/S012"
 	"github.com/bflad/tfproviderlint/passes/S013"
 	"github.com/bflad/tfproviderlint/passes/S014"
+	"github.com/bflad/tfproviderlint/passes/S015"
 )
 
 func main() {
@@ -57,5 +58,6 @@ func main() {
 		S012.Analyzer,
 		S013.Analyzer,
 		S014.Analyzer,
+		S015.Analyzer,
 	)
 }
