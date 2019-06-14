@@ -14,7 +14,7 @@ import (
 	"github.com/bflad/tfproviderlint/passes/schemamap"
 )
 
-const Doc = `check for Schema that Type is configured
+const Doc = `check for Schema that Elem does not contain extraneous fields
 
 The S014 analyzer reports cases of schemas which within Elem, that
 Computed, Optional, and Required are not configured, which will fail
