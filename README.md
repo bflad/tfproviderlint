@@ -104,6 +104,7 @@ For additional information about each check, you can run `tfproviderlint help NA
 | [S016](passes/S016/README.md) | check for `Schema` that `Set` is only configured for `TypeSet` | AST |
 | [S017](passes/S017/README.md) | check for `Schema` that `MaxItems` and `MinItems` are only configured for `TypeList`, `TypeMap`, or `TypeSet` | AST |
 | [S018](passes/S018/README.md) | check for `Schema` that should use `TypeList` with `MaxItems: 1` | AST |
+| [S019](passes/S019/README.md) | check for `Schema` that should omit `Computed`, `Optional`, or `Required` set to `false` | AST |
 
 ## Development and Testing
 
