@@ -12,6 +12,7 @@ FEATURES
 * **New Check:** `S014`: check for `Schema` within `Elem` that `Computed`, `Optional`, or `Required` are not configured
 * **New Check:** `S015`: check for `map[string]*Schema` that attribute names are valid
 * **New Check:** `S016`: check for `Schema` that `Set` is only configured for `TypeSet`
+* **New Check:** `S017`: check for `Schema` that `MaxItems` and `MinItems` are only configured for `TypeList`, `TypeMap`, or `TypeSet`
 
 BUG FIXES
 
