@@ -4,6 +4,7 @@ FEATURES
 
 * **New Check:** `S007`: check for `Schema` with both `Required` and `ConflictsWith` configured
 * **New Check:** `S008`: check for `Schema` of `TypeList` or `TypeSet` with `Default` configured
+* **New Check:** `S009`: check for `Schema` of `TypeList` or `TypeSet` with `ValidateFunc` configured
 
 BUG FIXES
 
