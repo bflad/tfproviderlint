@@ -1,27 +1,39 @@
 # S012
 
-The S012 analyzer reports cases of schemas which enables both `Required`
-and `Optional`, which will fail provider schema validation.
+The S012 analyzer reports cases of schemas which `Type`
+is not configured, which will fail provider schema validation.
 
 ## Flagged Code
 
 ```go
 _ = schema.Schema{
-    Required: true,
+    Computed: true,
+}
+
+_ = schema.Schema{
     Optional: true,
+}
+
+_ = schema.Schema{
+    Required: true,
 }
 ```
 
 ## Passing Code
 
 ```go
-&schema.Schema{
-    Required: true,
+_ = schema.Schema{
+    Computed: true,
+    Type:     schema.TypeString,
 }
 
-# OR
-
-&schema.Schema{
+_ = schema.Schema{
     Optional: true,
+    Type:     schema.TypeString,
+}
+
+_ = schema.Schema{
+    Required: true,
+    Type:     schema.TypeString,
 }
 ```
