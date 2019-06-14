@@ -6,6 +6,7 @@ FEATURES
 * **New Check:** `S008`: check for `Schema` of `TypeList` or `TypeSet` with `Default` configured
 * **New Check:** `S009`: check for `Schema` of `TypeList` or `TypeSet` with `ValidateFunc` configured
 * **New Check:** `S010`: check for `Schema` of only `Computed` enabled with `ValidateFunc` configured
+* **New Check:** `S011`: check for `Schema` of only `Computed` enabled with `DiffSuppressFunc` configured
 
 BUG FIXES
 

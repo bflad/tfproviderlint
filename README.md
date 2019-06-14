@@ -96,6 +96,7 @@ For additional information about each check, you can run `tfproviderlint help NA
 | [S008](passes/S008/README.md) | check for `Schema` of `TypeList` or `TypeSet` with `Default` configured | AST |
 | [S009](passes/S009/README.md) | check for `Schema` of `TypeList` or `TypeSet` with `ValidateFunc` configured | AST |
 | [S010](passes/S010/README.md) | check for `Schema` of `Computed` only with `ValidateFunc` configured | AST |
+| [S011](passes/S011/README.md) | check for `Schema` of `Computed` only with `DiffSuppressFunc` configured | AST |
 
 ## Development and Testing
 
