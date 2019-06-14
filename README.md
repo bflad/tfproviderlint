@@ -98,6 +98,7 @@ For additional information about each check, you can run `tfproviderlint help NA
 | [S010](passes/S010/README.md) | check for `Schema` of `Computed` only with `ValidateFunc` configured | AST |
 | [S011](passes/S011/README.md) | check for `Schema` of `Computed` only with `DiffSuppressFunc` configured | AST |
 | [S012](passes/S012/README.md) | check for `Schema` that `Type` is configured | AST |
+| [S013](passes/S013/README.md) | check for `map[string]*Schema` that one of `Computed`, `Optional`, or `Required` is configured | AST |
 
 ## Development and Testing
 
