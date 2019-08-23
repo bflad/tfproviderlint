@@ -247,7 +247,7 @@ golang.org/x/crypto/openpgp/packet
 golang.org/x/crypto/openpgp/s2k
 golang.org/x/crypto/cast5
 golang.org/x/crypto/openpgp/elgamal
-# golang.org/x/net v0.0.0-20190502183928-7f726cade0ab
+# golang.org/x/net v0.0.0-20190620200207-3b0461eec859
 golang.org/x/net/context
 golang.org/x/net/trace
 golang.org/x/net/internal/timeseries
@@ -269,7 +269,7 @@ golang.org/x/text/unicode/norm
 golang.org/x/text/transform
 golang.org/x/text/secure/bidirule
 golang.org/x/text/unicode/bidi
-# golang.org/x/tools v0.0.0-20190510151030-63859f3815cb
+# golang.org/x/tools v0.0.0-20190823093517-aa644d2adf2a
 golang.org/x/tools/go/analysis/multichecker
 golang.org/x/tools/go/analysis
 golang.org/x/tools/go/analysis/passes/inspect
