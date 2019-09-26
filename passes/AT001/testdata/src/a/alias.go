@@ -1,7 +1,7 @@
 package a
 
 import (
-	r "github.com/hashicorp/terraform/helper/resource"
+	r "github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 )
 
 func falias() {
