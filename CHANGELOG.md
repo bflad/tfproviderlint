@@ -1,3 +1,9 @@
+# v0.5.0
+
+BREAKING CHANGES
+
+* The import path checking used for the linters and underlying Terraform codebase dependency has been migrated from `github.com/hashicorp/terraform` to `github.com/hashicorp/terraform-plugin-sdk`. For more information see the [Terraform Plugin SDK page in the Extending Terraform documentation](https://www.terraform.io/docs/extend/plugin-sdk.html).
+
 # v0.4.0
 
 FEATURES
