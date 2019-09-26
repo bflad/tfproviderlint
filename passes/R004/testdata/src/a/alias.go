@@ -3,7 +3,7 @@ package a
 import (
 	"time"
 
-	s "github.com/hashicorp/terraform/helper/schema"
+	s "github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 )
 
 func falias() {

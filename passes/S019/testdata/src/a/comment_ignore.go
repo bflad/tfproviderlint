@@ -1,6 +1,6 @@
 package a
 
-import s "github.com/hashicorp/terraform/helper/schema"
+import s "github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 
 func fcommentignore() {
 	//lintignore:S019
