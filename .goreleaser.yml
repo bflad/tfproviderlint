@@ -16,6 +16,8 @@ brews:
     owner: bflad
     name: homebrew-tap
   homepage: https://github.com/bflad/tfproviderlint
+  install: |
+    bin.install "tfproviderlint"
   test: |
     system "#{bin}/tfproviderlint -v"
 builds:
@@ -43,5 +45,6 @@ dockers:
   - 'bflad/tfproviderlint:{{ .Version }}'
   - 'bflad/tfproviderlint:{{ .Major }}.{{ .Minor }}'
   - 'bflad/tfproviderlint:latest'
-sign:
+signs:
+-
   artifacts: checksum
