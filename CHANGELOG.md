@@ -1,3 +1,9 @@
+# v0.5.1
+
+NOTES
+
+* Updates github.com/hashicorp/terraform-plugin-sdk dependency to allow repositories using this project as a dependency to switch from github.com/hashicorp/hcl2 to github.com/hashicorp/hcl/v2
+
 # v0.5.0
 
 BREAKING CHANGES
