@@ -31,27 +31,19 @@ var Analyzer = &analysis.Analyzer{
 
 func run(pass *analysis.Pass) (interface{}, error) {
 	ignorer := pass.ResultOf[commentignore.Analyzer].(*commentignore.Ignorer)
-	schemas := pass.ResultOf[schemaschema.Analyzer].([]*ast.CompositeLit)
+	schemas := pass.ResultOf[schemaschema.Analyzer].([]*terraformtype.HelperSchemaSchemaInfo)
 	for _, schema := range schemas {
-		if ignorer.ShouldIgnore(analyzerName, schema) {
+		if ignorer.ShouldIgnore(analyzerName, schema.AstCompositeLit) {
 			continue
 		}
 
-		optional := terraformtype.HelperSchemaTypeSchemaOptional(schema)
-
-		if optional == nil || !*optional {
+		if !schema.Schema.Optional || !schema.Schema.Required {
 			continue
 		}
 
-		required := terraformtype.HelperSchemaTypeSchemaRequired(schema)
-
-		if required == nil || !*required {
-			continue
-		}
-
-		switch t := schema.Type.(type) {
+		switch t := schema.AstCompositeLit.Type.(type) {
 		default:
-			pass.Reportf(schema.Lbrace, "%s: schema should not enable Required and Optional", analyzerName)
+			pass.Reportf(schema.AstCompositeLit.Lbrace, "%s: schema should not enable Required and Optional", analyzerName)
 		case *ast.SelectorExpr:
 			pass.Reportf(t.Sel.Pos(), "%s: schema should not enable Required and Optional", analyzerName)
 		}

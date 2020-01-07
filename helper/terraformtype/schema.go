@@ -4,6 +4,8 @@ import (
 	"go/ast"
 	"go/types"
 	"strings"
+
+	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 )
 
 const (
@@ -64,100 +66,135 @@ const (
 	TypePackagePathHelperSchema = `github.com/hashicorp/terraform-plugin-sdk/helper/schema`
 )
 
-// HelperSchemaTypeResourceContainsFields checks if any fields are present in the Resource
-func HelperSchemaTypeResourceContainsFields(resource *ast.CompositeLit, fields ...string) bool {
-	return astCompositeLitContainsAnyField(resource, fields...)
+// HelperSchemaResourceInfo represents all gathered Resource data for easier access
+type HelperSchemaResourceInfo struct {
+	AstCompositeLit *ast.CompositeLit
+	Fields          map[string]*ast.KeyValueExpr
+	Resource        *schema.Resource
+	TypesInfo       *types.Info
 }
 
-// HelperSchemaTypeSchemaContainsFields checks if any fields are present in the Schema
-func HelperSchemaTypeSchemaContainsFields(schema *ast.CompositeLit, fields ...string) bool {
-	return astCompositeLitContainsAnyField(schema, fields...)
+// NewHelperSchemaResourceInfo instantiates a HelperSchemaResourceInfo
+func NewHelperSchemaResourceInfo(cl *ast.CompositeLit, info *types.Info) *HelperSchemaResourceInfo {
+	result := &HelperSchemaResourceInfo{
+		AstCompositeLit: cl,
+		Fields:          astCompositeLitFields(cl),
+		Resource:        &schema.Resource{},
+		TypesInfo:       info,
+	}
+
+	return result
 }
 
-// HelperSchemaTypeSchemaContainsType checks if any ValueType are present in the Schema
-func HelperSchemaTypeSchemaContainsTypes(schema *ast.CompositeLit, info *types.Info, valueTypes ...string) bool {
-	schemaType := HelperSchemaTypeSchemaType(schema, info)
+// DeclaresField returns true if the field name is present in the AST
+func (info *HelperSchemaResourceInfo) DeclaresField(fieldName string) bool {
+	return info.Fields[fieldName] != nil
+}
 
+// HelperSchemaSchemaInfo represents all gathered Schema data for easier access
+type HelperSchemaSchemaInfo struct {
+	AstCompositeLit *ast.CompositeLit
+	Fields          map[string]*ast.KeyValueExpr
+	Schema          *schema.Schema
+	SchemaValueType string
+	TypesInfo       *types.Info
+}
+
+// NewHelperSchemaSchemaInfo instantiates a HelperSchemaSchemaInfo
+func NewHelperSchemaSchemaInfo(cl *ast.CompositeLit, info *types.Info) *HelperSchemaSchemaInfo {
+	result := &HelperSchemaSchemaInfo{
+		AstCompositeLit: cl,
+		Fields:          astCompositeLitFields(cl),
+		Schema:          &schema.Schema{},
+		SchemaValueType: helperSchemaTypeSchemaType(cl, info),
+		TypesInfo:       info,
+	}
+
+	if kvExpr := result.Fields[SchemaFieldComputed]; kvExpr != nil {
+		result.Schema.Computed = *astBoolValue(kvExpr.Value)
+	}
+
+	if kvExpr := result.Fields[SchemaFieldConflictsWith]; kvExpr != nil && astExprValue(kvExpr.Value) != nil {
+		result.Schema.ConflictsWith = []string{}
+	}
+
+	if kvExpr := result.Fields[SchemaFieldDefault]; kvExpr != nil && astExprValue(kvExpr.Value) != nil {
+		result.Schema.Default = func() (interface{}, error) { return nil, nil }
+	}
+
+	if kvExpr := result.Fields[SchemaFieldDiffSuppressFunc]; kvExpr != nil && astExprValue(kvExpr.Value) != nil {
+		result.Schema.DiffSuppressFunc = func(k, old, new string, d *schema.ResourceData) bool { return false }
+	}
+
+	if kvExpr := result.Fields[SchemaFieldForceNew]; kvExpr != nil {
+		result.Schema.ForceNew = *astBoolValue(kvExpr.Value)
+	}
+
+	if kvExpr := result.Fields[SchemaFieldMaxItems]; kvExpr != nil {
+		result.Schema.MaxItems = *astIntValue(kvExpr.Value)
+	}
+
+	if kvExpr := result.Fields[SchemaFieldMinItems]; kvExpr != nil {
+		result.Schema.MinItems = *astIntValue(kvExpr.Value)
+	}
+
+	if kvExpr := result.Fields[SchemaFieldOptional]; kvExpr != nil {
+		result.Schema.Optional = *astBoolValue(kvExpr.Value)
+	}
+
+	if kvExpr := result.Fields[SchemaFieldRequired]; kvExpr != nil {
+		result.Schema.Required = *astBoolValue(kvExpr.Value)
+	}
+
+	if kvExpr := result.Fields[SchemaFieldSensitive]; kvExpr != nil {
+		result.Schema.Sensitive = *astBoolValue(kvExpr.Value)
+	}
+
+	if kvExpr := result.Fields[SchemaFieldValidateFunc]; kvExpr != nil && astExprValue(kvExpr.Value) != nil {
+		result.Schema.ValidateFunc = func(interface{}, string) ([]string, []error) { return nil, nil }
+	}
+
+	return result
+}
+
+// DeclaresField returns true if the field name is present in the AST
+func (info *HelperSchemaSchemaInfo) DeclaresField(fieldName string) bool {
+	return info.Fields[fieldName] != nil
+}
+
+// DeclaresBoolFieldWithZeroValue returns true if the field name is present and is false
+func (info *HelperSchemaSchemaInfo) DeclaresBoolFieldWithZeroValue(fieldName string) bool {
+	kvExpr := info.Fields[fieldName]
+
+	// Field not declared
+	if kvExpr == nil {
+		return false
+	}
+
+	valuePtr := astBoolValue(kvExpr.Value)
+
+	// Value not readable
+	if valuePtr == nil {
+		return false
+	}
+
+	return !*valuePtr
+}
+
+// IsType returns true if the given input is equal to the Type
+func (info *HelperSchemaSchemaInfo) IsType(valueType string) bool {
+	return info.SchemaValueType == valueType
+}
+
+// IsOneOfTypes returns true if one of the given input is equal to the Type
+func (info *HelperSchemaSchemaInfo) IsOneOfTypes(valueTypes ...string) bool {
 	for _, valueType := range valueTypes {
-		if schemaType == valueType {
+		if info.SchemaValueType == valueType {
 			return true
 		}
 	}
 
 	return false
-}
-
-// HelperSchemaTypeSchemaComputed extracts the Schema Computed value
-func HelperSchemaTypeSchemaComputed(schema *ast.CompositeLit) *bool {
-	return astCompositeLitFieldBoolValue(schema, SchemaFieldComputed)
-}
-
-// HelperSchemaTypeSchemaConflictsWith extracts the Schema ConflictsWith value
-// NOTE: The current function signature output type should not be considered stable
-//       except for being a pointer.
-func HelperSchemaTypeSchemaConflictsWith(schema *ast.CompositeLit) *ast.Expr {
-	return astCompositeLitFieldExprValue(schema, SchemaFieldConflictsWith)
-}
-
-// HelperSchemaTypeSchemaDefault extracts the Schema Default value
-// NOTE: The current function signature output type should not be considered stable
-//       except for being a pointer.
-func HelperSchemaTypeSchemaDefault(schema *ast.CompositeLit) *ast.Expr {
-	return astCompositeLitFieldExprValue(schema, SchemaFieldDefault)
-}
-
-// HelperSchemaTypeSchemaDiffSuppressFunc extracts the Schema DiffSuppressFunc value
-// NOTE: The current function signature output type should not be considered stable
-//       except for being a pointer.
-func HelperSchemaTypeSchemaDiffSuppressFunc(schema *ast.CompositeLit) *ast.Expr {
-	return astCompositeLitFieldExprValue(schema, SchemaFieldDiffSuppressFunc)
-}
-
-// HelperSchemaTypeSchemaMaxItems extracts the Schema MaxItems value
-func HelperSchemaTypeSchemaMaxItems(schema *ast.CompositeLit) *int {
-	return astCompositeLitFieldIntValue(schema, SchemaFieldMaxItems)
-}
-
-// HelperSchemaTypeSchemaOptional extracts the Schema Optional value
-func HelperSchemaTypeSchemaOptional(schema *ast.CompositeLit) *bool {
-	return astCompositeLitFieldBoolValue(schema, SchemaFieldOptional)
-}
-
-// HelperSchemaTypeSchemaRequired extracts the Schema Required value
-func HelperSchemaTypeSchemaRequired(schema *ast.CompositeLit) *bool {
-	return astCompositeLitFieldBoolValue(schema, SchemaFieldRequired)
-}
-
-// HelperSchemaTypeSchemaType extracts the string representation of a Schema Type value
-func HelperSchemaTypeSchemaType(schema *ast.CompositeLit, info *types.Info) string {
-	kvExpr := astCompositeLitField(schema, SchemaFieldType)
-
-	if kvExpr == nil {
-		return ""
-	}
-
-	if !IsHelperSchemaValueType(kvExpr.Value, info) {
-		return ""
-	}
-
-	return HelperSchemaValueTypeString(kvExpr.Value)
-}
-
-// HelperSchemaTypeSchemaValidateFunc extracts the Schema ValidateFunc value
-// NOTE: The current function signature output type should not be considered stable
-//       except for being a pointer.
-func HelperSchemaTypeSchemaValidateFunc(schema *ast.CompositeLit) *ast.Expr {
-	return astCompositeLitFieldExprValue(schema, SchemaFieldValidateFunc)
-}
-
-// HelperSchemaValueTypeString extracts the string representation of a Schema ValueType
-func HelperSchemaValueTypeString(e ast.Expr) string {
-	switch e := e.(type) {
-	case *ast.SelectorExpr:
-		return e.Sel.Name
-	default:
-		return ""
-	}
 }
 
 // IsHelperSchemaTypeResource returns if the type is Resource from the helper/schema package
@@ -224,4 +261,29 @@ func IsHelperSchemaNamedType(t *types.Named, typeName string) bool {
 
 	// HasSuffix here due to vendoring
 	return strings.HasSuffix(t.Obj().Pkg().Path(), TypePackagePathHelperSchema)
+}
+
+// helperSchemaTypeSchemaType extracts the string representation of a Schema Type value
+func helperSchemaTypeSchemaType(schema *ast.CompositeLit, info *types.Info) string {
+	kvExpr := astCompositeLitField(schema, SchemaFieldType)
+
+	if kvExpr == nil {
+		return ""
+	}
+
+	if !IsHelperSchemaValueType(kvExpr.Value, info) {
+		return ""
+	}
+
+	return helperSchemaValueTypeString(kvExpr.Value)
+}
+
+// helperSchemaValueTypeString extracts the string representation of a Schema ValueType
+func helperSchemaValueTypeString(e ast.Expr) string {
+	switch e := e.(type) {
+	case *ast.SelectorExpr:
+		return e.Sel.Name
+	default:
+		return ""
+	}
 }

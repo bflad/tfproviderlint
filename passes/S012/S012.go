@@ -31,19 +31,19 @@ var Analyzer = &analysis.Analyzer{
 
 func run(pass *analysis.Pass) (interface{}, error) {
 	ignorer := pass.ResultOf[commentignore.Analyzer].(*commentignore.Ignorer)
-	schemas := pass.ResultOf[schemaschema.Analyzer].([]*ast.CompositeLit)
+	schemas := pass.ResultOf[schemaschema.Analyzer].([]*terraformtype.HelperSchemaSchemaInfo)
 	for _, schema := range schemas {
-		if ignorer.ShouldIgnore(analyzerName, schema) {
+		if ignorer.ShouldIgnore(analyzerName, schema.AstCompositeLit) {
 			continue
 		}
 
-		if terraformtype.HelperSchemaTypeSchemaContainsFields(schema, terraformtype.SchemaFieldType) {
+		if schema.DeclaresField(terraformtype.SchemaFieldType) {
 			continue
 		}
 
-		switch t := schema.Type.(type) {
+		switch t := schema.AstCompositeLit.Type.(type) {
 		default:
-			pass.Reportf(schema.Lbrace, "%s: schema should configure Type", analyzerName)
+			pass.Reportf(schema.AstCompositeLit.Lbrace, "%s: schema should configure Type", analyzerName)
 		case *ast.SelectorExpr:
 			pass.Reportf(t.Sel.Pos(), "%s: schema should configure Type", analyzerName)
 		}

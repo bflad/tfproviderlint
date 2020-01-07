@@ -31,25 +31,23 @@ var Analyzer = &analysis.Analyzer{
 
 func run(pass *analysis.Pass) (interface{}, error) {
 	ignorer := pass.ResultOf[commentignore.Analyzer].(*commentignore.Ignorer)
-	schemas := pass.ResultOf[schemaschema.Analyzer].([]*ast.CompositeLit)
+	schemas := pass.ResultOf[schemaschema.Analyzer].([]*terraformtype.HelperSchemaSchemaInfo)
 	for _, schema := range schemas {
-		if ignorer.ShouldIgnore(analyzerName, schema) {
+		if ignorer.ShouldIgnore(analyzerName, schema.AstCompositeLit) {
 			continue
 		}
 
-		if !terraformtype.HelperSchemaTypeSchemaContainsTypes(schema, pass.TypesInfo, terraformtype.SchemaValueTypeSet) {
+		if !schema.IsType(terraformtype.SchemaValueTypeSet) {
 			continue
 		}
 
-		maxItems := terraformtype.HelperSchemaTypeSchemaMaxItems(schema)
-
-		if maxItems == nil || *maxItems != 1 {
+		if schema.Schema.MaxItems != 1 {
 			continue
 		}
 
-		switch t := schema.Type.(type) {
+		switch t := schema.AstCompositeLit.Type.(type) {
 		default:
-			pass.Reportf(schema.Lbrace, "%s: schema should use TypeList with MaxItems 1", analyzerName)
+			pass.Reportf(schema.AstCompositeLit.Lbrace, "%s: schema should use TypeList with MaxItems 1", analyzerName)
 		case *ast.SelectorExpr:
 			pass.Reportf(t.Sel.Pos(), "%s: schema should use TypeList with MaxItems 1", analyzerName)
 		}

@@ -36,32 +36,20 @@ func run(pass *analysis.Pass) (interface{}, error) {
 	schemamaps := pass.ResultOf[schemamap.Analyzer].([]*ast.CompositeLit)
 
 	for _, smap := range schemamaps {
-		for _, schema := range schemamap.GetSchemaAttributes(smap) {
-			if ignorer.ShouldIgnore(analyzerName, schema) {
+		for _, schemaCompositeLit := range schemamap.GetSchemaAttributes(smap) {
+			schema := terraformtype.NewHelperSchemaSchemaInfo(schemaCompositeLit, pass.TypesInfo)
+
+			if ignorer.ShouldIgnore(analyzerName, schema.AstCompositeLit) {
 				continue
 			}
 
-			computed := terraformtype.HelperSchemaTypeSchemaComputed(schema)
-
-			if computed != nil && *computed {
+			if schema.Schema.Computed || schema.Schema.Optional || schema.Schema.Required {
 				continue
 			}
 
-			optional := terraformtype.HelperSchemaTypeSchemaOptional(schema)
-
-			if optional != nil && *optional {
-				continue
-			}
-
-			required := terraformtype.HelperSchemaTypeSchemaRequired(schema)
-
-			if required != nil && *required {
-				continue
-			}
-
-			switch t := schema.Type.(type) {
+			switch t := schema.AstCompositeLit.Type.(type) {
 			default:
-				pass.Reportf(schema.Lbrace, "%s: schema should configure one of Computed, Optional, or Required", analyzerName)
+				pass.Reportf(schema.AstCompositeLit.Lbrace, "%s: schema should configure one of Computed, Optional, or Required", analyzerName)
 			case *ast.SelectorExpr:
 				pass.Reportf(t.Sel.Pos(), "%s: schema should configure one of Computed, Optional, or Required", analyzerName)
 			}

@@ -31,23 +31,23 @@ var Analyzer = &analysis.Analyzer{
 
 func run(pass *analysis.Pass) (interface{}, error) {
 	ignorer := pass.ResultOf[commentignore.Analyzer].(*commentignore.Ignorer)
-	schemas := pass.ResultOf[schemaschema.Analyzer].([]*ast.CompositeLit)
+	schemas := pass.ResultOf[schemaschema.Analyzer].([]*terraformtype.HelperSchemaSchemaInfo)
 	for _, schema := range schemas {
-		if ignorer.ShouldIgnore(analyzerName, schema) {
+		if ignorer.ShouldIgnore(analyzerName, schema.AstCompositeLit) {
 			continue
 		}
 
-		if !terraformtype.HelperSchemaTypeSchemaContainsFields(schema, terraformtype.SchemaFieldDefault) {
+		if !schema.DeclaresField(terraformtype.SchemaFieldDefault) {
 			continue
 		}
 
-		if !terraformtype.HelperSchemaTypeSchemaContainsTypes(schema, pass.TypesInfo, terraformtype.SchemaValueTypeList, terraformtype.SchemaValueTypeSet) {
+		if !schema.IsOneOfTypes(terraformtype.SchemaValueTypeList, terraformtype.SchemaValueTypeSet) {
 			continue
 		}
 
-		switch t := schema.Type.(type) {
+		switch t := schema.AstCompositeLit.Type.(type) {
 		default:
-			pass.Reportf(schema.Lbrace, "%s: schema of TypeList or TypeSet should not include Default", analyzerName)
+			pass.Reportf(schema.AstCompositeLit.Lbrace, "%s: schema of TypeList or TypeSet should not include Default", analyzerName)
 		case *ast.SelectorExpr:
 			pass.Reportf(t.Sel.Pos(), "%s: schema of TypeList or TypeSet should not include Default", analyzerName)
 		}

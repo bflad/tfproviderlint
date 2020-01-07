@@ -32,23 +32,23 @@ var Analyzer = &analysis.Analyzer{
 
 func run(pass *analysis.Pass) (interface{}, error) {
 	ignorer := pass.ResultOf[commentignore.Analyzer].(*commentignore.Ignorer)
-	schemas := pass.ResultOf[schemaschema.Analyzer].([]*ast.CompositeLit)
+	schemas := pass.ResultOf[schemaschema.Analyzer].([]*terraformtype.HelperSchemaSchemaInfo)
 	for _, schema := range schemas {
-		if ignorer.ShouldIgnore(analyzerName, schema) {
+		if ignorer.ShouldIgnore(analyzerName, schema.AstCompositeLit) {
 			continue
 		}
 
-		if !terraformtype.HelperSchemaTypeSchemaContainsFields(schema, terraformtype.SchemaFieldMaxItems, terraformtype.SchemaFieldMinItems) {
+		if !schema.DeclaresField(terraformtype.SchemaFieldMaxItems) && !schema.DeclaresField(terraformtype.SchemaFieldMinItems) {
 			continue
 		}
 
-		if terraformtype.HelperSchemaTypeSchemaContainsTypes(schema, pass.TypesInfo, terraformtype.SchemaValueTypeList, terraformtype.SchemaValueTypeMap, terraformtype.SchemaValueTypeSet) {
+		if schema.IsOneOfTypes(terraformtype.SchemaValueTypeList, terraformtype.SchemaValueTypeMap, terraformtype.SchemaValueTypeSet) {
 			continue
 		}
 
-		switch t := schema.Type.(type) {
+		switch t := schema.AstCompositeLit.Type.(type) {
 		default:
-			pass.Reportf(schema.Lbrace, "%s: schema MaxItems or MinItems should only be included for TypeList, TypeMap, or TypeSet", analyzerName)
+			pass.Reportf(schema.AstCompositeLit.Lbrace, "%s: schema MaxItems or MinItems should only be included for TypeList, TypeMap, or TypeSet", analyzerName)
 		case *ast.SelectorExpr:
 			pass.Reportf(t.Sel.Pos(), "%s: schema MaxItems or MinItems should only be included for TypeList, TypeMap, or TypeSet", analyzerName)
 		}

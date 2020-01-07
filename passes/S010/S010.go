@@ -31,39 +31,23 @@ var Analyzer = &analysis.Analyzer{
 
 func run(pass *analysis.Pass) (interface{}, error) {
 	ignorer := pass.ResultOf[commentignore.Analyzer].(*commentignore.Ignorer)
-	schemas := pass.ResultOf[schemaschema.Analyzer].([]*ast.CompositeLit)
+	schemas := pass.ResultOf[schemaschema.Analyzer].([]*terraformtype.HelperSchemaSchemaInfo)
 	for _, schema := range schemas {
-		if ignorer.ShouldIgnore(analyzerName, schema) {
+		if ignorer.ShouldIgnore(analyzerName, schema.AstCompositeLit) {
 			continue
 		}
 
-		computed := terraformtype.HelperSchemaTypeSchemaComputed(schema)
-
-		if computed == nil || !*computed {
+		if !schema.Schema.Computed || schema.Schema.Optional || schema.Schema.Required {
 			continue
 		}
 
-		optional := terraformtype.HelperSchemaTypeSchemaOptional(schema)
-
-		if optional != nil && *optional {
+		if schema.Schema.ValidateFunc == nil {
 			continue
 		}
 
-		required := terraformtype.HelperSchemaTypeSchemaRequired(schema)
-
-		if required != nil && *required {
-			continue
-		}
-
-		validateFunc := terraformtype.HelperSchemaTypeSchemaValidateFunc(schema)
-
-		if validateFunc == nil {
-			continue
-		}
-
-		switch t := schema.Type.(type) {
+		switch t := schema.AstCompositeLit.Type.(type) {
 		default:
-			pass.Reportf(schema.Lbrace, "%s: schema should not only enable Computed and configure ValidateFunc", analyzerName)
+			pass.Reportf(schema.AstCompositeLit.Lbrace, "%s: schema should not only enable Computed and configure ValidateFunc", analyzerName)
 		case *ast.SelectorExpr:
 			pass.Reportf(t.Sel.Pos(), "%s: schema should not only enable Computed and configure ValidateFunc", analyzerName)
 		}

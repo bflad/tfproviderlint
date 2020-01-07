@@ -17,7 +17,7 @@ var Analyzer = &analysis.Analyzer{
 		inspect.Analyzer,
 	},
 	Run:        run,
-	ResultType: reflect.TypeOf([]*ast.CompositeLit{}),
+	ResultType: reflect.TypeOf([]*terraformtype.HelperResourceTestCaseInfo{}),
 }
 
 func run(pass *analysis.Pass) (interface{}, error) {
@@ -25,7 +25,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 	nodeFilter := []ast.Node{
 		(*ast.CompositeLit)(nil),
 	}
-	var result []*ast.CompositeLit
+	var result []*terraformtype.HelperResourceTestCaseInfo
 
 	inspect.Preorder(nodeFilter, func(n ast.Node) {
 		x := n.(*ast.CompositeLit)
@@ -34,7 +34,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 			return
 		}
 
-		result = append(result, x)
+		result = append(result, terraformtype.NewHelperResourceTestCaseInfo(x, pass.TypesInfo))
 	})
 
 	return result, nil

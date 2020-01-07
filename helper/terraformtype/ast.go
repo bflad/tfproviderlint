@@ -37,6 +37,19 @@ func astCompositeLitField(cl *ast.CompositeLit, fieldName string) *ast.KeyValueE
 	return nil
 }
 
+func astCompositeLitFields(cl *ast.CompositeLit) map[string]*ast.KeyValueExpr {
+	result := make(map[string]*ast.KeyValueExpr, len(cl.Elts))
+
+	for _, elt := range cl.Elts {
+		switch e := elt.(type) {
+		case *ast.KeyValueExpr:
+			result[e.Key.(*ast.Ident).Name] = e
+		}
+	}
+
+	return result
+}
+
 func astCompositeLitFieldBoolValue(cl *ast.CompositeLit, fieldName string) *bool {
 	kvExpr := astCompositeLitField(cl, fieldName)
 

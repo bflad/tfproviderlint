@@ -38,25 +38,23 @@ var Analyzer = &analysis.Analyzer{
 
 func run(pass *analysis.Pass) (interface{}, error) {
 	ignorer := pass.ResultOf[commentignore.Analyzer].(*commentignore.Ignorer)
-	testCases := pass.ResultOf[acctestcase.Analyzer].([]*ast.CompositeLit)
+	testCases := pass.ResultOf[acctestcase.Analyzer].([]*terraformtype.HelperResourceTestCaseInfo)
 	for _, testCase := range testCases {
-		fileName := filepath.Base(pass.Fset.File(testCase.Pos()).Name())
+		fileName := filepath.Base(pass.Fset.File(testCase.AstCompositeLit.Pos()).Name())
 
 		if strings.HasPrefix(fileName, "data_source_") {
 			continue
 		}
 
-		if ignorer.ShouldIgnore(analyzerName, testCase) {
+		if ignorer.ShouldIgnore(analyzerName, testCase.AstCompositeLit) {
 			continue
 		}
 
-		checkDestroy := terraformtype.HelperResourceTypeTestCaseContainsFields(testCase, terraformtype.TestCaseFieldCheckDestroy)
-
-		if checkDestroy {
+		if testCase.DeclaresField(terraformtype.TestCaseFieldCheckDestroy) {
 			continue
 		}
 
-		pass.Reportf(testCase.Type.(*ast.SelectorExpr).Sel.Pos(), "%s: missing CheckDestroy", analyzerName)
+		pass.Reportf(testCase.AstCompositeLit.Type.(*ast.SelectorExpr).Sel.Pos(), "%s: missing CheckDestroy", analyzerName)
 	}
 
 	return nil, nil
