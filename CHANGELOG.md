@@ -3,6 +3,7 @@
 NOTES
 
 * Builds and tests are now Go 1.13 compatible
+* Updates github.com/hashicorp/terraform-plugin-sdk dependency to v1.4.1 which cleans up some transitive dependencies
 
 # v0.5.1
 
