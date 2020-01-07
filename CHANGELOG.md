@@ -1,3 +1,9 @@
+# v0.6.0
+
+NOTES
+
+* Builds and tests are now Go 1.13 compatible
+
 # v0.5.1
 
 NOTES

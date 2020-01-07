@@ -119,7 +119,7 @@ Helpful tooling for development:
 
 * Create new analyzer in `passes/`
 * Add new analyzer in `cmd/tfproviderlint/tfproviderlint.go`
-* Since the [`analysistest` package](https://godoc.org/golang.org/x/tools/go/analysis/analysistest) does not support Go Modules currently, each analyzer that implements testing must add a symlink to the top level `vendor` directory in the `testdata/src` directory. e.g. `ln -s ../../../../vendor passes/NAME/testdata/src/vendor`
+* Since the [`analysistest` package](https://godoc.org/golang.org/x/tools/go/analysis/analysistest) does not support Go Modules currently, each analyzer that implements testing must add a symlink to the top level `vendor` directory in the `testdata/src/a` directory. e.g. `ln -s ../../../../../vendor passes/NAME/testdata/src/a/vendor`
 
 ### Updating Dependencies
 
