@@ -1,9 +1,17 @@
 # v0.6.0
 
+BREAKING CHANGES
+
+* The `acctestcase`, `schemaresource`, and `schemaschema` passes now return results with `helper/terraformtype` types (`[]*terraformtype.HelperResourceTestCaseInfo`, `[]*terraformtype.HelperSchemaResourceInfo`, and `[]*terraformtype.HelperSchemaSchemaInfo` respectively) instead of `[]*ast.CompositeLit`. The `*ast.CompositeLit` can be accessed via the `AstCompositeLit` field of each of the new types.
+
 NOTES
 
-* Builds and tests are now Go 1.13 compatible
+* Tests are now Go 1.13 compatible
 * Updates github.com/hashicorp/terraform-plugin-sdk dependency to v1.4.1 which cleans up some transitive dependencies
+
+ENHANCEMENTS
+
+* helper/terraformtype: Create enhanced AST types and field name constants for helper/schema.Resource, helper/schema.Schema, helper/resource.TestCase, and helper/resource.TestStep types
 
 # v0.5.1
 
