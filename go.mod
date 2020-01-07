@@ -1,6 +1,6 @@
 module github.com/bflad/tfproviderlint
 
-go 1.12
+go 1.13
 
 require (
 	github.com/hashicorp/terraform-plugin-sdk v1.3.0
