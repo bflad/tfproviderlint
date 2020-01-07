@@ -50,7 +50,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 				case *ast.KeyValueExpr:
 					name := tElt.Key.(*ast.Ident).Name
 
-					if name != "Elem" {
+					if name != terraformtype.SchemaFieldElem {
 						continue
 					}
 
@@ -59,7 +59,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 					default:
 						continue
 					case *ast.UnaryExpr:
-						if elemValue.Op != token.AND || !terraformtype.IsTypeHelperSchema(pass.TypesInfo.TypeOf(elemValue.X)) {
+						if elemValue.Op != token.AND || !terraformtype.IsHelperSchemaTypeSchema(pass.TypesInfo.TypeOf(elemValue.X)) {
 							continue
 						}
 
@@ -75,7 +75,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 									name := v.Key.(*ast.Ident).Name
 
 									switch name {
-									case "Computed", "Optional", "Required":
+									case terraformtype.SchemaFieldComputed, terraformtype.SchemaFieldOptional, terraformtype.SchemaFieldRequired:
 										pass.Reportf(elemSchemaElt.Pos(), "%s: schema within Elem should not configure Computed, Optional, or Required", analyzerName)
 										break
 									}

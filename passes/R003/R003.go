@@ -7,6 +7,7 @@ import (
 
 	"golang.org/x/tools/go/analysis"
 
+	"github.com/bflad/tfproviderlint/helper/terraformtype"
 	"github.com/bflad/tfproviderlint/passes/commentignore"
 	"github.com/bflad/tfproviderlint/passes/schemaresource"
 )
@@ -37,12 +38,16 @@ func run(pass *analysis.Pass) (interface{}, error) {
 			continue
 		}
 
+		if !terraformtype.HelperSchemaTypeResourceContainsFields(resource, terraformtype.ResourceFieldExists) {
+			continue
+		}
+
 		for _, elt := range resource.Elts {
 			switch v := elt.(type) {
 			default:
 				continue
 			case *ast.KeyValueExpr:
-				if v.Key.(*ast.Ident).Name == "Exists" {
+				if v.Key.(*ast.Ident).Name == terraformtype.ResourceFieldExists {
 					pass.Reportf(v.Key.Pos(), "%s: resource should not include Exists function", analyzerName)
 					break
 				}

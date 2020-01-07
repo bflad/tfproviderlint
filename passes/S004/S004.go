@@ -7,6 +7,7 @@ import (
 
 	"golang.org/x/tools/go/analysis"
 
+	"github.com/bflad/tfproviderlint/helper/terraformtype"
 	"github.com/bflad/tfproviderlint/passes/commentignore"
 	"github.com/bflad/tfproviderlint/passes/schemaschema"
 )
@@ -36,50 +37,23 @@ func run(pass *analysis.Pass) (interface{}, error) {
 			continue
 		}
 
-		var defaultConfigured, requiredEnabled bool
+		required := terraformtype.HelperSchemaTypeSchemaRequired(schema)
 
-		for _, elt := range schema.Elts {
-			switch v := elt.(type) {
-			default:
-				continue
-			case *ast.KeyValueExpr:
-				name := v.Key.(*ast.Ident).Name
-
-				if name != "Default" && name != "Required" {
-					continue
-				}
-
-				switch v := v.Value.(type) {
-				default:
-					if name == "Default" {
-						defaultConfigured = true
-					}
-
-					continue
-				case *ast.Ident:
-					value := v.Name
-
-					if name == "Default" && value != "nil" {
-						defaultConfigured = true
-						continue
-					}
-
-					if value != "true" {
-						continue
-					}
-
-					requiredEnabled = true
-				}
-			}
+		if required == nil || !*required {
+			continue
 		}
 
-		if defaultConfigured && requiredEnabled {
-			switch t := schema.Type.(type) {
-			default:
-				pass.Reportf(schema.Lbrace, "%s: schema should not enable Required and configure Default", analyzerName)
-			case *ast.SelectorExpr:
-				pass.Reportf(t.Sel.Pos(), "%s: schema should not enable Required and configure Default", analyzerName)
-			}
+		schemaDefault := terraformtype.HelperSchemaTypeSchemaDefault(schema)
+
+		if schemaDefault == nil {
+			continue
+		}
+
+		switch t := schema.Type.(type) {
+		default:
+			pass.Reportf(schema.Lbrace, "%s: schema should not enable Required and configure Default", analyzerName)
+		case *ast.SelectorExpr:
+			pass.Reportf(t.Sel.Pos(), "%s: schema should not enable Required and configure Default", analyzerName)
 		}
 	}
 

@@ -7,6 +7,7 @@ import (
 
 	"golang.org/x/tools/go/analysis"
 
+	"github.com/bflad/tfproviderlint/helper/terraformtype"
 	"github.com/bflad/tfproviderlint/passes/commentignore"
 	"github.com/bflad/tfproviderlint/passes/schemaschema"
 )
@@ -36,53 +37,35 @@ func run(pass *analysis.Pass) (interface{}, error) {
 			continue
 		}
 
-		var computedEnabled, optionalOrRequiredEnabled, validateFuncConfigured bool
+		computed := terraformtype.HelperSchemaTypeSchemaComputed(schema)
 
-		for _, elt := range schema.Elts {
-			switch v := elt.(type) {
-			default:
-				continue
-			case *ast.KeyValueExpr:
-				name := v.Key.(*ast.Ident).Name
-
-				switch v := v.Value.(type) {
-				default:
-					if name == "ValidateFunc" {
-						validateFuncConfigured = true
-					}
-
-					continue
-				case *ast.Ident:
-					value := v.Name
-
-					switch name {
-					case "Computed":
-						if value == "true" {
-							computedEnabled = true
-							continue
-						}
-					case "Optional", "Required":
-						if value == "true" {
-							optionalOrRequiredEnabled = true
-							break
-						}
-					case "ValidateFunc":
-						if value != "nil" {
-							validateFuncConfigured = true
-							continue
-						}
-					}
-				}
-			}
+		if computed == nil || !*computed {
+			continue
 		}
 
-		if computedEnabled && !optionalOrRequiredEnabled && validateFuncConfigured {
-			switch t := schema.Type.(type) {
-			default:
-				pass.Reportf(schema.Lbrace, "%s: schema should not only enable Computed and configure ValidateFunc", analyzerName)
-			case *ast.SelectorExpr:
-				pass.Reportf(t.Sel.Pos(), "%s: schema should not only enable Computed and configure ValidateFunc", analyzerName)
-			}
+		optional := terraformtype.HelperSchemaTypeSchemaOptional(schema)
+
+		if optional != nil && *optional {
+			continue
+		}
+
+		required := terraformtype.HelperSchemaTypeSchemaRequired(schema)
+
+		if required != nil && *required {
+			continue
+		}
+
+		validateFunc := terraformtype.HelperSchemaTypeSchemaValidateFunc(schema)
+
+		if validateFunc == nil {
+			continue
+		}
+
+		switch t := schema.Type.(type) {
+		default:
+			pass.Reportf(schema.Lbrace, "%s: schema should not only enable Computed and configure ValidateFunc", analyzerName)
+		case *ast.SelectorExpr:
+			pass.Reportf(t.Sel.Pos(), "%s: schema should not only enable Computed and configure ValidateFunc", analyzerName)
 		}
 	}
 

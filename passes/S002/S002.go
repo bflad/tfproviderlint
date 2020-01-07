@@ -7,6 +7,7 @@ import (
 
 	"golang.org/x/tools/go/analysis"
 
+	"github.com/bflad/tfproviderlint/helper/terraformtype"
 	"github.com/bflad/tfproviderlint/passes/commentignore"
 	"github.com/bflad/tfproviderlint/passes/schemaschema"
 )
@@ -36,46 +37,23 @@ func run(pass *analysis.Pass) (interface{}, error) {
 			continue
 		}
 
-		var optionalEnabled, requiredEnabled bool
+		optional := terraformtype.HelperSchemaTypeSchemaOptional(schema)
 
-		for _, elt := range schema.Elts {
-			switch v := elt.(type) {
-			default:
-				continue
-			case *ast.KeyValueExpr:
-				name := v.Key.(*ast.Ident).Name
-
-				if name != "Optional" && name != "Required" {
-					continue
-				}
-
-				switch v := v.Value.(type) {
-				default:
-					continue
-				case *ast.Ident:
-					value := v.Name
-
-					if value != "true" {
-						continue
-					}
-
-					if name == "Optional" {
-						optionalEnabled = true
-						continue
-					}
-
-					requiredEnabled = true
-				}
-			}
+		if optional == nil || !*optional {
+			continue
 		}
 
-		if optionalEnabled && requiredEnabled {
-			switch t := schema.Type.(type) {
-			default:
-				pass.Reportf(schema.Lbrace, "%s: schema should not enable Required and Optional", analyzerName)
-			case *ast.SelectorExpr:
-				pass.Reportf(t.Sel.Pos(), "%s: schema should not enable Required and Optional", analyzerName)
-			}
+		required := terraformtype.HelperSchemaTypeSchemaRequired(schema)
+
+		if required == nil || !*required {
+			continue
+		}
+
+		switch t := schema.Type.(type) {
+		default:
+			pass.Reportf(schema.Lbrace, "%s: schema should not enable Required and Optional", analyzerName)
+		case *ast.SelectorExpr:
+			pass.Reportf(t.Sel.Pos(), "%s: schema should not enable Required and Optional", analyzerName)
 		}
 	}
 

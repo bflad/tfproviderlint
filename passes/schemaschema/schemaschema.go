@@ -53,8 +53,6 @@ func isSchemaSchema(pass *analysis.Pass, cl *ast.CompositeLit) bool {
 	default:
 		return false
 	case *ast.SelectorExpr:
-		return terraformtype.IsTypeHelperSchema(pass.TypesInfo.TypeOf(v))
+		return terraformtype.IsHelperSchemaTypeSchema(pass.TypesInfo.TypeOf(v))
 	}
-
-	return true
 }

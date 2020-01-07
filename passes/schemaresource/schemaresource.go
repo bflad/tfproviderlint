@@ -2,10 +2,9 @@ package schemaresource
 
 import (
 	"go/ast"
-	"go/types"
 	"reflect"
-	"strings"
 
+	"github.com/bflad/tfproviderlint/helper/terraformtype"
 	"golang.org/x/tools/go/analysis"
 	"golang.org/x/tools/go/analysis/passes/inspect"
 	"golang.org/x/tools/go/ast/inspector"
@@ -46,18 +45,6 @@ func isSchemaResource(pass *analysis.Pass, cl *ast.CompositeLit) bool {
 	default:
 		return false
 	case *ast.SelectorExpr:
-		switch t := pass.TypesInfo.TypeOf(v).(type) {
-		default:
-			return false
-		case *types.Named:
-			if t.Obj().Name() != "Resource" {
-				return false
-			}
-			// HasSuffix here due to vendoring
-			if !strings.HasSuffix(t.Obj().Pkg().Path(), "github.com/hashicorp/terraform-plugin-sdk/helper/schema") {
-				return false
-			}
-		}
+		return terraformtype.IsHelperSchemaTypeResource(pass.TypesInfo.TypeOf(v))
 	}
-	return true
 }

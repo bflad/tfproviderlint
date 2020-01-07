@@ -9,6 +9,7 @@ import (
 
 	"golang.org/x/tools/go/analysis"
 
+	"github.com/bflad/tfproviderlint/helper/terraformtype"
 	"github.com/bflad/tfproviderlint/passes/acctestcase"
 	"github.com/bflad/tfproviderlint/passes/commentignore"
 )
@@ -49,23 +50,13 @@ func run(pass *analysis.Pass) (interface{}, error) {
 			continue
 		}
 
-		var found bool
+		checkDestroy := terraformtype.HelperResourceTypeTestCaseContainsFields(testCase, terraformtype.TestCaseFieldCheckDestroy)
 
-		for _, elt := range testCase.Elts {
-			switch v := elt.(type) {
-			default:
-				continue
-			case *ast.KeyValueExpr:
-				if v.Key.(*ast.Ident).Name == "CheckDestroy" {
-					found = true
-					break
-				}
-			}
+		if checkDestroy {
+			continue
 		}
 
-		if !found {
-			pass.Reportf(testCase.Type.(*ast.SelectorExpr).Sel.Pos(), "%s: missing CheckDestroy", analyzerName)
-		}
+		pass.Reportf(testCase.Type.(*ast.SelectorExpr).Sel.Pos(), "%s: missing CheckDestroy", analyzerName)
 	}
 
 	return nil, nil

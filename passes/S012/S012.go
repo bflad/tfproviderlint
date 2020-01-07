@@ -7,6 +7,7 @@ import (
 
 	"golang.org/x/tools/go/analysis"
 
+	"github.com/bflad/tfproviderlint/helper/terraformtype"
 	"github.com/bflad/tfproviderlint/passes/commentignore"
 	"github.com/bflad/tfproviderlint/passes/schemaschema"
 )
@@ -36,29 +37,15 @@ func run(pass *analysis.Pass) (interface{}, error) {
 			continue
 		}
 
-		var typeConfigured bool
-
-		for _, elt := range schema.Elts {
-			switch v := elt.(type) {
-			default:
-				continue
-			case *ast.KeyValueExpr:
-				name := v.Key.(*ast.Ident).Name
-
-				if name == "Type" {
-					typeConfigured = true
-					break
-				}
-			}
+		if terraformtype.HelperSchemaTypeSchemaContainsFields(schema, terraformtype.SchemaFieldType) {
+			continue
 		}
 
-		if !typeConfigured {
-			switch t := schema.Type.(type) {
-			default:
-				pass.Reportf(schema.Lbrace, "%s: schema should configure Type", analyzerName)
-			case *ast.SelectorExpr:
-				pass.Reportf(t.Sel.Pos(), "%s: schema should configure Type", analyzerName)
-			}
+		switch t := schema.Type.(type) {
+		default:
+			pass.Reportf(schema.Lbrace, "%s: schema should configure Type", analyzerName)
+		case *ast.SelectorExpr:
+			pass.Reportf(t.Sel.Pos(), "%s: schema should configure Type", analyzerName)
 		}
 	}
 

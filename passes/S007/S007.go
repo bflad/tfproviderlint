@@ -7,6 +7,7 @@ import (
 
 	"golang.org/x/tools/go/analysis"
 
+	"github.com/bflad/tfproviderlint/helper/terraformtype"
 	"github.com/bflad/tfproviderlint/passes/commentignore"
 	"github.com/bflad/tfproviderlint/passes/schemaschema"
 )
@@ -36,50 +37,23 @@ func run(pass *analysis.Pass) (interface{}, error) {
 			continue
 		}
 
-		var conflictsWithConfigured, requiredEnabled bool
+		required := terraformtype.HelperSchemaTypeSchemaRequired(schema)
 
-		for _, elt := range schema.Elts {
-			switch v := elt.(type) {
-			default:
-				continue
-			case *ast.KeyValueExpr:
-				name := v.Key.(*ast.Ident).Name
-
-				if name != "ConflictsWith" && name != "Required" {
-					continue
-				}
-
-				switch v := v.Value.(type) {
-				default:
-					if name == "ConflictsWith" {
-						conflictsWithConfigured = true
-					}
-
-					continue
-				case *ast.Ident:
-					value := v.Name
-
-					if name == "ConflictsWith" && value != "nil" {
-						conflictsWithConfigured = true
-						continue
-					}
-
-					if value != "true" {
-						continue
-					}
-
-					requiredEnabled = true
-				}
-			}
+		if required == nil || !*required {
+			continue
 		}
 
-		if conflictsWithConfigured && requiredEnabled {
-			switch t := schema.Type.(type) {
-			default:
-				pass.Reportf(schema.Lbrace, "%s: schema should not enable Required and configure ConflictsWith", analyzerName)
-			case *ast.SelectorExpr:
-				pass.Reportf(t.Sel.Pos(), "%s: schema should not enable Required and configure ConflictsWith", analyzerName)
-			}
+		conflictsWith := terraformtype.HelperSchemaTypeSchemaConflictsWith(schema)
+
+		if conflictsWith == nil {
+			continue
+		}
+
+		switch t := schema.Type.(type) {
+		default:
+			pass.Reportf(schema.Lbrace, "%s: schema should not enable Required and configure ConflictsWith", analyzerName)
+		case *ast.SelectorExpr:
+			pass.Reportf(t.Sel.Pos(), "%s: schema should not enable Required and configure ConflictsWith", analyzerName)
 		}
 	}
 
