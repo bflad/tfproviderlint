@@ -70,16 +70,29 @@ func (info *HelperResourceTestCaseInfo) DeclaresField(fieldName string) bool {
 	return info.Fields[fieldName] != nil
 }
 
-// HelperResourceTypeTestCaseContainsFields checks if any fields are present in the TestCase
-func HelperResourceTypeTestCaseContainsFields(testCase *ast.CompositeLit, fields ...string) bool {
-	return astCompositeLitContainsAnyField(testCase, fields...)
+// HelperResourceTestStepInfo represents all gathered TestStep data for easier access
+type HelperResourceTestStepInfo struct {
+	AstCompositeLit *ast.CompositeLit
+	Fields          map[string]*ast.KeyValueExpr
+	TestStep        *resource.TestStep
+	TypesInfo       *types.Info
 }
 
-// HelperResourceTypeTestCaseCheckDestroy extracts the TestCase CheckDestroy value
-// NOTE: The current function signature output type should not be considered stable
-//       except for being a pointer.
-func HelperResourceTypeTestCaseCheckDestroy(testCase *ast.CompositeLit) *ast.Expr {
-	return astCompositeLitFieldExprValue(testCase, TestCaseFieldCheckDestroy)
+// NewHelperResourceTestStepInfo instantiates a HelperResourceTestStepInfo
+func NewHelperResourceTestStepInfo(cl *ast.CompositeLit, info *types.Info) *HelperResourceTestStepInfo {
+	result := &HelperResourceTestStepInfo{
+		AstCompositeLit: cl,
+		Fields:          astCompositeLitFields(cl),
+		TestStep:        &resource.TestStep{},
+		TypesInfo:       info,
+	}
+
+	return result
+}
+
+// DeclaresField returns true if the field name is present in the AST
+func (info *HelperResourceTestStepInfo) DeclaresField(fieldName string) bool {
+	return info.Fields[fieldName] != nil
 }
 
 // IsHelperResourceTypeTestCase returns if the type is TestCase from the helper/schema package
