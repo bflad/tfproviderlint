@@ -6,8 +6,17 @@ import (
 )
 
 const (
-	FuncNameParallelTest = `ParallelTest`
-	FuncNameTest         = `Test`
+	FuncNameComposeAggregateTestCheckFunc = `ComposeAggregateTestCheckFunc`
+	FuncNameComposeTestCheckFunc          = `ComposeTestCheckFunc`
+	FuncNameParallelTest                  = `ParallelTest`
+	FuncNameTest                          = `Test`
+	FuncNameTestCheckNoResourceAttr       = `TestCheckNoResourceAttr`
+	FuncNameTestCheckOutput               = `TestCheckOutput`
+	FuncNameTestCheckResourceAttr         = `TestCheckResourceAttr`
+	FuncNameTestCheckResourceAttrPair     = `TestCheckResourceAttrPair`
+	FuncNameTestCheckResourceAttrPtr      = `TestCheckResourceAttrPtr`
+	FuncNameTestCheckResourceAttrSet      = `TestCheckResourceAttrSet`
+	FuncNameTestMatchResourceAttr         = `TestMatchResourceAttr`
 
 	PackagePathHelperResource = `github.com/hashicorp/terraform-plugin-sdk/helper/resource`
 )
