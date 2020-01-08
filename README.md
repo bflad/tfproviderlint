@@ -73,6 +73,7 @@ For additional information about each check, you can run `tfproviderlint help NA
 | [AT003](passes/AT003/README.md) | check for acceptance test function names missing an underscore | AST |
 | [AT004](passes/AT004/README.md) | check for `TestStep` `Config` containing provider configuration | AST |
 | [AT005](passes/AT005/README.md) | check for acceptance test function names missing `TestAcc` prefix | AST |
+| [AT006](passes/AT006/README.md) | check for acceptance test functions containing multiple `resource.Test()` invocations | AST |
 
 ### Resource Checks
 
