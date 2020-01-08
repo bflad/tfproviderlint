@@ -110,7 +110,7 @@ func NewHelperSchemaSchemaInfo(cl *ast.CompositeLit, info *types.Info) *HelperSc
 		TypesInfo:       info,
 	}
 
-	if kvExpr := result.Fields[SchemaFieldComputed]; kvExpr != nil {
+	if kvExpr := result.Fields[SchemaFieldComputed]; kvExpr != nil && astBoolValue(kvExpr.Value) != nil {
 		result.Schema.Computed = *astBoolValue(kvExpr.Value)
 	}
 
@@ -126,27 +126,27 @@ func NewHelperSchemaSchemaInfo(cl *ast.CompositeLit, info *types.Info) *HelperSc
 		result.Schema.DiffSuppressFunc = func(k, old, new string, d *schema.ResourceData) bool { return false }
 	}
 
-	if kvExpr := result.Fields[SchemaFieldForceNew]; kvExpr != nil {
+	if kvExpr := result.Fields[SchemaFieldForceNew]; kvExpr != nil && astBoolValue(kvExpr.Value) != nil {
 		result.Schema.ForceNew = *astBoolValue(kvExpr.Value)
 	}
 
-	if kvExpr := result.Fields[SchemaFieldMaxItems]; kvExpr != nil {
+	if kvExpr := result.Fields[SchemaFieldMaxItems]; kvExpr != nil && astIntValue(kvExpr.Value) != nil {
 		result.Schema.MaxItems = *astIntValue(kvExpr.Value)
 	}
 
-	if kvExpr := result.Fields[SchemaFieldMinItems]; kvExpr != nil {
+	if kvExpr := result.Fields[SchemaFieldMinItems]; kvExpr != nil && astIntValue(kvExpr.Value) != nil {
 		result.Schema.MinItems = *astIntValue(kvExpr.Value)
 	}
 
-	if kvExpr := result.Fields[SchemaFieldOptional]; kvExpr != nil {
+	if kvExpr := result.Fields[SchemaFieldOptional]; kvExpr != nil && astBoolValue(kvExpr.Value) != nil {
 		result.Schema.Optional = *astBoolValue(kvExpr.Value)
 	}
 
-	if kvExpr := result.Fields[SchemaFieldRequired]; kvExpr != nil {
+	if kvExpr := result.Fields[SchemaFieldRequired]; kvExpr != nil && astBoolValue(kvExpr.Value) != nil {
 		result.Schema.Required = *astBoolValue(kvExpr.Value)
 	}
 
-	if kvExpr := result.Fields[SchemaFieldSensitive]; kvExpr != nil {
+	if kvExpr := result.Fields[SchemaFieldSensitive]; kvExpr != nil && astBoolValue(kvExpr.Value) != nil {
 		result.Schema.Sensitive = *astBoolValue(kvExpr.Value)
 	}
 
