@@ -55,3 +55,13 @@ func NewHelperResourceTestStepInfo(cl *ast.CompositeLit, info *types.Info) *Help
 func (info *HelperResourceTestStepInfo) DeclaresField(fieldName string) bool {
 	return info.Fields[fieldName] != nil
 }
+
+// IsHelperResourceTypeTestStep returns if the type is TestStep from the helper/schema package
+func IsHelperResourceTypeTestStep(t types.Type) bool {
+	switch t := t.(type) {
+	case *types.Named:
+		return IsHelperResourceNamedType(t, TypeNameTestStep)
+	default:
+		return false
+	}
+}

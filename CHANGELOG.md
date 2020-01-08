@@ -11,6 +11,7 @@ NOTES
 
 FEATURES
 
+* **New Analyzer:** `accteststep`: returns `resource.TestStep` literals for later passes
 * **New Check:** `AT005`: check for acceptance test names missing `TestAcc` prefix
 * **New Check:** `AT006`: check for acceptance tests containing multiple `resource.Test()` invocations
 * **New Check:** `AT007`: check for acceptance tests containing multiple `resource.ParallelTest()` invocations
