@@ -3,26 +3,11 @@ package terraformtype
 import (
 	"go/ast"
 	"go/types"
-	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 )
 
 const (
-	ResourceFieldCreate             = `Create`
-	ResourceFieldCustomizeDiff      = `CustomizeDiff`
-	ResourceFieldDelete             = `Delete`
-	ResourceFieldDeprecationMessage = `DeprecationMessage`
-	ResourceFieldExists             = `Exists`
-	ResourceFieldImporter           = `Importer`
-	ResourceFieldMigrateState       = `MigrateState`
-	ResourceFieldRead               = `Read`
-	ResourceFieldSchema             = `Schema`
-	ResourceFieldSchemaVersion      = `SchemaVersion`
-	ResourceFieldStateUpgraders     = `StateUpgraders`
-	ResourceFieldTimeouts           = `Timeouts`
-	ResourceFieldUpdate             = `Update`
-
 	SchemaFieldAtLeastOneOf     = `AtLeastOneOf`
 	SchemaFieldComputed         = `Computed`
 	SchemaFieldComputedWhen     = `ComputedWhen`
@@ -57,39 +42,10 @@ const (
 	SchemaValueTypeSet    = `TypeSet`
 	SchemaValueTypeString = `TypeString`
 
-	TypeNameResource     = `Resource`
-	TypeNameResourceData = `ResourceData`
-	TypeNameSchema       = `Schema`
-	TypeNameSet          = `Set`
-	TypeNameValueType    = `ValueType`
-
-	TypePackagePathHelperSchema = `github.com/hashicorp/terraform-plugin-sdk/helper/schema`
+	TypeNameSchema    = `Schema`
+	TypeNameSet       = `Set`
+	TypeNameValueType = `ValueType`
 )
-
-// HelperSchemaResourceInfo represents all gathered Resource data for easier access
-type HelperSchemaResourceInfo struct {
-	AstCompositeLit *ast.CompositeLit
-	Fields          map[string]*ast.KeyValueExpr
-	Resource        *schema.Resource
-	TypesInfo       *types.Info
-}
-
-// NewHelperSchemaResourceInfo instantiates a HelperSchemaResourceInfo
-func NewHelperSchemaResourceInfo(cl *ast.CompositeLit, info *types.Info) *HelperSchemaResourceInfo {
-	result := &HelperSchemaResourceInfo{
-		AstCompositeLit: cl,
-		Fields:          astCompositeLitFields(cl),
-		Resource:        &schema.Resource{},
-		TypesInfo:       info,
-	}
-
-	return result
-}
-
-// DeclaresField returns true if the field name is present in the AST
-func (info *HelperSchemaResourceInfo) DeclaresField(fieldName string) bool {
-	return info.Fields[fieldName] != nil
-}
 
 // HelperSchemaSchemaInfo represents all gathered Schema data for easier access
 type HelperSchemaSchemaInfo struct {
@@ -197,26 +153,6 @@ func (info *HelperSchemaSchemaInfo) IsOneOfTypes(valueTypes ...string) bool {
 	return false
 }
 
-// IsHelperSchemaTypeResource returns if the type is Resource from the helper/schema package
-func IsHelperSchemaTypeResource(t types.Type) bool {
-	switch t := t.(type) {
-	case *types.Named:
-		return IsHelperSchemaNamedType(t, TypeNameResource)
-	default:
-		return false
-	}
-}
-
-// IsHelperSchemaTypeResourceData returns if the type is ResourceData from the helper/schema package
-func IsHelperSchemaTypeResourceData(t types.Type) bool {
-	switch t := t.(type) {
-	case *types.Named:
-		return IsHelperSchemaNamedType(t, TypeNameResourceData)
-	default:
-		return false
-	}
-}
-
 // IsHelperSchemaTypeSchema returns if the type is Schema from the helper/schema package
 func IsHelperSchemaTypeSchema(t types.Type) bool {
 	switch t := t.(type) {
@@ -251,16 +187,6 @@ func IsHelperSchemaTypeSet(t types.Type) bool {
 	default:
 		return false
 	}
-}
-
-// IsHelperSchemaNamedType returns if the type name matches and is from the helper/schema package
-func IsHelperSchemaNamedType(t *types.Named, typeName string) bool {
-	if t.Obj().Name() != typeName {
-		return false
-	}
-
-	// HasSuffix here due to vendoring
-	return strings.HasSuffix(t.Obj().Pkg().Path(), TypePackagePathHelperSchema)
 }
 
 // helperSchemaTypeSchemaType extracts the string representation of a Schema Type value
