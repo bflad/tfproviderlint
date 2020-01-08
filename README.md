@@ -74,6 +74,7 @@ For additional information about each check, you can run `tfproviderlint help NA
 | [AT004](passes/AT004/README.md) | check for `TestStep` `Config` containing provider configuration | AST |
 | [AT005](passes/AT005/README.md) | check for acceptance test function names missing `TestAcc` prefix | AST |
 | [AT006](passes/AT006/README.md) | check for acceptance test functions containing multiple `resource.Test()` invocations | AST |
+| [AT007](passes/AT007/README.md) | check for acceptance test functions containing multiple `resource.ParallelTest()` invocations | AST |
 
 ### Resource Checks
 
