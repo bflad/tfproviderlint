@@ -105,6 +105,7 @@ For additional information about each check, you can run `tfproviderlint help NA
 | [S017](passes/S017/README.md) | check for `Schema` that `MaxItems` and `MinItems` are only configured for `TypeList`, `TypeMap`, or `TypeSet` | AST |
 | [S018](passes/S018/README.md) | check for `Schema` that should use `TypeList` with `MaxItems: 1` | AST |
 | [S019](passes/S019/README.md) | check for `Schema` that should omit `Computed`, `Optional`, or `Required` set to `false` | AST |
+| [S020](passes/S020/README.md) | check for `Schema` of `Computed` only with `ForceNew` enabled | AST |
 
 ## Development and Testing
 

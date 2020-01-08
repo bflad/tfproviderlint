@@ -9,6 +9,10 @@ NOTES
 * Tests are now Go 1.13 compatible
 * Updates github.com/hashicorp/terraform-plugin-sdk dependency to v1.4.1 which cleans up some transitive dependencies
 
+FEATURES
+
+* **New Check:** `S020`: check for `Schema` of only `Computed` enabled with `ForceNew` enabled
+
 ENHANCEMENTS
 
 * helper/terraformtype: Create enhanced AST types and field name constants for helper/schema.Resource, helper/schema.Schema, helper/resource.TestCase, and helper/resource.TestStep types
