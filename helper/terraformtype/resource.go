@@ -9,6 +9,9 @@ import (
 )
 
 const (
+	FuncParallelTest = `ParallelTest`
+	FuncTest         = `Test`
+
 	TestCaseFieldCheckDestroy              = `CheckDestroy`
 	TestCaseFieldIDRefreshName             = `IDRefreshName`
 	TestCaseFieldIDRefreshIgnore           = `IDRefreshIgnore`
@@ -93,6 +96,11 @@ func NewHelperResourceTestStepInfo(cl *ast.CompositeLit, info *types.Info) *Help
 // DeclaresField returns true if the field name is present in the AST
 func (info *HelperResourceTestStepInfo) DeclaresField(fieldName string) bool {
 	return info.Fields[fieldName] != nil
+}
+
+// IsHelperResourceFunc returns if the function call is in the resource package
+func IsHelperResourceFunc(e ast.Expr, info *types.Info, funcName string) bool {
+	return isPackageFunc(e, info, TypePackagePathHelperResource, funcName)
 }
 
 // IsHelperResourceTypeTestCase returns if the type is TestCase from the helper/schema package
