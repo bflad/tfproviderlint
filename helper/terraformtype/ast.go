@@ -143,3 +143,13 @@ func isPackageFunc(e ast.Expr, info *types.Info, packageSuffix string, funcName 
 
 	return false
 }
+
+// isPackageNamedType returns if the type name matches and is from the package suffix
+func isPackageNamedType(t *types.Named, packageSuffix string, typeName string) bool {
+	if t.Obj().Name() != typeName {
+		return false
+	}
+
+	// HasSuffix here due to vendoring
+	return strings.HasSuffix(t.Obj().Pkg().Path(), packageSuffix)
+}

@@ -3,7 +3,6 @@ package terraformtype
 import (
 	"go/ast"
 	"go/types"
-	"strings"
 )
 
 const (
@@ -20,14 +19,5 @@ func IsHelperResourceFunc(e ast.Expr, info *types.Info, funcName string) bool {
 
 // IsHelperResourceNamedType returns if the type name matches and is from the helper/resource package
 func IsHelperResourceNamedType(t *types.Named, typeName string) bool {
-	if t.Obj().Name() != typeName {
-		return false
-	}
-
-	// HasSuffix here due to vendoring
-	if !strings.HasSuffix(t.Obj().Pkg().Path(), PackagePathHelperResource) {
-		return false
-	}
-
-	return true
+	return isPackageNamedType(t, PackagePathHelperResource, typeName)
 }
