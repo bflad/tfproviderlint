@@ -11,6 +11,7 @@ NOTES
 
 FEATURES
 
+* **New Check:** `AT005`: check for acceptance test names missing `TestAcc` prefix
 * **New Check:** `S020`: check for `Schema` of only `Computed` enabled with `ForceNew` enabled
 
 ENHANCEMENTS
