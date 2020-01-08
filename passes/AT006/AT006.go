@@ -39,7 +39,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 				return true
 			}
 
-			if terraformtype.IsHelperResourceFunc(callExpr.Fun, pass.TypesInfo, terraformtype.FuncTest) {
+			if terraformtype.IsHelperResourceFunc(callExpr.Fun, pass.TypesInfo, terraformtype.FuncNameTest) {
 				resourceTestInvocations += 1
 			}
 

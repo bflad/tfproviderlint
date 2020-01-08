@@ -43,8 +43,8 @@ func run(pass *analysis.Pass) (interface{}, error) {
 				return true
 			}
 
-			isResourceTest := terraformtype.IsHelperResourceFunc(callExpr.Fun, pass.TypesInfo, terraformtype.FuncTest)
-			isResourceParallelTest := terraformtype.IsHelperResourceFunc(callExpr.Fun, pass.TypesInfo, terraformtype.FuncParallelTest)
+			isResourceTest := terraformtype.IsHelperResourceFunc(callExpr.Fun, pass.TypesInfo, terraformtype.FuncNameTest)
+			isResourceParallelTest := terraformtype.IsHelperResourceFunc(callExpr.Fun, pass.TypesInfo, terraformtype.FuncNameParallelTest)
 
 			if !isResourceTest && !isResourceParallelTest {
 				return true

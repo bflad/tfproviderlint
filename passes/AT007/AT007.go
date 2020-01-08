@@ -40,7 +40,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 				return true
 			}
 
-			if terraformtype.IsHelperResourceFunc(callExpr.Fun, pass.TypesInfo, terraformtype.FuncParallelTest) {
+			if terraformtype.IsHelperResourceFunc(callExpr.Fun, pass.TypesInfo, terraformtype.FuncNameParallelTest) {
 				resourceParallelTestInvocations += 1
 			}
 
