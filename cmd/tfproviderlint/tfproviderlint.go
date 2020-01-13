@@ -43,6 +43,8 @@ import (
 )
 
 func main() {
+	addVersionFlag()
+
 	multichecker.Main(
 		AT001.Analyzer,
 		AT002.Analyzer,
