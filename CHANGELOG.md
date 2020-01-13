@@ -1,3 +1,9 @@
+# v0.7.0
+
+ENHANCEMENTS
+
+* cmd/tfproviderlint: Add `-V` and `-version` flags for version information (#40)
+
 # v0.6.0
 
 BREAKING CHANGES
