@@ -127,6 +127,37 @@ func astIntValue(e ast.Expr) *int {
 	}
 }
 
+// isPackageReceiverMethod returns true if the package suffix (for vendoring), receiver name, and method name match
+func isPackageReceiverMethod(e ast.Expr, info *types.Info, packageSuffix string, receiverName, methodName string) bool {
+	switch e := e.(type) {
+	case *ast.SelectorExpr:
+		if e.Sel.Name != methodName {
+			return false
+		}
+
+		switch x := e.X.(type) {
+		case *ast.Ident:
+			if x.Obj == nil {
+				return false
+			}
+
+			switch decl := x.Obj.Decl.(type) {
+			case *ast.Field:
+				switch t := decl.Type.(type) {
+				case *ast.StarExpr:
+					return isPackageType(info.TypeOf(t.X), packageSuffix, receiverName)
+				case *ast.SelectorExpr:
+					return isPackageType(info.TypeOf(t), packageSuffix, receiverName)
+				}
+			case *ast.ValueSpec:
+				return isPackageType(info.TypeOf(decl.Type), packageSuffix, receiverName)
+			}
+		}
+	}
+
+	return false
+}
+
 // isPackageFunc returns true if the function package suffix (for vendoring) and name matches
 func isPackageFunc(e ast.Expr, info *types.Info, packageSuffix string, funcName string) bool {
 	switch e := e.(type) {
@@ -152,4 +183,14 @@ func isPackageNamedType(t *types.Named, packageSuffix string, typeName string) b
 
 	// HasSuffix here due to vendoring
 	return strings.HasSuffix(t.Obj().Pkg().Path(), packageSuffix)
+}
+
+// isPackageType returns true if the type name can be matched and is from the package suffix
+func isPackageType(t types.Type, packageSuffix string, typeName string) bool {
+	switch t := t.(type) {
+	case *types.Named:
+		return isPackageNamedType(t, packageSuffix, typeName)
+	}
+
+	return false
 }

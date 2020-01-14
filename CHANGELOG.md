@@ -1,5 +1,9 @@
 # v0.7.0
 
+FEATURES
+
+* **New Check:** `R005`: check for `ResourceData.HasChange()` calls that can be combined into one `HasChanges()` call
+
 ENHANCEMENTS
 
 * cmd/tfproviderlint: Add `-V` and `-version` flags for version information (#40)
