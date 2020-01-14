@@ -21,3 +21,7 @@ func IsHelperSchemaFunc(e ast.Expr, info *types.Info, funcName string) bool {
 func IsHelperSchemaNamedType(t *types.Named, typeName string) bool {
 	return isPackageNamedType(t, PackagePathHelperSchema, typeName)
 }
+
+func IsHelperSchemaReceiverMethod(e ast.Expr, info *types.Info, receiverName string, methodName string) bool {
+	return isPackageReceiverMethod(e, info, PackagePathHelperSchema, receiverName, methodName)
+}
