@@ -10,6 +10,7 @@ ENHANCEMENTS
 
 * cmd/tfproviderlint: Add `-V` and `-version` flags for version information (#40)
 * helper/astutils: Functions for determining package functions, package receiver methods, package types, and some function parameter types
+* passes: Add `AllChecks` variable which can be used to bootstrap custom downstream linters
 
 # v0.6.0
 
