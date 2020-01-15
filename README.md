@@ -111,6 +111,12 @@ For additional information about each check, you can run `tfproviderlint help NA
 | [S019](passes/S019/README.md) | check for `Schema` that should omit `Computed`, `Optional`, or `Required` set to `false` | AST |
 | [S020](passes/S020/README.md) | check for `Schema` of `Computed` only with `ForceNew` enabled | AST |
 
+### Validation Checks
+
+| Check | Description | Type |
+|---|---|---|
+| [V001](passes/V001/README.md) | check for custom `SchemaValidateFunc` that implement `validation.StringMatch()` or `validation.StringDoesNotMatch()` | AST |
+
 ## Development and Testing
 
 This project is built on the [`go/analysis`](https://godoc.org/golang.org/x/tools/go/analysis) framework and uses [Go Modules](https://github.com/golang/go/wiki/Modules) for dependency management.

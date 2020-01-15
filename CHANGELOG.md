@@ -2,11 +2,14 @@
 
 FEATURES
 
+* **New Analyzer:** `schemavalidatefunc`: returns `SchemaValidateFunc` declarations
 * **New Check:** `R005`: check for `ResourceData.HasChange()` calls that can be combined into one `HasChanges()` call
+* **New Check:** `V001`: check for custom `SchemaValidateFunc` that implement `validation.StringMatch()` or `validation.StringDoesNotMatch()`
 
 ENHANCEMENTS
 
 * cmd/tfproviderlint: Add `-V` and `-version` flags for version information (#40)
+* helper/astutils: Functions for determining package functions, package receiver methods, package types, and some function parameter types
 
 # v0.6.0
 
