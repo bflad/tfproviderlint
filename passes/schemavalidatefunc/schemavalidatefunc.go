@@ -5,6 +5,7 @@ import (
 	"reflect"
 
 	"github.com/bflad/tfproviderlint/helper/astutils"
+	"github.com/bflad/tfproviderlint/helper/terraformtype"
 	"golang.org/x/tools/go/analysis"
 	"golang.org/x/tools/go/analysis/passes/inspect"
 	"golang.org/x/tools/go/ast/inspector"
@@ -17,48 +18,60 @@ var Analyzer = &analysis.Analyzer{
 		inspect.Analyzer,
 	},
 	Run:        run,
-	ResultType: reflect.TypeOf([]*ast.FuncDecl{}),
+	ResultType: reflect.TypeOf([]*terraformtype.HelperSchemaSchemaValidateFuncInfo{}),
 }
 
 func run(pass *analysis.Pass) (interface{}, error) {
 	inspect := pass.ResultOf[inspect.Analyzer].(*inspector.Inspector)
 	nodeFilter := []ast.Node{
 		(*ast.FuncDecl)(nil),
+		(*ast.FuncLit)(nil),
 	}
-	var result []*ast.FuncDecl
+	var result []*terraformtype.HelperSchemaSchemaValidateFuncInfo
 
 	inspect.Preorder(nodeFilter, func(n ast.Node) {
-		funcDecl := n.(*ast.FuncDecl)
+		funcDecl, funcDeclOk := n.(*ast.FuncDecl)
+		funcLit, funcLitOk := n.(*ast.FuncLit)
 
-		params := funcDecl.Type.Params.List
+		var funcType *ast.FuncType
 
-		if len(params) != 2 {
+		if funcDeclOk && funcDecl != nil {
+			funcType = funcDecl.Type
+		} else if funcLitOk && funcLit != nil {
+			funcType = funcLit.Type
+		} else {
 			return
 		}
 
-		if !astutils.IsFunctionParameterTypeInterface(params[0].Type) {
+		params := funcType.Params
+
+		if params == nil || len(params.List) != 2 {
 			return
 		}
 
-		if !astutils.IsFunctionParameterTypeString(params[1].Type) {
+		if !astutils.IsFunctionParameterTypeInterface(params.List[0].Type) {
 			return
 		}
 
-		results := funcDecl.Type.Results.List
-
-		if len(results) != 2 {
+		if !astutils.IsFunctionParameterTypeString(params.List[1].Type) {
 			return
 		}
 
-		if !astutils.IsFunctionParameterTypeArrayString(results[0].Type) {
+		results := funcType.Results
+
+		if results == nil || len(results.List) != 2 {
 			return
 		}
 
-		if !astutils.IsFunctionParameterTypeArrayError(results[1].Type) {
+		if !astutils.IsFunctionParameterTypeArrayString(results.List[0].Type) {
 			return
 		}
 
-		result = append(result, funcDecl)
+		if !astutils.IsFunctionParameterTypeArrayError(results.List[1].Type) {
+			return
+		}
+
+		result = append(result, terraformtype.NewHelperSchemaSchemaValidateFuncInfo(funcDecl, funcLit, pass.TypesInfo))
 	})
 
 	return result, nil

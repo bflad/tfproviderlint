@@ -6,6 +6,7 @@ import (
 	"go/ast"
 
 	"github.com/bflad/tfproviderlint/helper/astutils"
+	"github.com/bflad/tfproviderlint/helper/terraformtype"
 	"github.com/bflad/tfproviderlint/passes/commentignore"
 	"github.com/bflad/tfproviderlint/passes/schemavalidatefunc"
 	"golang.org/x/tools/go/analysis"
@@ -30,14 +31,14 @@ var Analyzer = &analysis.Analyzer{
 
 func run(pass *analysis.Pass) (interface{}, error) {
 	ignorer := pass.ResultOf[commentignore.Analyzer].(*commentignore.Ignorer)
-	funcDecls := pass.ResultOf[schemavalidatefunc.Analyzer].([]*ast.FuncDecl)
+	schemaValidateFuncs := pass.ResultOf[schemavalidatefunc.Analyzer].([]*terraformtype.HelperSchemaSchemaValidateFuncInfo)
 
-	for _, funcDecl := range funcDecls {
-		if ignorer.ShouldIgnore(analyzerName, funcDecl) {
+	for _, schemaValidateFunc := range schemaValidateFuncs {
+		if ignorer.ShouldIgnore(analyzerName, schemaValidateFunc.Node) {
 			continue
 		}
 
-		ast.Inspect(funcDecl.Body, func(n ast.Node) bool {
+		ast.Inspect(schemaValidateFunc.Body, func(n ast.Node) bool {
 			callExpr, ok := n.(*ast.CallExpr)
 
 			if !ok {
@@ -48,7 +49,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 				return true
 			}
 
-			pass.Reportf(funcDecl.Pos(), "%s: custom SchemaValidateFunc should be replaced with validation.StringMatch() or validation.StringDoesNotMatch()", analyzerName)
+			pass.Reportf(schemaValidateFunc.Pos, "%s: custom SchemaValidateFunc should be replaced with validation.StringMatch() or validation.StringDoesNotMatch()", analyzerName)
 			return false
 		})
 	}

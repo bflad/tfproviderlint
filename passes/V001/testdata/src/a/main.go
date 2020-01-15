@@ -16,7 +16,19 @@ func commentIgnore(v interface{}, k string) (warns []string, errs []error) {
 	return
 }
 
-func failingInline(v interface{}, k string) (warns []string, errs []error) { // want "custom SchemaValidateFunc should be replaced with validation.StringMatch\\(\\) or validation.StringDoesNotMatch\\(\\)"
+func failingAnonymousFunction() {
+	_ = func(v interface{}, k string) (warns []string, errs []error) { // want "custom SchemaValidateFunc should be replaced with validation.StringMatch\\(\\) or validation.StringDoesNotMatch\\(\\)"
+		value := v.(string)
+
+		if !regexp.MustCompile(`example`).MatchString(value) {
+			errs = append(errs, errors.New("example"))
+		}
+
+		return
+	}
+}
+
+func failingInlineRegexp(v interface{}, k string) (warns []string, errs []error) { // want "custom SchemaValidateFunc should be replaced with validation.StringMatch\\(\\) or validation.StringDoesNotMatch\\(\\)"
 	value := v.(string)
 
 	if !regexp.MustCompile(`example`).MatchString(value) {
@@ -26,7 +38,7 @@ func failingInline(v interface{}, k string) (warns []string, errs []error) { // 
 	return
 }
 
-func failingVariable(v interface{}, k string) (warns []string, errs []error) { // want "custom SchemaValidateFunc should be replaced with validation.StringMatch\\(\\) or validation.StringDoesNotMatch\\(\\)"
+func failingVariableRegexp(v interface{}, k string) (warns []string, errs []error) { // want "custom SchemaValidateFunc should be replaced with validation.StringMatch\\(\\) or validation.StringDoesNotMatch\\(\\)"
 	value := v.(string)
 
 	re := regexp.MustCompile(`example`)
@@ -36,6 +48,12 @@ func failingVariable(v interface{}, k string) (warns []string, errs []error) { /
 	}
 
 	return
+}
+
+func passingAnonymousFunction() {
+	_ = func(v interface{}, k string) (warns []string, errs []error) {
+		return
+	}
 }
 
 func passingRegexpMatchString() {
