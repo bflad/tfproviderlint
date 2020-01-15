@@ -33,9 +33,7 @@ builds:
   - amd64
   - 386
   ldflags:
-    - -s -w -X github.com/bflad/tfproviderlint/version.Version={{.Version}}       \
-            -X github.com/bflad/tfproviderlint/version.VersionPrerelease=         \
-            -X github.com/bflad/tfproviderlint/version.GitCommit={{.ShortCommit}}
+  - -s -w -X github.com/bflad/tfproviderlint/version.Version={{.Version}} -X github.com/bflad/tfproviderlint/version.VersionPrerelease= -X github.com/bflad/tfproviderlint/version.GitCommit={{.ShortCommit}}
   main: ./cmd/tfproviderlint
 changelog:
   skip: true
