@@ -112,6 +112,7 @@ For additional information about each check, you can run `tfproviderlint help NA
 | [S020](passes/S020/README.md) | check for `Schema` of `Computed` only with `ForceNew` enabled | AST |
 | [S021](passes/S021/README.md) | check for `Schema` that should omit `ComputedWhen` | AST |
 | [S022](passes/S022/README.md) | check for `Schema` of `TypeMap` with invalid `Elem` of `*schema.Resource` | AST |
+| [S023](passes/S023/README.md) | check for `Schema` that should omit `Elem` with incompatible `Type` | AST |
 
 ### Validation Checks
 
