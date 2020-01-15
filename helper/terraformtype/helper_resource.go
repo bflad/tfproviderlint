@@ -10,7 +10,9 @@ import (
 const (
 	FuncNameComposeAggregateTestCheckFunc = `ComposeAggregateTestCheckFunc`
 	FuncNameComposeTestCheckFunc          = `ComposeTestCheckFunc`
+	FuncNameNonRetryableError             = `NonRetryableError`
 	FuncNameParallelTest                  = `ParallelTest`
+	FuncNameRetryableError                = `RetryableError`
 	FuncNameTest                          = `Test`
 	FuncNameTestCheckNoResourceAttr       = `TestCheckNoResourceAttr`
 	FuncNameTestCheckOutput               = `TestCheckOutput`

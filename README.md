@@ -85,6 +85,7 @@ For additional information about each check, you can run `tfproviderlint help NA
 | [R003](passes/R003/README.md) | check for `Resource` having `Exists` functions | AST |
 | [R004](passes/R004/README.md) | check for `ResourceData.Set()` calls using incompatible value types | AST |
 | [R005](passes/R005/README.md) | check for `ResourceData.HasChange()` calls that can be combined into one `HasChanges()` call | AST |
+| [R006](passes/R006/README.md) | check for `RetryFunc` that omit retryable errors | AST |
 
 ### Schema Checks
 

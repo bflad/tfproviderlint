@@ -2,8 +2,10 @@
 
 FEATURES
 
+* **New Analyzer:** `retryfunc`: returns `RetryFunc` declarations
 * **New Analyzer:** `schemavalidatefunc`: returns `SchemaValidateFunc` declarations
 * **New Check:** `R005`: check for `ResourceData.HasChange()` calls that can be combined into one `HasChanges()` call
+* **New Check:** `R006`: check for `RetryFunc` that omit retryable errors
 * **New Check:** `S021`: check for `Schema` that should omit `ComputedWhen`
 * **New Check:** `S022`: check for `Schema` of `TypeMap` with invalid `Elem` of `*schema.Resource`
 * **New Check:** `S023`: check for `Schema` that should omit `Elem` with incompatible `Type`
@@ -14,6 +16,8 @@ ENHANCEMENTS
 * cmd/tfproviderlint: Add `-V` and `-version` flags for version information (#40)
 * helper/astutils: Functions for determining package functions, package receiver methods, package types, and some function parameter types
 * helper/terraformtype: Support pointers with `IsHelperResourceTypeTestCase()`, `IsHelperResourceTypeTestStep()`, `IsHelperSchemaTypeResource()`, `IsHelperSchemaTypeResourceData()`, `IsHelperSchemaTypeSchema()`, and `IsHelperSchemaTypeSet()` functions
+* helper/terraformtype: Add constants for helper/resource `NonRetryableError` and `RetryableError` function names
+* helper/terraformtype: Add constants and helper functions for helper/resource `RetryError` type
 * passes: Add `AllChecks` variable which can be used to bootstrap custom downstream linters
 
 # v0.6.0
