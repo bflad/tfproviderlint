@@ -6,6 +6,7 @@ FEATURES
 * **New Check:** `R005`: check for `ResourceData.HasChange()` calls that can be combined into one `HasChanges()` call
 * **New Check:** `S021`: check for `Schema` that should omit `ComputedWhen`
 * **New Check:** `S022`: check for `Schema` of `TypeMap` with invalid `Elem` of `*schema.Resource`
+* **New Check:** `S023`: check for `Schema` that should omit `Elem` with incompatible `Type`
 * **New Check:** `V001`: check for custom `SchemaValidateFunc` that implement `validation.StringMatch()` or `validation.StringDoesNotMatch()`
 
 ENHANCEMENTS
