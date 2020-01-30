@@ -10,6 +10,7 @@ FEATURES
 * **New Extra Check:** `XS001`: check for `map[string]*Schema` that `Description` is configured
 * **New Extra Check:** `XR001`: check for usage of `ResourceData.GetOkExists()` calls
 * **New Extra Check:** `XR002`: check for `Resource` that should implement `Importer`
+* **New Extra Check:** `XR003`: check for `Resource` that should implement `Timeouts`
 
 # v0.7.0
 
