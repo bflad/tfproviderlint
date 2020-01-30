@@ -1,3 +1,9 @@
+# v0.8.0
+
+FEATURES
+
+* **New Extra Check:** `XS001`: check for `map[string]*Schema` that `Description` is configured
+
 # v0.7.0
 
 FEATURES
