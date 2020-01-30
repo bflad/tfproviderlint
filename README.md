@@ -60,11 +60,11 @@ $ docker run -v $(pwd):/src bflad/tfproviderlint ./...
 
 A [GitHub Action](https://github.com/features/actions) is available: [tfproviderlint-github-action](https://github.com/bflad/tfproviderlint-github-action)
 
-## Lint Checks
+## Standard Lint Checks
 
-For additional information about each check, you can run `tfproviderlint help NAME`.
+Standard lint checks are enabled by default in the `tfproviderlint` tool. Opt-in checks can be found in the [Extra Lint Checks section](#extra-lint-checks). For additional information about each check, you can run `tfproviderlint help NAME`.
 
-### Acceptance Test Checks
+### Standard Acceptance Test Checks
 
 | Check | Description | Type |
 |---|---|---|
@@ -76,7 +76,7 @@ For additional information about each check, you can run `tfproviderlint help NA
 | [AT006](passes/AT006/README.md) | check for acceptance test functions containing multiple `resource.Test()` invocations | AST |
 | [AT007](passes/AT007/README.md) | check for acceptance test functions containing multiple `resource.ParallelTest()` invocations | AST |
 
-### Resource Checks
+### Standard Resource Checks
 
 | Check | Description | Type |
 |---|---|---|
@@ -87,7 +87,7 @@ For additional information about each check, you can run `tfproviderlint help NA
 | [R005](passes/R005/README.md) | check for `ResourceData.HasChange()` calls that can be combined into one `HasChanges()` call | AST |
 | [R006](passes/R006/README.md) | check for `RetryFunc` that omit retryable errors | AST |
 
-### Schema Checks
+### Standard Schema Checks
 
 | Check | Description | Type |
 |---|---|---|
@@ -115,11 +115,21 @@ For additional information about each check, you can run `tfproviderlint help NA
 | [S022](passes/S022/README.md) | check for `Schema` of `TypeMap` with invalid `Elem` of `*schema.Resource` | AST |
 | [S023](passes/S023/README.md) | check for `Schema` that should omit `Elem` with incompatible `Type` | AST |
 
-### Validation Checks
+### Standard Validation Checks
 
 | Check | Description | Type |
 |---|---|---|
 | [V001](passes/V001/README.md) | check for custom `SchemaValidateFunc` that implement `validation.StringMatch()` or `validation.StringDoesNotMatch()` | AST |
+
+## Extra Lint Checks
+
+Extra lint checks are not included by default in the `tfproviderlint` tool and must be added to a custom lint tool. Generally these represent advanced Terraform Plugin SDK functionality that is not appropriate for all Terraform Providers, but are provided as a convenience for downstream lint tool implementations.
+
+### Extra Schema Checks
+
+| Check | Description | Type |
+|---|---|---|
+| [XS001](xpasses/XS001/README.md) | check for `map[string]*Schema` that `Description` is configured | AST |
 
 ## Development and Testing
 
