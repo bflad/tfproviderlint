@@ -3,6 +3,7 @@
 FEATURES
 
 * **New Analyzer:** `resourcedataget`: returns `ResourceData.Get()` calls for later passes
+* **New Analyzer:** `resourcedatagetchange`: returns `ResourceData.GetChange()` calls for later passes
 * **New Analyzer:** `resourcedatagetok`: returns `ResourceData.GetOk()` calls for later passes
 * **New Analyzer:** `resourcedatagetokexists`: returns `ResourceData.GetOkExists()` calls for later passes
 * **New Command:** `tfproviderlintx`: Runs all standard and extra checks
