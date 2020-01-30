@@ -11,6 +11,7 @@ FEATURES
 * **New Extra Check:** `XR001`: check for usage of `ResourceData.GetOkExists()` calls
 * **New Extra Check:** `XR002`: check for `Resource` that should implement `Importer`
 * **New Extra Check:** `XR003`: check for `Resource` that should implement `Timeouts`
+* **New Extra Check:** `XR004`: check for `ResourceData.Set()` calls that should implement error checking with complex values
 
 # v0.7.0
 
