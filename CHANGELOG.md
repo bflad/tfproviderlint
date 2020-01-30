@@ -2,8 +2,10 @@
 
 FEATURES
 
+* **New Analyzer:** `resourcedatagetokexists`: returns `ResourceData.GetOkExists()` calls for later passes
 * **New Command:** `tfproviderlintx`: Runs all standard and extra checks
 * **New Extra Check:** `XS001`: check for `map[string]*Schema` that `Description` is configured
+* **New Extra Check:** `XR001`: check for usage of `ResourceData.GetOkExists()` calls
 
 # v0.7.0
 
