@@ -14,6 +14,12 @@ To instead use Go to install into your `$GOBIN` directory (e.g. `$GOPATH/bin`):
 $ go get github.com/bflad/tfproviderlint/cmd/tfproviderlint
 ```
 
+If you wish to install the command which includes all linting checks, including [Extra Lint Checks](#extra-lint-checks):
+
+```console
+$ go get github.com/bflad/tfproviderlint/cmd/tfproviderlintx
+```
+
 ### Docker Install
 
 ```console
@@ -28,7 +34,7 @@ $ brew install bflad/tap/tfproviderlint
 
 ## Usage
 
-Additional information about usage and configuration options can be found by passing the `help` argument:
+The `tfproviderlint` and `tfproviderlintx` tools operate similarly except for which checks are available. Additional information about usage and configuration options can be found by passing the `help` argument:
 
 ```console
 $ tfproviderlint help
@@ -123,7 +129,7 @@ Standard lint checks are enabled by default in the `tfproviderlint` tool. Opt-in
 
 ## Extra Lint Checks
 
-Extra lint checks are not included by default in the `tfproviderlint` tool and must be added to a custom lint tool. Generally these represent advanced Terraform Plugin SDK functionality that is not appropriate for all Terraform Providers, but are provided as a convenience for downstream lint tool implementations.
+Extra lint checks are not included in the `tfproviderlint` tool and must be accessed via the `tfproviderlintx` tool or [added to a custom lint tool](#implementing-a-custom-lint-tool). Generally these represent advanced Terraform Plugin SDK functionality that is not appropriate for all Terraform Providers.
 
 ### Extra Schema Checks
 
@@ -142,9 +148,17 @@ Helpful tooling for development:
 
 ### Adding an Analyzer
 
-* Create new analyzer in `passes/`
-* If the `Analyzer` reports issues, add to `AllChecks` variable in `passes/checks.go`
+* Create new analyzer in `passes/` (or `xpasses/` for extra checks)
+* If the `Analyzer` reports issues, add to `AllChecks` variable in `passes/checks.go` (or `xpasses/checks.go` for extra checks)
 * Since the [`analysistest` package](https://godoc.org/golang.org/x/tools/go/analysis/analysistest) does not support Go Modules currently, each analyzer that implements testing must add a symlink to the top level `vendor` directory in the `testdata/src/a` directory. e.g. `ln -s ../../../../../vendor passes/NAME/testdata/src/a/vendor`
+
+### Implementing a Custom Lint Tool
+
+The `go/analysis` framework and this codebase are designed for flexibility. You may wish to permanently disable certain default checks or even implement your own provider-specific checks. An example of how to incorporate all default and extra checks in a CLI command can be found in `cmd/tfproviderlintx`. To permanently exclude checks, each desired `Analyzer` must be individually included, similar to how `AllChecks()` is built in `passes/checks.go`.
+
+The `passes` directory also includes the underlying `Analyzer` which iteratively gather AST-based information about the Terraform Provider code being analyzed. For example, `passes/retryfunc` returns information from all named and anonymous declarations of `helper/resource.RetryFunc()`.
+
+Primatives for working with Terraform Plugin SDK primatives can be found in `helper/terraformtype`. Primatives for working with the Go AST can be found in `helper/astutils`.
 
 ### Updating Dependencies
 

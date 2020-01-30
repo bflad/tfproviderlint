@@ -35,6 +35,22 @@ builds:
   ldflags:
   - -s -w -X github.com/bflad/tfproviderlint/version.Version={{.Version}} -X github.com/bflad/tfproviderlint/version.VersionPrerelease= -X github.com/bflad/tfproviderlint/version.GitCommit={{.ShortCommit}}
   main: ./cmd/tfproviderlint
+-
+  binary: tfproviderlintx
+  env:
+  - CGO_ENABLED=0
+  - GOFLAGS=-mod=vendor
+  goos:
+  - darwin
+  - windows
+  - linux
+  goarch:
+  - amd64
+  - 386
+  id: tfproviderlintx
+  ldflags:
+  - -s -w -X github.com/bflad/tfproviderlint/version.Version={{.Version}} -X github.com/bflad/tfproviderlint/version.VersionPrerelease= -X github.com/bflad/tfproviderlint/version.GitCommit={{.ShortCommit}}
+  main: ./cmd/tfproviderlintx
 changelog:
   skip: true
 dockers:
