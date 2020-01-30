@@ -9,6 +9,7 @@ FEATURES
 * **New Command:** `tfproviderlintx`: Runs all standard and extra checks
 * **New Extra Check:** `XS001`: check for `map[string]*Schema` that `Description` is configured
 * **New Extra Check:** `XR001`: check for usage of `ResourceData.GetOkExists()` calls
+* **New Extra Check:** `XR002`: check for `Resource` that should implement `Importer`
 
 # v0.7.0
 
