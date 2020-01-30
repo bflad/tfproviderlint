@@ -136,6 +136,7 @@ Extra lint checks are not included in the `tfproviderlint` tool and must be acce
 | Check | Description | Type |
 |---|---|---|
 | [XR001](xpasses/XR001/README.md) | check for usage of `ResourceData.GetOkExists()` calls | AST |
+| [XR002](xpasses/XR002/README.md) | check for `Resource` that should implement `Importer` | AST |
 
 ### Extra Schema Checks
 
