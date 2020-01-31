@@ -4,6 +4,7 @@ import (
 	"go/ast"
 	"go/types"
 
+	"github.com/bflad/tfproviderlint/helper/astutils"
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 )
 
@@ -66,8 +67,8 @@ func NewHelperSchemaSchemaInfo(cl *ast.CompositeLit, info *types.Info) *HelperSc
 		TypesInfo:       info,
 	}
 
-	if kvExpr := result.Fields[SchemaFieldComputed]; kvExpr != nil && astBoolValue(kvExpr.Value) != nil {
-		result.Schema.Computed = *astBoolValue(kvExpr.Value)
+	if kvExpr := result.Fields[SchemaFieldComputed]; kvExpr != nil && astutils.ExprBoolValue(kvExpr.Value) != nil {
+		result.Schema.Computed = *astutils.ExprBoolValue(kvExpr.Value)
 	}
 
 	if kvExpr := result.Fields[SchemaFieldConflictsWith]; kvExpr != nil && astExprValue(kvExpr.Value) != nil {
@@ -78,36 +79,36 @@ func NewHelperSchemaSchemaInfo(cl *ast.CompositeLit, info *types.Info) *HelperSc
 		result.Schema.Default = func() (interface{}, error) { return nil, nil }
 	}
 
-	if kvExpr := result.Fields[SchemaFieldDescription]; kvExpr != nil && astStringValue(kvExpr.Value) != nil {
-		result.Schema.Description = *astStringValue(kvExpr.Value)
+	if kvExpr := result.Fields[SchemaFieldDescription]; kvExpr != nil && astutils.ExprStringValue(kvExpr.Value) != nil {
+		result.Schema.Description = *astutils.ExprStringValue(kvExpr.Value)
 	}
 
 	if kvExpr := result.Fields[SchemaFieldDiffSuppressFunc]; kvExpr != nil && astExprValue(kvExpr.Value) != nil {
 		result.Schema.DiffSuppressFunc = func(k, old, new string, d *schema.ResourceData) bool { return false }
 	}
 
-	if kvExpr := result.Fields[SchemaFieldForceNew]; kvExpr != nil && astBoolValue(kvExpr.Value) != nil {
-		result.Schema.ForceNew = *astBoolValue(kvExpr.Value)
+	if kvExpr := result.Fields[SchemaFieldForceNew]; kvExpr != nil && astutils.ExprBoolValue(kvExpr.Value) != nil {
+		result.Schema.ForceNew = *astutils.ExprBoolValue(kvExpr.Value)
 	}
 
-	if kvExpr := result.Fields[SchemaFieldMaxItems]; kvExpr != nil && astIntValue(kvExpr.Value) != nil {
-		result.Schema.MaxItems = *astIntValue(kvExpr.Value)
+	if kvExpr := result.Fields[SchemaFieldMaxItems]; kvExpr != nil && astutils.ExprIntValue(kvExpr.Value) != nil {
+		result.Schema.MaxItems = *astutils.ExprIntValue(kvExpr.Value)
 	}
 
-	if kvExpr := result.Fields[SchemaFieldMinItems]; kvExpr != nil && astIntValue(kvExpr.Value) != nil {
-		result.Schema.MinItems = *astIntValue(kvExpr.Value)
+	if kvExpr := result.Fields[SchemaFieldMinItems]; kvExpr != nil && astutils.ExprIntValue(kvExpr.Value) != nil {
+		result.Schema.MinItems = *astutils.ExprIntValue(kvExpr.Value)
 	}
 
-	if kvExpr := result.Fields[SchemaFieldOptional]; kvExpr != nil && astBoolValue(kvExpr.Value) != nil {
-		result.Schema.Optional = *astBoolValue(kvExpr.Value)
+	if kvExpr := result.Fields[SchemaFieldOptional]; kvExpr != nil && astutils.ExprBoolValue(kvExpr.Value) != nil {
+		result.Schema.Optional = *astutils.ExprBoolValue(kvExpr.Value)
 	}
 
-	if kvExpr := result.Fields[SchemaFieldRequired]; kvExpr != nil && astBoolValue(kvExpr.Value) != nil {
-		result.Schema.Required = *astBoolValue(kvExpr.Value)
+	if kvExpr := result.Fields[SchemaFieldRequired]; kvExpr != nil && astutils.ExprBoolValue(kvExpr.Value) != nil {
+		result.Schema.Required = *astutils.ExprBoolValue(kvExpr.Value)
 	}
 
-	if kvExpr := result.Fields[SchemaFieldSensitive]; kvExpr != nil && astBoolValue(kvExpr.Value) != nil {
-		result.Schema.Sensitive = *astBoolValue(kvExpr.Value)
+	if kvExpr := result.Fields[SchemaFieldSensitive]; kvExpr != nil && astutils.ExprBoolValue(kvExpr.Value) != nil {
+		result.Schema.Sensitive = *astutils.ExprBoolValue(kvExpr.Value)
 	}
 
 	if kvExpr := result.Fields[SchemaFieldValidateFunc]; kvExpr != nil && astExprValue(kvExpr.Value) != nil {
@@ -131,7 +132,7 @@ func (info *HelperSchemaSchemaInfo) DeclaresBoolFieldWithZeroValue(fieldName str
 		return false
 	}
 
-	valuePtr := astBoolValue(kvExpr.Value)
+	valuePtr := astutils.ExprBoolValue(kvExpr.Value)
 
 	// Value not readable
 	if valuePtr == nil {

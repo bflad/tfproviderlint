@@ -11,6 +11,7 @@ FEATURES
 
 ENHANCEMENTS:
 
+* helper/astutils: `ExprBoolValue`, `ExprIntValue`, and `ExprStringValue` functions
 * helper/terraformtype: `GetSchemaMapAttributeNames`, `GetSchemaMapSchemas`, and `IsMapStringHelperSchemaTypeSchema` functions
 * helper/terraformtype: `HelperSchemaResourceInfo` type `IsDataSource` and `IsResource` receiver methods
 

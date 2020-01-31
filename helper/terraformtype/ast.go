@@ -2,25 +2,9 @@ package terraformtype
 
 import (
 	"go/ast"
-	"strconv"
-	"strings"
+
+	"github.com/bflad/tfproviderlint/helper/astutils"
 )
-
-func astBoolValue(e ast.Expr) *bool {
-	switch v := e.(type) {
-	case *ast.Ident:
-		stringValue := v.Name
-		boolValue, err := strconv.ParseBool(stringValue)
-
-		if err != nil {
-			return nil
-		}
-
-		return &boolValue
-	default:
-		return nil
-	}
-}
 
 func astCompositeLitField(cl *ast.CompositeLit, fieldName string) *ast.KeyValueExpr {
 	for _, elt := range cl.Elts {
@@ -57,7 +41,7 @@ func astCompositeLitFieldBoolValue(cl *ast.CompositeLit, fieldName string) *bool
 		return nil
 	}
 
-	return astBoolValue(kvExpr.Value)
+	return astutils.ExprBoolValue(kvExpr.Value)
 }
 
 func astCompositeLitFieldExprValue(cl *ast.CompositeLit, fieldName string) *ast.Expr {
@@ -77,7 +61,7 @@ func astCompositeLitFieldIntValue(cl *ast.CompositeLit, fieldName string) *int {
 		return nil
 	}
 
-	return astIntValue(kvExpr.Value)
+	return astutils.ExprIntValue(kvExpr.Value)
 }
 
 func astCompositeLitContainsAnyField(cl *ast.CompositeLit, fieldNames ...string) bool {
@@ -107,32 +91,5 @@ func astExprValue(e ast.Expr) *ast.Expr {
 		return &e
 	default:
 		return &e
-	}
-}
-
-func astIntValue(e ast.Expr) *int {
-	switch v := e.(type) {
-	case *ast.BasicLit:
-		stringValue := strings.Trim(v.Value, `"`)
-		intValue, err := strconv.Atoi(stringValue)
-
-		if err != nil {
-			return nil
-		}
-
-		return &intValue
-	default:
-		return nil
-	}
-}
-
-func astStringValue(e ast.Expr) *string {
-	switch v := e.(type) {
-	case *ast.BasicLit:
-		stringValue := strings.Trim(v.Value, `"`)
-
-		return &stringValue
-	default:
-		return nil
 	}
 }
