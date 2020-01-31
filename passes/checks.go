@@ -37,6 +37,7 @@ import (
 	"github.com/bflad/tfproviderlint/passes/S021"
 	"github.com/bflad/tfproviderlint/passes/S022"
 	"github.com/bflad/tfproviderlint/passes/S023"
+	"github.com/bflad/tfproviderlint/passes/S024"
 	"github.com/bflad/tfproviderlint/passes/V001"
 	"golang.org/x/tools/go/analysis"
 )
@@ -81,5 +82,6 @@ var AllChecks = []*analysis.Analyzer{
 	S021.Analyzer,
 	S022.Analyzer,
 	S023.Analyzer,
+	S024.Analyzer,
 	V001.Analyzer,
 }

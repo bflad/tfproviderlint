@@ -50,6 +50,20 @@ func (info *HelperSchemaResourceInfo) DeclaresField(fieldName string) bool {
 	return info.Fields[fieldName] != nil
 }
 
+// IsDataSource returns true if the Resource type matches a Terraform Data Source declaration
+func (info *HelperSchemaResourceInfo) IsDataSource() bool {
+	if info.DeclaresField(ResourceFieldCreate) {
+		return false
+	}
+
+	return info.DeclaresField(ResourceFieldRead)
+}
+
+// IsResource returns true if the Resource type matches a Terraform Resource declaration
+func (info *HelperSchemaResourceInfo) IsResource() bool {
+	return info.DeclaresField(ResourceFieldCreate)
+}
+
 // IsHelperSchemaTypeResource returns if the type is Resource from the helper/schema package
 func IsHelperSchemaTypeResource(t types.Type) bool {
 	switch t := t.(type) {

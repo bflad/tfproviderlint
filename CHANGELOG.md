@@ -1,3 +1,19 @@
+# v0.9.0
+
+BREAKING CHANGES
+
+* passes/schemamap: `GetSchemaAttributes` has been replaced with `helper/terraformtype/GetSchemaMapSchemas`
+* passes/schemamap: `GetSchemaAttributeNames` has been replaced with `helper/terraformtype/GetSchemaMapAttributeNames`
+
+FEATURES
+
+* **New Check:** `S024`: check for `Schema` that should omit `ForceNew` in data source schema attributes
+
+ENHANCEMENTS:
+
+* helper/terraformtype: `GetSchemaMapAttributeNames`, `GetSchemaMapSchemas`, and `IsMapStringHelperSchemaTypeSchema` functions
+* helper/terraformtype: `HelperSchemaResourceInfo` type `IsDataSource` and `IsResource` receiver methods
+
 # v0.8.0
 
 FEATURES

@@ -36,7 +36,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 	schemamaps := pass.ResultOf[schemamap.Analyzer].([]*ast.CompositeLit)
 
 	for _, smap := range schemamaps {
-		for _, schemaCompositeLit := range schemamap.GetSchemaAttributes(smap) {
+		for _, schemaCompositeLit := range terraformtype.GetSchemaMapSchemas(smap) {
 			schema := terraformtype.NewHelperSchemaSchemaInfo(schemaCompositeLit, pass.TypesInfo)
 
 			if ignorer.ShouldIgnore(analyzerName, schema.AstCompositeLit) {
