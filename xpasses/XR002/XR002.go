@@ -34,8 +34,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 			continue
 		}
 
-		// Filter out data sources
-		if !resource.DeclaresField(terraformtype.ResourceFieldCreate) {
+		if !resource.IsResource() {
 			continue
 		}
 

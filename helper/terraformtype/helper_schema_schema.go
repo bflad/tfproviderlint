@@ -157,6 +157,37 @@ func (info *HelperSchemaSchemaInfo) IsOneOfTypes(valueTypes ...string) bool {
 	return false
 }
 
+// GetSchemaMapAttributeNames returns all attribute names held in a map[string]*schema.Schema
+func GetSchemaMapAttributeNames(cl *ast.CompositeLit) []ast.Expr {
+	var result []ast.Expr
+
+	for _, elt := range cl.Elts {
+		switch v := elt.(type) {
+		case *ast.KeyValueExpr:
+			result = append(result, v.Key)
+		}
+	}
+
+	return result
+}
+
+// GetSchemaMapSchemas returns all Schema held in a map[string]*schema.Schema
+func GetSchemaMapSchemas(cl *ast.CompositeLit) []*ast.CompositeLit {
+	var result []*ast.CompositeLit
+
+	for _, elt := range cl.Elts {
+		switch v := elt.(type) {
+		case *ast.KeyValueExpr:
+			switch v := v.Value.(type) {
+			case *ast.CompositeLit:
+				result = append(result, v)
+			}
+		}
+	}
+
+	return result
+}
+
 // IsHelperSchemaTypeSchema returns if the type is Schema from the helper/schema package
 func IsHelperSchemaTypeSchema(t types.Type) bool {
 	switch t := t.(type) {
@@ -195,6 +226,23 @@ func IsHelperSchemaTypeSet(t types.Type) bool {
 	default:
 		return false
 	}
+}
+
+// IsMapStringHelperSchemaTypeSchema returns if the type is map[string]*Schema from the helper/schema package
+func IsMapStringHelperSchemaTypeSchema(cl *ast.CompositeLit, info *types.Info) bool {
+	switch v := cl.Type.(type) {
+	case *ast.MapType:
+		switch k := v.Key.(type) {
+		case *ast.Ident:
+			if k.Name != "string" {
+				return false
+			}
+		}
+
+		return IsHelperSchemaTypeSchema(info.TypeOf(v.Value))
+	}
+
+	return false
 }
 
 // helperSchemaTypeSchemaType extracts the string representation of a Schema Type value

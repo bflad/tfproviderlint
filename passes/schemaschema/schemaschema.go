@@ -32,7 +32,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 	var result []*terraformtype.HelperSchemaSchemaInfo
 
 	for _, smap := range schemamaps {
-		for _, schema := range schemamap.GetSchemaAttributes(smap) {
+		for _, schema := range terraformtype.GetSchemaMapSchemas(smap) {
 			result = append(result, terraformtype.NewHelperSchemaSchemaInfo(schema, pass.TypesInfo))
 		}
 	}
