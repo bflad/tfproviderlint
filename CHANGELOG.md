@@ -2,8 +2,8 @@
 
 BREAKING CHANGES
 
-* passes/schemamap: `GetSchemaAttributes` has been replaced with `helper/terraformtype/GetSchemaMapSchemas`
-* passes/schemamap: `GetSchemaAttributeNames` has been replaced with `helper/terraformtype/GetSchemaMapAttributeNames`
+* passes/schemamap: `GetSchemaAttributes` has been replaced with `helper/terraformtype.GetSchemaMapSchemas`
+* passes/schemamap: `GetSchemaAttributeNames` has been replaced with `helper/terraformtype.GetSchemaMapAttributeNames`
 
 FEATURES
 
