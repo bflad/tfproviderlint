@@ -4,7 +4,7 @@ import (
 	"go/ast"
 	"reflect"
 
-	"github.com/bflad/tfproviderlint/helper/terraformtype"
+	"github.com/bflad/tfproviderlint/helper/terraformtype/helper/resource"
 	"golang.org/x/tools/go/analysis"
 	"golang.org/x/tools/go/analysis/passes/inspect"
 	"golang.org/x/tools/go/ast/inspector"
@@ -17,7 +17,7 @@ var Analyzer = &analysis.Analyzer{
 		inspect.Analyzer,
 	},
 	Run:        run,
-	ResultType: reflect.TypeOf([]*terraformtype.HelperResourceRetryFuncInfo{}),
+	ResultType: reflect.TypeOf([]*resource.RetryFuncInfo{}),
 }
 
 func run(pass *analysis.Pass) (interface{}, error) {
@@ -26,7 +26,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 		(*ast.FuncDecl)(nil),
 		(*ast.FuncLit)(nil),
 	}
-	var result []*terraformtype.HelperResourceRetryFuncInfo
+	var result []*resource.RetryFuncInfo
 
 	inspect.Preorder(nodeFilter, func(n ast.Node) {
 		funcDecl, funcDeclOk := n.(*ast.FuncDecl)
@@ -54,11 +54,11 @@ func run(pass *analysis.Pass) (interface{}, error) {
 			return
 		}
 
-		if !terraformtype.IsHelperResourceTypeRetryError(pass.TypesInfo.TypeOf(results.List[0].Type)) {
+		if !resource.IsTypeRetryError(pass.TypesInfo.TypeOf(results.List[0].Type)) {
 			return
 		}
 
-		result = append(result, terraformtype.NewHelperResourceRetryFuncInfo(funcDecl, funcLit, pass.TypesInfo))
+		result = append(result, resource.NewRetryFuncInfo(funcDecl, funcLit, pass.TypesInfo))
 	})
 
 	return result, nil

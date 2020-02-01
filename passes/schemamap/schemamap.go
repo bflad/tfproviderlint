@@ -4,11 +4,10 @@ import (
 	"go/ast"
 	"reflect"
 
+	"github.com/bflad/tfproviderlint/helper/terraformtype/helper/schema"
 	"golang.org/x/tools/go/analysis"
 	"golang.org/x/tools/go/analysis/passes/inspect"
 	"golang.org/x/tools/go/ast/inspector"
-
-	"github.com/bflad/tfproviderlint/helper/terraformtype"
 )
 
 var Analyzer = &analysis.Analyzer{
@@ -31,7 +30,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 	inspect.Preorder(nodeFilter, func(n ast.Node) {
 		x := n.(*ast.CompositeLit)
 
-		if !terraformtype.IsMapStringHelperSchemaTypeSchema(x, pass.TypesInfo) {
+		if !schema.IsMapStringSchema(x, pass.TypesInfo) {
 			return
 		}
 

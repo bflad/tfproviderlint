@@ -5,7 +5,7 @@ package AT006
 import (
 	"go/ast"
 
-	"github.com/bflad/tfproviderlint/helper/terraformtype"
+	"github.com/bflad/tfproviderlint/helper/terraformtype/helper/resource"
 	"github.com/bflad/tfproviderlint/passes/acctestfunc"
 	"golang.org/x/tools/go/analysis"
 )
@@ -39,7 +39,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 				return true
 			}
 
-			if terraformtype.IsHelperResourceFunc(callExpr.Fun, pass.TypesInfo, terraformtype.FuncNameTest) {
+			if resource.IsFunc(callExpr.Fun, pass.TypesInfo, resource.FuncNameTest) {
 				resourceTestInvocations += 1
 			}
 

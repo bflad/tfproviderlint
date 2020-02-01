@@ -1,10 +1,11 @@
-package terraformtype
+package schema
 
 import (
 	"go/ast"
 	"go/types"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/bflad/tfproviderlint/helper/astutils"
+	tfschema "github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 )
 
 const (
@@ -25,20 +26,20 @@ const (
 	TypeNameResource = `Resource`
 )
 
-// HelperSchemaResourceInfo represents all gathered Resource data for easier access
-type HelperSchemaResourceInfo struct {
+// ResourceInfo represents all gathered Resource data for easier access
+type ResourceInfo struct {
 	AstCompositeLit *ast.CompositeLit
 	Fields          map[string]*ast.KeyValueExpr
-	Resource        *schema.Resource
+	Resource        *tfschema.Resource
 	TypesInfo       *types.Info
 }
 
-// NewHelperSchemaResourceInfo instantiates a HelperSchemaResourceInfo
-func NewHelperSchemaResourceInfo(cl *ast.CompositeLit, info *types.Info) *HelperSchemaResourceInfo {
-	result := &HelperSchemaResourceInfo{
+// NewResourceInfo instantiates a ResourceInfo
+func NewResourceInfo(cl *ast.CompositeLit, info *types.Info) *ResourceInfo {
+	result := &ResourceInfo{
 		AstCompositeLit: cl,
-		Fields:          astCompositeLitFields(cl),
-		Resource:        &schema.Resource{},
+		Fields:          astutils.CompositeLitFields(cl),
+		Resource:        &tfschema.Resource{},
 		TypesInfo:       info,
 	}
 
@@ -46,12 +47,12 @@ func NewHelperSchemaResourceInfo(cl *ast.CompositeLit, info *types.Info) *Helper
 }
 
 // DeclaresField returns true if the field name is present in the AST
-func (info *HelperSchemaResourceInfo) DeclaresField(fieldName string) bool {
+func (info *ResourceInfo) DeclaresField(fieldName string) bool {
 	return info.Fields[fieldName] != nil
 }
 
 // IsDataSource returns true if the Resource type matches a Terraform Data Source declaration
-func (info *HelperSchemaResourceInfo) IsDataSource() bool {
+func (info *ResourceInfo) IsDataSource() bool {
 	if info.DeclaresField(ResourceFieldCreate) {
 		return false
 	}
@@ -60,17 +61,17 @@ func (info *HelperSchemaResourceInfo) IsDataSource() bool {
 }
 
 // IsResource returns true if the Resource type matches a Terraform Resource declaration
-func (info *HelperSchemaResourceInfo) IsResource() bool {
+func (info *ResourceInfo) IsResource() bool {
 	return info.DeclaresField(ResourceFieldCreate)
 }
 
-// IsHelperSchemaTypeResource returns if the type is Resource from the helper/schema package
-func IsHelperSchemaTypeResource(t types.Type) bool {
+// IsTypeResource returns if the type is Resource from the helper/schema package
+func IsTypeResource(t types.Type) bool {
 	switch t := t.(type) {
 	case *types.Named:
-		return IsHelperSchemaNamedType(t, TypeNameResource)
+		return IsNamedType(t, TypeNameResource)
 	case *types.Pointer:
-		return IsHelperSchemaTypeResource(t.Elem())
+		return IsTypeResource(t.Elem())
 	default:
 		return false
 	}

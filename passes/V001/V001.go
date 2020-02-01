@@ -6,7 +6,7 @@ import (
 	"go/ast"
 
 	"github.com/bflad/tfproviderlint/helper/astutils"
-	"github.com/bflad/tfproviderlint/helper/terraformtype"
+	"github.com/bflad/tfproviderlint/helper/terraformtype/helper/schema"
 	"github.com/bflad/tfproviderlint/passes/commentignore"
 	"github.com/bflad/tfproviderlint/passes/schemavalidatefunc"
 	"golang.org/x/tools/go/analysis"
@@ -31,7 +31,7 @@ var Analyzer = &analysis.Analyzer{
 
 func run(pass *analysis.Pass) (interface{}, error) {
 	ignorer := pass.ResultOf[commentignore.Analyzer].(*commentignore.Ignorer)
-	schemaValidateFuncs := pass.ResultOf[schemavalidatefunc.Analyzer].([]*terraformtype.HelperSchemaSchemaValidateFuncInfo)
+	schemaValidateFuncs := pass.ResultOf[schemavalidatefunc.Analyzer].([]*schema.SchemaValidateFuncInfo)
 
 	for _, schemaValidateFunc := range schemaValidateFuncs {
 		if ignorer.ShouldIgnore(analyzerName, schemaValidateFunc.Node) {

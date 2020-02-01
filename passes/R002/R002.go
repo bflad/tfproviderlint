@@ -8,7 +8,7 @@ import (
 	"golang.org/x/tools/go/analysis"
 
 	"github.com/bflad/tfproviderlint/passes/commentignore"
-	"github.com/bflad/tfproviderlint/passes/resourcedataset"
+	"github.com/bflad/tfproviderlint/passes/callexpr/helper/schema/resourcedataset"
 )
 
 const Doc = `check for ResourceData.Set() calls using * dereferences

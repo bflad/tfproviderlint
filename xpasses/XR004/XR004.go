@@ -7,7 +7,7 @@ import (
 	"go/ast"
 	"go/types"
 
-	"github.com/bflad/tfproviderlint/helper/terraformtype"
+	"github.com/bflad/tfproviderlint/helper/terraformtype/helper/schema"
 	"github.com/bflad/tfproviderlint/passes/commentignore"
 	"golang.org/x/tools/go/analysis"
 	"golang.org/x/tools/go/analysis/passes/inspect"
@@ -51,7 +51,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 			return
 		}
 
-		if !terraformtype.IsHelperSchemaReceiverMethod(callExpr.Fun, pass.TypesInfo, terraformtype.TypeNameResourceData, "Set") {
+		if !schema.IsReceiverMethod(callExpr.Fun, pass.TypesInfo, schema.TypeNameResourceData, "Set") {
 			return
 		}
 

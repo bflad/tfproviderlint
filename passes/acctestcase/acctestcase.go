@@ -4,7 +4,7 @@ import (
 	"go/ast"
 	"reflect"
 
-	"github.com/bflad/tfproviderlint/helper/terraformtype"
+	"github.com/bflad/tfproviderlint/helper/terraformtype/helper/resource"
 	"golang.org/x/tools/go/analysis"
 	"golang.org/x/tools/go/analysis/passes/inspect"
 	"golang.org/x/tools/go/ast/inspector"
@@ -17,7 +17,7 @@ var Analyzer = &analysis.Analyzer{
 		inspect.Analyzer,
 	},
 	Run:        run,
-	ResultType: reflect.TypeOf([]*terraformtype.HelperResourceTestCaseInfo{}),
+	ResultType: reflect.TypeOf([]*resource.TestCaseInfo{}),
 }
 
 func run(pass *analysis.Pass) (interface{}, error) {
@@ -25,7 +25,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 	nodeFilter := []ast.Node{
 		(*ast.CompositeLit)(nil),
 	}
-	var result []*terraformtype.HelperResourceTestCaseInfo
+	var result []*resource.TestCaseInfo
 
 	inspect.Preorder(nodeFilter, func(n ast.Node) {
 		x := n.(*ast.CompositeLit)
@@ -34,7 +34,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 			return
 		}
 
-		result = append(result, terraformtype.NewHelperResourceTestCaseInfo(x, pass.TypesInfo))
+		result = append(result, resource.NewTestCaseInfo(x, pass.TypesInfo))
 	})
 
 	return result, nil
@@ -45,6 +45,6 @@ func isResourceTestCase(pass *analysis.Pass, cl *ast.CompositeLit) bool {
 	default:
 		return false
 	case *ast.SelectorExpr:
-		return terraformtype.IsHelperResourceTypeTestCase(pass.TypesInfo.TypeOf(v))
+		return resource.IsTypeTestCase(pass.TypesInfo.TypeOf(v))
 	}
 }

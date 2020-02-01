@@ -4,7 +4,7 @@ import (
 	"go/ast"
 	"reflect"
 
-	"github.com/bflad/tfproviderlint/helper/terraformtype"
+	"github.com/bflad/tfproviderlint/helper/terraformtype/helper/resource"
 	"golang.org/x/tools/go/analysis"
 	"golang.org/x/tools/go/analysis/passes/inspect"
 	"golang.org/x/tools/go/ast/inspector"
@@ -17,7 +17,7 @@ var Analyzer = &analysis.Analyzer{
 		inspect.Analyzer,
 	},
 	Run:        run,
-	ResultType: reflect.TypeOf([]*terraformtype.HelperResourceTestStepInfo{}),
+	ResultType: reflect.TypeOf([]*resource.TestStepInfo{}),
 }
 
 func run(pass *analysis.Pass) (interface{}, error) {
@@ -25,7 +25,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 	nodeFilter := []ast.Node{
 		(*ast.CompositeLit)(nil),
 	}
-	var result []*terraformtype.HelperResourceTestStepInfo
+	var result []*resource.TestStepInfo
 
 	inspect.Preorder(nodeFilter, func(n ast.Node) {
 		x := n.(*ast.CompositeLit)
@@ -34,7 +34,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 			return
 		}
 
-		result = append(result, terraformtype.NewHelperResourceTestStepInfo(x, pass.TypesInfo))
+		result = append(result, resource.NewTestStepInfo(x, pass.TypesInfo))
 	})
 
 	return result, nil
@@ -45,6 +45,6 @@ func isResourceTestStep(pass *analysis.Pass, cl *ast.CompositeLit) bool {
 	default:
 		return false
 	case *ast.SelectorExpr:
-		return terraformtype.IsHelperResourceTypeTestStep(pass.TypesInfo.TypeOf(v))
+		return resource.IsTypeTestStep(pass.TypesInfo.TypeOf(v))
 	}
 }

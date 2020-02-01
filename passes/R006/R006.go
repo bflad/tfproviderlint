@@ -5,7 +5,7 @@ package R006
 import (
 	"go/ast"
 
-	"github.com/bflad/tfproviderlint/helper/terraformtype"
+	"github.com/bflad/tfproviderlint/helper/terraformtype/helper/resource"
 	"github.com/bflad/tfproviderlint/passes/commentignore"
 	"github.com/bflad/tfproviderlint/passes/retryfunc"
 	"golang.org/x/tools/go/analysis"
@@ -30,7 +30,7 @@ var Analyzer = &analysis.Analyzer{
 
 func run(pass *analysis.Pass) (interface{}, error) {
 	ignorer := pass.ResultOf[commentignore.Analyzer].(*commentignore.Ignorer)
-	retryFuncs := pass.ResultOf[retryfunc.Analyzer].([]*terraformtype.HelperResourceRetryFuncInfo)
+	retryFuncs := pass.ResultOf[retryfunc.Analyzer].([]*resource.RetryFuncInfo)
 
 	for _, retryFunc := range retryFuncs {
 		if ignorer.ShouldIgnore(analyzerName, retryFunc.Node) {
@@ -46,7 +46,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 				return true
 			}
 
-			if terraformtype.IsHelperResourceFunc(callExpr.Fun, pass.TypesInfo, terraformtype.FuncNameRetryableError) {
+			if resource.IsFunc(callExpr.Fun, pass.TypesInfo, resource.FuncNameRetryableError) {
 				retryableErrorFound = true
 				return false
 			}

@@ -5,7 +5,7 @@ import (
 	"reflect"
 
 	"github.com/bflad/tfproviderlint/helper/astutils"
-	"github.com/bflad/tfproviderlint/helper/terraformtype"
+	"github.com/bflad/tfproviderlint/helper/terraformtype/helper/schema"
 	"golang.org/x/tools/go/analysis"
 	"golang.org/x/tools/go/analysis/passes/inspect"
 	"golang.org/x/tools/go/ast/inspector"
@@ -18,7 +18,7 @@ var Analyzer = &analysis.Analyzer{
 		inspect.Analyzer,
 	},
 	Run:        run,
-	ResultType: reflect.TypeOf([]*terraformtype.HelperSchemaSchemaValidateFuncInfo{}),
+	ResultType: reflect.TypeOf([]*schema.SchemaValidateFuncInfo{}),
 }
 
 func run(pass *analysis.Pass) (interface{}, error) {
@@ -27,7 +27,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 		(*ast.FuncDecl)(nil),
 		(*ast.FuncLit)(nil),
 	}
-	var result []*terraformtype.HelperSchemaSchemaValidateFuncInfo
+	var result []*schema.SchemaValidateFuncInfo
 
 	inspect.Preorder(nodeFilter, func(n ast.Node) {
 		funcDecl, funcDeclOk := n.(*ast.FuncDecl)
@@ -71,7 +71,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 			return
 		}
 
-		result = append(result, terraformtype.NewHelperSchemaSchemaValidateFuncInfo(funcDecl, funcLit, pass.TypesInfo))
+		result = append(result, schema.NewSchemaValidateFuncInfo(funcDecl, funcLit, pass.TypesInfo))
 	})
 
 	return result, nil

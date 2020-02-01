@@ -1,4 +1,4 @@
-package terraformtype
+package schema
 
 import (
 	"go/ast"
@@ -6,8 +6,8 @@ import (
 	"go/types"
 )
 
-// HelperResourceRetryFuncInfo represents all gathered RetryFunc data for easier access
-type HelperResourceRetryFuncInfo struct {
+// SchemaValidateFuncInfo represents all gathered SchemaValidateFunc data for easier access
+type SchemaValidateFuncInfo struct {
 	AstFuncDecl *ast.FuncDecl
 	AstFuncLit  *ast.FuncLit
 	Body        *ast.BlockStmt
@@ -17,9 +17,9 @@ type HelperResourceRetryFuncInfo struct {
 	TypesInfo   *types.Info
 }
 
-// NewHelperResourceRetryFuncInfo instantiates a HelperResourceRetryFuncInfo
-func NewHelperResourceRetryFuncInfo(funcDecl *ast.FuncDecl, funcLit *ast.FuncLit, info *types.Info) *HelperResourceRetryFuncInfo {
-	result := &HelperResourceRetryFuncInfo{
+// NewSchemaValidateFuncInfo instantiates a SchemaValidateFuncInfo
+func NewSchemaValidateFuncInfo(funcDecl *ast.FuncDecl, funcLit *ast.FuncLit, info *types.Info) *SchemaValidateFuncInfo {
+	result := &SchemaValidateFuncInfo{
 		AstFuncDecl: funcDecl,
 		AstFuncLit:  funcLit,
 		TypesInfo:   info,

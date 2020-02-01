@@ -5,7 +5,7 @@ package R003
 import (
 	"golang.org/x/tools/go/analysis"
 
-	"github.com/bflad/tfproviderlint/helper/terraformtype"
+	"github.com/bflad/tfproviderlint/helper/terraformtype/helper/schema"
 	"github.com/bflad/tfproviderlint/passes/commentignore"
 	"github.com/bflad/tfproviderlint/passes/schemaresource"
 )
@@ -30,13 +30,13 @@ var Analyzer = &analysis.Analyzer{
 
 func run(pass *analysis.Pass) (interface{}, error) {
 	ignorer := pass.ResultOf[commentignore.Analyzer].(*commentignore.Ignorer)
-	resources := pass.ResultOf[schemaresource.Analyzer].([]*terraformtype.HelperSchemaResourceInfo)
+	resources := pass.ResultOf[schemaresource.Analyzer].([]*schema.ResourceInfo)
 	for _, resource := range resources {
 		if ignorer.ShouldIgnore(analyzerName, resource.AstCompositeLit) {
 			continue
 		}
 
-		kvExpr := resource.Fields[terraformtype.ResourceFieldExists]
+		kvExpr := resource.Fields[schema.ResourceFieldExists]
 
 		if kvExpr == nil {
 			continue

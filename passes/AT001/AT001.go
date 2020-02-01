@@ -9,7 +9,7 @@ import (
 
 	"golang.org/x/tools/go/analysis"
 
-	"github.com/bflad/tfproviderlint/helper/terraformtype"
+	"github.com/bflad/tfproviderlint/helper/terraformtype/helper/resource"
 	"github.com/bflad/tfproviderlint/passes/acctestcase"
 	"github.com/bflad/tfproviderlint/passes/commentignore"
 )
@@ -38,7 +38,7 @@ var Analyzer = &analysis.Analyzer{
 
 func run(pass *analysis.Pass) (interface{}, error) {
 	ignorer := pass.ResultOf[commentignore.Analyzer].(*commentignore.Ignorer)
-	testCases := pass.ResultOf[acctestcase.Analyzer].([]*terraformtype.HelperResourceTestCaseInfo)
+	testCases := pass.ResultOf[acctestcase.Analyzer].([]*resource.TestCaseInfo)
 	for _, testCase := range testCases {
 		fileName := filepath.Base(pass.Fset.File(testCase.AstCompositeLit.Pos()).Name())
 
@@ -50,7 +50,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 			continue
 		}
 
-		if testCase.DeclaresField(terraformtype.TestCaseFieldCheckDestroy) {
+		if testCase.DeclaresField(resource.TestCaseFieldCheckDestroy) {
 			continue
 		}
 

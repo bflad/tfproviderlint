@@ -2,8 +2,9 @@
 
 BREAKING CHANGES
 
-* passes/schemamap: `GetSchemaAttributes` has been replaced with `helper/terraformtype.GetSchemaMapSchemas`
-* passes/schemamap: `GetSchemaAttributeNames` has been replaced with `helper/terraformtype.GetSchemaMapAttributeNames`
+* helper/terraformtype: Refactored into helper/resource and helper/schema subpackages
+* passes/schemamap: `GetSchemaAttributes` has been replaced with `helper/terraformtype/helper/schema.GetSchemaMapSchemas`
+* passes/schemamap: `GetSchemaAttributeNames` has been replaced with `helper/terraformtype/helper/schema.GetSchemaMapAttributeNames`
 
 FEATURES
 
@@ -18,10 +19,10 @@ FEATURES
 
 ENHANCEMENTS:
 
-* helper/analysisutils: `DeprecatedWithReplacementSelectorExprAnalyzer` and `SelectorExprAnalyzer` Analyzer generators
+* helper/analysisutils: `DeprecatedWithReplacementSelectorExprAnalyzer`, `FunctionCallExprAnalyzer`, `ReceiverMethodCallExprAnalyzer`, and `SelectorExprAnalyzer` Analyzer generators
 * helper/astutils: `ExprBoolValue`, `ExprIntValue`, and `ExprStringValue` functions
-* helper/terraformtype: `GetSchemaMapAttributeNames`, `GetSchemaMapSchemas`, and `IsMapStringHelperSchemaTypeSchema` functions
-* helper/terraformtype: `HelperSchemaResourceInfo` type `IsDataSource` and `IsResource` receiver methods
+* helper/terraformtype/helper/schema: `GetSchemaMapAttributeNames`, `GetSchemaMapSchemas`, and `IsMapStringHelperSchemaTypeSchema` functions
+* helper/terraformtype/helper/schema: `ResourceInfo` type `IsDataSource` and `IsResource` receiver methods
 
 # v0.8.0
 
@@ -64,7 +65,7 @@ ENHANCEMENTS
 
 BREAKING CHANGES
 
-* The `acctestcase`, `schemaresource`, and `schemaschema` passes now return results with `helper/terraformtype` types (`[]*terraformtype.HelperResourceTestCaseInfo`, `[]*terraformtype.HelperSchemaResourceInfo`, and `[]*terraformtype.HelperSchemaSchemaInfo` respectively) instead of `[]*ast.CompositeLit`. The `*ast.CompositeLit` can be accessed via the `AstCompositeLit` field of each of the new types.
+* The `acctestcase`, `schemaresource`, and `schemaschema` passes now return results with `helper/terraformtype` types (`[]*terraformtype.TestCaseInfo`, `[]*terraformtype.HelperSchemaResourceInfo`, and `[]*terraformtype.HelperSchemaSchemaInfo` respectively) instead of `[]*ast.CompositeLit`. The `*ast.CompositeLit` can be accessed via the `AstCompositeLit` field of each of the new types.
 
 NOTES
 
