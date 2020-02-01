@@ -7,7 +7,7 @@ import (
 
 var Analyzer = analysisutils.SelectorExprAnalyzer(
 	"validatelistuniquestrings",
-	validation.IsPackageFunc,
+	validation.IsFunc,
 	validation.PackagePath,
 	validation.FuncNameValidateListUniqueStrings,
 )
