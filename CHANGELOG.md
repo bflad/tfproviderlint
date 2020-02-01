@@ -8,9 +8,17 @@ BREAKING CHANGES
 FEATURES
 
 * **New Check:** `S024`: check for `Schema` that should omit `ForceNew` in data source schema attributes
+* **New Check:** `V002`: check for deprecated `CIDRNetwork` validation function usage
+* **New Check:** `V003`: check for deprecated `IPRange` validation function usage
+* **New Check:** `V004`: check for deprecated `SingleIP` validation function usage
+* **New Check:** `V005`: check for deprecated `ValidateJsonString` validation function usage
+* **New Check:** `V006`: check for deprecated `ValidateListUniqueStrings` validation function usage
+* **New Check:** `V007`: check for deprecated `ValidateRegexp` validation function usage
+* **New Check:** `V008`: check for deprecated `ValidateRFC3339TimeString` validation function usage
 
 ENHANCEMENTS:
 
+* helper/analysisutils: `DeprecatedWithReplacementSelectorExprAnalyzer` and `SelectorExprAnalyzer` Analyzer generators
 * helper/astutils: `ExprBoolValue`, `ExprIntValue`, and `ExprStringValue` functions
 * helper/terraformtype: `GetSchemaMapAttributeNames`, `GetSchemaMapSchemas`, and `IsMapStringHelperSchemaTypeSchema` functions
 * helper/terraformtype: `HelperSchemaResourceInfo` type `IsDataSource` and `IsResource` receiver methods

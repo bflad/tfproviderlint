@@ -127,6 +127,13 @@ Standard lint checks are enabled by default in the `tfproviderlint` tool. Opt-in
 | Check | Description | Type |
 |---|---|---|
 | [V001](passes/V001/README.md) | check for custom `SchemaValidateFunc` that implement `validation.StringMatch()` or `validation.StringDoesNotMatch()` | AST |
+| [V002](passes/V002/README.md) | check for deprecated `CIDRNetwork` validation function usage | AST |
+| [V003](passes/V003/README.md) | check for deprecated `IPRange` validation function usage | AST |
+| [V004](passes/V004/README.md) | check for deprecated `SingleIP` validation function usage | AST |
+| [V005](passes/V005/README.md) | check for deprecated `ValidateJsonString` validation function usage | AST |
+| [V006](passes/V006/README.md) | check for deprecated `ValidateListUniqueStrings` validation function usage | AST |
+| [V007](passes/V007/README.md) | check for deprecated `ValidateRegexp` validation function usage | AST |
+| [V008](passes/V008/README.md) | check for deprecated `ValidateRFC3339TimeString` validation function usage | AST |
 
 ## Extra Lint Checks
 

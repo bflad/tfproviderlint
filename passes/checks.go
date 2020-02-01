@@ -39,6 +39,13 @@ import (
 	"github.com/bflad/tfproviderlint/passes/S023"
 	"github.com/bflad/tfproviderlint/passes/S024"
 	"github.com/bflad/tfproviderlint/passes/V001"
+	"github.com/bflad/tfproviderlint/passes/V002"
+	"github.com/bflad/tfproviderlint/passes/V003"
+	"github.com/bflad/tfproviderlint/passes/V004"
+	"github.com/bflad/tfproviderlint/passes/V005"
+	"github.com/bflad/tfproviderlint/passes/V006"
+	"github.com/bflad/tfproviderlint/passes/V007"
+	"github.com/bflad/tfproviderlint/passes/V008"
 	"golang.org/x/tools/go/analysis"
 )
 
@@ -84,4 +91,11 @@ var AllChecks = []*analysis.Analyzer{
 	S023.Analyzer,
 	S024.Analyzer,
 	V001.Analyzer,
+	V002.Analyzer,
+	V003.Analyzer,
+	V004.Analyzer,
+	V005.Analyzer,
+	V006.Analyzer,
+	V007.Analyzer,
+	V008.Analyzer,
 }
