@@ -54,3 +54,18 @@ func ExprStringValue(e ast.Expr) *string {
 
 	return nil
 }
+
+// ExprValue fetches a pointer to the Expr
+// If the Expr is nil, returns nil
+func ExprValue(e ast.Expr) *ast.Expr {
+	switch v := e.(type) {
+	case *ast.Ident:
+		if v.Name == "nil" {
+			return nil
+		}
+
+		return &e
+	default:
+		return &e
+	}
+}

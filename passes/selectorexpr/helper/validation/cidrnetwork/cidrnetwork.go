@@ -7,7 +7,7 @@ import (
 
 var Analyzer = analysisutils.SelectorExprAnalyzer(
 	"cidrnetwork",
-	validation.IsPackageFunc,
+	validation.IsFunc,
 	validation.PackagePath,
 	validation.FuncNameCIDRNetwork,
 )

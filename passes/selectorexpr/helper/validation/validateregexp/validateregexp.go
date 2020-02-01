@@ -7,7 +7,7 @@ import (
 
 var Analyzer = analysisutils.SelectorExprAnalyzer(
 	"validateregexp",
-	validation.IsPackageFunc,
+	validation.IsFunc,
 	validation.PackagePath,
 	validation.FuncNameValidateRegexp,
 )

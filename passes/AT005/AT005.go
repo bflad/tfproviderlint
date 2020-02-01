@@ -6,7 +6,7 @@ import (
 	"go/ast"
 	"strings"
 
-	"github.com/bflad/tfproviderlint/helper/terraformtype"
+	"github.com/bflad/tfproviderlint/helper/terraformtype/helper/resource"
 	"github.com/bflad/tfproviderlint/passes/testfunc"
 	"golang.org/x/tools/go/analysis"
 )
@@ -43,8 +43,8 @@ func run(pass *analysis.Pass) (interface{}, error) {
 				return true
 			}
 
-			isResourceTest := terraformtype.IsHelperResourceFunc(callExpr.Fun, pass.TypesInfo, terraformtype.FuncNameTest)
-			isResourceParallelTest := terraformtype.IsHelperResourceFunc(callExpr.Fun, pass.TypesInfo, terraformtype.FuncNameParallelTest)
+			isResourceTest := resource.IsFunc(callExpr.Fun, pass.TypesInfo, resource.FuncNameTest)
+			isResourceParallelTest := resource.IsFunc(callExpr.Fun, pass.TypesInfo, resource.FuncNameParallelTest)
 
 			if !isResourceTest && !isResourceParallelTest {
 				return true

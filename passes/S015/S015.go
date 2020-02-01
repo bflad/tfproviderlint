@@ -10,7 +10,7 @@ import (
 
 	"golang.org/x/tools/go/analysis"
 
-	"github.com/bflad/tfproviderlint/helper/terraformtype"
+	"github.com/bflad/tfproviderlint/helper/terraformtype/helper/schema"
 	"github.com/bflad/tfproviderlint/passes/commentignore"
 	"github.com/bflad/tfproviderlint/passes/schemamap"
 )
@@ -44,7 +44,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 			continue
 		}
 
-		for _, attributeName := range terraformtype.GetSchemaMapAttributeNames(smap) {
+		for _, attributeName := range schema.GetSchemaMapAttributeNames(smap) {
 			switch t := attributeName.(type) {
 			default:
 				continue

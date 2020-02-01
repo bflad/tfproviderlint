@@ -8,7 +8,7 @@ import (
 	"golang.org/x/tools/go/analysis/passes/inspect"
 	"golang.org/x/tools/go/ast/inspector"
 
-	"github.com/bflad/tfproviderlint/helper/terraformtype"
+	"github.com/bflad/tfproviderlint/helper/terraformtype/helper/schema"
 	"github.com/bflad/tfproviderlint/passes/schemamap"
 )
 
@@ -20,7 +20,7 @@ var Analyzer = &analysis.Analyzer{
 		schemamap.Analyzer,
 	},
 	Run:        run,
-	ResultType: reflect.TypeOf([]*terraformtype.HelperSchemaSchemaInfo{}),
+	ResultType: reflect.TypeOf([]*schema.SchemaInfo{}),
 }
 
 func run(pass *analysis.Pass) (interface{}, error) {
@@ -29,11 +29,11 @@ func run(pass *analysis.Pass) (interface{}, error) {
 	nodeFilter := []ast.Node{
 		(*ast.CompositeLit)(nil),
 	}
-	var result []*terraformtype.HelperSchemaSchemaInfo
+	var result []*schema.SchemaInfo
 
 	for _, smap := range schemamaps {
-		for _, schema := range terraformtype.GetSchemaMapSchemas(smap) {
-			result = append(result, terraformtype.NewHelperSchemaSchemaInfo(schema, pass.TypesInfo))
+		for _, mapSchema := range schema.GetSchemaMapSchemas(smap) {
+			result = append(result, schema.NewSchemaInfo(mapSchema, pass.TypesInfo))
 		}
 	}
 
@@ -44,7 +44,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 			return
 		}
 
-		result = append(result, terraformtype.NewHelperSchemaSchemaInfo(x, pass.TypesInfo))
+		result = append(result, schema.NewSchemaInfo(x, pass.TypesInfo))
 	})
 
 	return result, nil
@@ -55,6 +55,6 @@ func isSchemaSchema(pass *analysis.Pass, cl *ast.CompositeLit) bool {
 	default:
 		return false
 	case *ast.SelectorExpr:
-		return terraformtype.IsHelperSchemaTypeSchema(pass.TypesInfo.TypeOf(v))
+		return schema.IsTypeSchema(pass.TypesInfo.TypeOf(v))
 	}
 }

@@ -1,10 +1,11 @@
-package terraformtype
+package resource
 
 import (
 	"go/ast"
 	"go/types"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/resource"
+	"github.com/bflad/tfproviderlint/helper/astutils"
+	tfresource "github.com/hashicorp/terraform-plugin-sdk/helper/resource"
 )
 
 const (
@@ -21,20 +22,20 @@ const (
 	TypeNameTestCase = `TestCase`
 )
 
-// HelperResourceTestCaseInfo represents all gathered TestCase data for easier access
-type HelperResourceTestCaseInfo struct {
+// TestCaseInfo represents all gathered TestCase data for easier access
+type TestCaseInfo struct {
 	AstCompositeLit *ast.CompositeLit
 	Fields          map[string]*ast.KeyValueExpr
-	TestCase        *resource.TestCase
+	TestCase        *tfresource.TestCase
 	TypesInfo       *types.Info
 }
 
-// NewHelperResourceTestCaseInfo instantiates a HelperResourceTestCaseInfo
-func NewHelperResourceTestCaseInfo(cl *ast.CompositeLit, info *types.Info) *HelperResourceTestCaseInfo {
-	result := &HelperResourceTestCaseInfo{
+// NewTestCaseInfo instantiates a TestCaseInfo
+func NewTestCaseInfo(cl *ast.CompositeLit, info *types.Info) *TestCaseInfo {
+	result := &TestCaseInfo{
 		AstCompositeLit: cl,
-		Fields:          astCompositeLitFields(cl),
-		TestCase:        &resource.TestCase{},
+		Fields:          astutils.CompositeLitFields(cl),
+		TestCase:        &tfresource.TestCase{},
 		TypesInfo:       info,
 	}
 
@@ -42,17 +43,17 @@ func NewHelperResourceTestCaseInfo(cl *ast.CompositeLit, info *types.Info) *Help
 }
 
 // DeclaresField returns true if the field name is present in the AST
-func (info *HelperResourceTestCaseInfo) DeclaresField(fieldName string) bool {
+func (info *TestCaseInfo) DeclaresField(fieldName string) bool {
 	return info.Fields[fieldName] != nil
 }
 
-// IsHelperResourceTypeTestCase returns if the type is TestCase from the helper/schema package
-func IsHelperResourceTypeTestCase(t types.Type) bool {
+// IsTypeTestCase returns if the type is TestCase from the helper/schema package
+func IsTypeTestCase(t types.Type) bool {
 	switch t := t.(type) {
 	case *types.Named:
-		return IsHelperResourceNamedType(t, TypeNameTestCase)
+		return IsNamedType(t, TypeNameTestCase)
 	case *types.Pointer:
-		return IsHelperResourceTypeTestCase(t.Elem())
+		return IsTypeTestCase(t.Elem())
 	default:
 		return false
 	}

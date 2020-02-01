@@ -28,6 +28,52 @@ func DeprecatedWithReplacementSelectorExprRunner(analyzerName string, selectorEx
 	}
 }
 
+// FunctionCallExprRunner returns an Analyzer runner for function *ast.CallExpr
+func FunctionCallExprRunner(packageFunc func(ast.Expr, *types.Info, string) bool, functionName string) func(*analysis.Pass) (interface{}, error) {
+	return func(pass *analysis.Pass) (interface{}, error) {
+		inspect := pass.ResultOf[inspect.Analyzer].(*inspector.Inspector)
+		nodeFilter := []ast.Node{
+			(*ast.CallExpr)(nil),
+		}
+		var result []*ast.CallExpr
+
+		inspect.Preorder(nodeFilter, func(n ast.Node) {
+			callExpr := n.(*ast.CallExpr)
+
+			if !packageFunc(callExpr.Fun, pass.TypesInfo, functionName) {
+				return
+			}
+
+			result = append(result, callExpr)
+		})
+
+		return result, nil
+	}
+}
+
+// ReceiverMethodCallExprRunner returns an Analyzer runner for receiver method *ast.CallExpr
+func ReceiverMethodCallExprRunner(packageReceiverMethodFunc func(ast.Expr, *types.Info, string, string) bool, receiverName string, methodName string) func(*analysis.Pass) (interface{}, error) {
+	return func(pass *analysis.Pass) (interface{}, error) {
+		inspect := pass.ResultOf[inspect.Analyzer].(*inspector.Inspector)
+		nodeFilter := []ast.Node{
+			(*ast.CallExpr)(nil),
+		}
+		var result []*ast.CallExpr
+
+		inspect.Preorder(nodeFilter, func(n ast.Node) {
+			callExpr := n.(*ast.CallExpr)
+
+			if !packageReceiverMethodFunc(callExpr.Fun, pass.TypesInfo, receiverName, methodName) {
+				return
+			}
+
+			result = append(result, callExpr)
+		})
+
+		return result, nil
+	}
+}
+
 // SelectorExprRunner returns an Analyzer runner for *ast.SelectorExpr
 func SelectorExprRunner(packageFunc func(ast.Expr, *types.Info, string) bool, selectorName string) func(*analysis.Pass) (interface{}, error) {
 	return func(pass *analysis.Pass) (interface{}, error) {

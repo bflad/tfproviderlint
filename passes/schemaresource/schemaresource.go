@@ -4,7 +4,7 @@ import (
 	"go/ast"
 	"reflect"
 
-	"github.com/bflad/tfproviderlint/helper/terraformtype"
+	"github.com/bflad/tfproviderlint/helper/terraformtype/helper/schema"
 	"golang.org/x/tools/go/analysis"
 	"golang.org/x/tools/go/analysis/passes/inspect"
 	"golang.org/x/tools/go/ast/inspector"
@@ -17,7 +17,7 @@ var Analyzer = &analysis.Analyzer{
 		inspect.Analyzer,
 	},
 	Run:        run,
-	ResultType: reflect.TypeOf([]*terraformtype.HelperSchemaResourceInfo{}),
+	ResultType: reflect.TypeOf([]*schema.ResourceInfo{}),
 }
 
 func run(pass *analysis.Pass) (interface{}, error) {
@@ -25,7 +25,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 	nodeFilter := []ast.Node{
 		(*ast.CompositeLit)(nil),
 	}
-	var result []*terraformtype.HelperSchemaResourceInfo
+	var result []*schema.ResourceInfo
 
 	inspect.Preorder(nodeFilter, func(n ast.Node) {
 		x := n.(*ast.CompositeLit)
@@ -34,7 +34,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 			return
 		}
 
-		result = append(result, terraformtype.NewHelperSchemaResourceInfo(x, pass.TypesInfo))
+		result = append(result, schema.NewResourceInfo(x, pass.TypesInfo))
 	})
 
 	return result, nil
@@ -45,6 +45,6 @@ func isSchemaResource(pass *analysis.Pass, cl *ast.CompositeLit) bool {
 	default:
 		return false
 	case *ast.SelectorExpr:
-		return terraformtype.IsHelperSchemaTypeResource(pass.TypesInfo.TypeOf(v))
+		return schema.IsTypeResource(pass.TypesInfo.TypeOf(v))
 	}
 }

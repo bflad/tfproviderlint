@@ -35,6 +35,32 @@ That should be replaced with:
 	}
 }
 
+// FunctionCallExprAnalyzer returns an Analyzer for function *ast.CallExpr
+func FunctionCallExprAnalyzer(analyzerName string, packageFunc func(ast.Expr, *types.Info, string) bool, packagePath string, functionName string) *analysis.Analyzer {
+	return &analysis.Analyzer{
+		Name: analyzerName,
+		Doc:  fmt.Sprintf("find %s.%s calls for later passes", packagePath, functionName),
+		Requires: []*analysis.Analyzer{
+			inspect.Analyzer,
+		},
+		Run:        FunctionCallExprRunner(packageFunc, functionName),
+		ResultType: reflect.TypeOf([]*ast.CallExpr{}),
+	}
+}
+
+// ReceiverMethodCallExprAnalyzer returns an Analyzer for receiver method *ast.CallExpr
+func ReceiverMethodCallExprAnalyzer(analyzerName string, packageReceiverMethodFunc func(ast.Expr, *types.Info, string, string) bool, packagePath string, receiverName string, methodName string) *analysis.Analyzer {
+	return &analysis.Analyzer{
+		Name: analyzerName,
+		Doc:  fmt.Sprintf("find (%s.%s).%s calls for later passes", packagePath, receiverName, methodName),
+		Requires: []*analysis.Analyzer{
+			inspect.Analyzer,
+		},
+		Run:        ReceiverMethodCallExprRunner(packageReceiverMethodFunc, receiverName, methodName),
+		ResultType: reflect.TypeOf([]*ast.CallExpr{}),
+	}
+}
+
 // SelectorExprAnalyzer returns an Analyzer for *ast.SelectorExpr
 func SelectorExprAnalyzer(analyzerName string, packageFunc func(ast.Expr, *types.Info, string) bool, packagePath string, selectorName string) *analysis.Analyzer {
 	return &analysis.Analyzer{

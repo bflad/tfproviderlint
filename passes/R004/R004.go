@@ -8,9 +8,9 @@ import (
 
 	"golang.org/x/tools/go/analysis"
 
-	"github.com/bflad/tfproviderlint/helper/terraformtype"
+	"github.com/bflad/tfproviderlint/helper/terraformtype/helper/schema"
 	"github.com/bflad/tfproviderlint/passes/commentignore"
-	"github.com/bflad/tfproviderlint/passes/resourcedataset"
+	"github.com/bflad/tfproviderlint/passes/callexpr/helper/schema/resourcedataset"
 )
 
 const Doc = `check for ResourceData.Set() calls using incompatible value types
@@ -74,7 +74,7 @@ func isAllowedType(t types.Type) bool {
 			return isAllowedType(t.Elem().Underlying())
 		}
 	case *types.Named:
-		return terraformtype.IsHelperSchemaNamedType(t, terraformtype.TypeNameSet)
+		return schema.IsNamedType(t, schema.TypeNameSet)
 	case *types.Pointer:
 		return isAllowedType(t.Elem())
 	case *types.Slice:
