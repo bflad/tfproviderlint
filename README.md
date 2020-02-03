@@ -173,7 +173,7 @@ Helpful tooling for development:
 
 The `go/analysis` framework and this codebase are designed for flexibility. You may wish to permanently disable certain default checks or even implement your own provider-specific checks. An example of how to incorporate all default and extra checks in a CLI command can be found in `cmd/tfproviderlintx`. To permanently exclude checks, each desired `Analyzer` must be individually included, similar to how `AllChecks()` is built in `passes/checks.go`.
 
-The `passes` directory also includes the underlying `Analyzer` which iteratively gather AST-based information about the Terraform Provider code being analyzed. For example, `passes/retryfunc` returns information from all named and anonymous declarations of `helper/resource.RetryFunc()`.
+The `passes` directory also includes the underlying `Analyzer` which iteratively gather AST-based information about the Terraform Provider code being analyzed. For example, `passes/helper/resource/retryfuncinfo` returns information from all named and anonymous declarations of `helper/resource.RetryFunc()`.
 
 Primatives for working with Terraform Plugin SDK primatives can be found in `helper/terraformtype`. Primatives for working with the Go AST can be found in `helper/astutils`.
 

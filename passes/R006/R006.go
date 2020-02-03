@@ -7,7 +7,7 @@ import (
 
 	"github.com/bflad/tfproviderlint/helper/terraformtype/helper/resource"
 	"github.com/bflad/tfproviderlint/passes/commentignore"
-	"github.com/bflad/tfproviderlint/passes/retryfunc"
+	"github.com/bflad/tfproviderlint/passes/helper/resource/retryfuncinfo"
 	"golang.org/x/tools/go/analysis"
 )
 
