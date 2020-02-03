@@ -1,4 +1,4 @@
-# passes/schemamap
+# passes/helper/schema/schemamapcompositelit
 
 This pass only works with Terraform schema maps that are fully defined:
 

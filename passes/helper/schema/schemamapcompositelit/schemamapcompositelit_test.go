@@ -1,4 +1,4 @@
-package schemamap
+package schemamapcompositelit
 
 import (
 	"testing"

@@ -9,7 +9,7 @@ import (
 	"golang.org/x/tools/go/ast/inspector"
 
 	"github.com/bflad/tfproviderlint/helper/terraformtype/helper/schema"
-	"github.com/bflad/tfproviderlint/passes/schemamap"
+	"github.com/bflad/tfproviderlint/passes/helper/schema/schemamapcompositelit"
 )
 
 var Analyzer = &analysis.Analyzer{
@@ -17,7 +17,7 @@ var Analyzer = &analysis.Analyzer{
 	Doc:  "find github.com/hashicorp/terraform-plugin-sdk/helper/schema.Schema literals for later passes",
 	Requires: []*analysis.Analyzer{
 		inspect.Analyzer,
-		schemamap.Analyzer,
+		schemamapcompositelit.Analyzer,
 	},
 	Run:        run,
 	ResultType: reflect.TypeOf([]*schema.SchemaInfo{}),
@@ -25,13 +25,13 @@ var Analyzer = &analysis.Analyzer{
 
 func run(pass *analysis.Pass) (interface{}, error) {
 	inspect := pass.ResultOf[inspect.Analyzer].(*inspector.Inspector)
-	schemamaps := pass.ResultOf[schemamap.Analyzer].([]*ast.CompositeLit)
+	schemamapcompositelits := pass.ResultOf[schemamapcompositelit.Analyzer].([]*ast.CompositeLit)
 	nodeFilter := []ast.Node{
 		(*ast.CompositeLit)(nil),
 	}
 	var result []*schema.SchemaInfo
 
-	for _, smap := range schemamaps {
+	for _, smap := range schemamapcompositelits {
 		for _, mapSchema := range schema.GetSchemaMapSchemas(smap) {
 			result = append(result, schema.NewSchemaInfo(mapSchema, pass.TypesInfo))
 		}

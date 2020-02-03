@@ -1,4 +1,4 @@
-package schemamap
+package schemamapcompositelit
 
 import (
 	"go/ast"
@@ -11,7 +11,7 @@ import (
 )
 
 var Analyzer = &analysis.Analyzer{
-	Name: "schema",
+	Name: "schemamapcompositelit",
 	Doc:  "find map[string]*schema.Schema literals for later passes",
 	Requires: []*analysis.Analyzer{
 		inspect.Analyzer,
