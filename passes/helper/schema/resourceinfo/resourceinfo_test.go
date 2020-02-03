@@ -1,4 +1,4 @@
-package schemaresource
+package resourceinfo
 
 import (
 	"testing"

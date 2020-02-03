@@ -7,7 +7,7 @@ import (
 
 	"github.com/bflad/tfproviderlint/helper/terraformtype/helper/schema"
 	"github.com/bflad/tfproviderlint/passes/commentignore"
-	"github.com/bflad/tfproviderlint/passes/schemaresource"
+	"github.com/bflad/tfproviderlint/passes/helper/schema/resourceinfo"
 )
 
 const Doc = `check for Resource having Exists functions
@@ -22,7 +22,7 @@ var Analyzer = &analysis.Analyzer{
 	Name: analyzerName,
 	Doc:  Doc,
 	Requires: []*analysis.Analyzer{
-		schemaresource.Analyzer,
+		resourceinfo.Analyzer,
 		commentignore.Analyzer,
 	},
 	Run: run,
@@ -30,7 +30,7 @@ var Analyzer = &analysis.Analyzer{
 
 func run(pass *analysis.Pass) (interface{}, error) {
 	ignorer := pass.ResultOf[commentignore.Analyzer].(*commentignore.Ignorer)
-	resources := pass.ResultOf[schemaresource.Analyzer].([]*schema.ResourceInfo)
+	resources := pass.ResultOf[resourceinfo.Analyzer].([]*schema.ResourceInfo)
 	for _, resource := range resources {
 		if ignorer.ShouldIgnore(analyzerName, resource.AstCompositeLit) {
 			continue

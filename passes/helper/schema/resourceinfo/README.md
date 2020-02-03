@@ -1,4 +1,4 @@
-# passes/schemaresource
+# passes/helper/schema/resourceinfo
 
 This pass only works with Terraform resources that are fully defined in a single function:
 

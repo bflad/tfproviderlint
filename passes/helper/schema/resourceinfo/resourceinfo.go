@@ -1,4 +1,4 @@
-package schemaresource
+package resourceinfo
 
 import (
 	"go/ast"
@@ -11,7 +11,7 @@ import (
 )
 
 var Analyzer = &analysis.Analyzer{
-	Name: "schemaresource",
+	Name: "resourceinfo",
 	Doc:  "find github.com/hashicorp/terraform-plugin-sdk/helper/schema.Resource literals for later passes",
 	Requires: []*analysis.Analyzer{
 		inspect.Analyzer,
