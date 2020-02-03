@@ -3,7 +3,7 @@ package V003
 import (
 	"github.com/bflad/tfproviderlint/helper/analysisutils"
 	"github.com/bflad/tfproviderlint/helper/terraformtype/helper/validation"
-	"github.com/bflad/tfproviderlint/passes/selectorexpr/helper/validation/iprange"
+	"github.com/bflad/tfproviderlint/passes/helper/validation/iprangeselectorexpr"
 )
 
 var Analyzer = analysisutils.DeprecatedWithReplacementSelectorExprAnalyzer(

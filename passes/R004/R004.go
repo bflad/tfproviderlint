@@ -10,7 +10,7 @@ import (
 
 	"github.com/bflad/tfproviderlint/helper/terraformtype/helper/schema"
 	"github.com/bflad/tfproviderlint/passes/commentignore"
-	"github.com/bflad/tfproviderlint/passes/callexpr/helper/schema/resourcedataset"
+	"github.com/bflad/tfproviderlint/passes/helper/schema/resourcedatasetcallexpr"
 )
 
 const Doc = `check for ResourceData.Set() calls using incompatible value types

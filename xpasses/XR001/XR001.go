@@ -8,7 +8,7 @@ import (
 	"golang.org/x/tools/go/analysis"
 
 	"github.com/bflad/tfproviderlint/passes/commentignore"
-	"github.com/bflad/tfproviderlint/passes/callexpr/helper/schema/resourcedatagetokexists"
+	"github.com/bflad/tfproviderlint/passes/helper/schema/resourcedatagetokexistscallexpr"
 )
 
 const Doc = `check for ResourceData.GetOkExists() calls

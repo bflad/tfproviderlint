@@ -3,7 +3,7 @@ package V007
 import (
 	"github.com/bflad/tfproviderlint/helper/analysisutils"
 	"github.com/bflad/tfproviderlint/helper/terraformtype/helper/validation"
-	"github.com/bflad/tfproviderlint/passes/selectorexpr/helper/validation/validateregexp"
+	"github.com/bflad/tfproviderlint/passes/helper/validation/validateregexpselectorexpr"
 )
 
 var Analyzer = analysisutils.DeprecatedWithReplacementSelectorExprAnalyzer(
