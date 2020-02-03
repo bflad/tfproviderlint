@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/bflad/tfproviderlint/helper/terraformtype/helper/resource"
-	"github.com/bflad/tfproviderlint/passes/testfunc"
+	"github.com/bflad/tfproviderlint/passes/testfuncdecl"
 	"golang.org/x/tools/go/analysis"
 )
 
@@ -23,13 +23,13 @@ var Analyzer = &analysis.Analyzer{
 	Name: analyzerName,
 	Doc:  Doc,
 	Requires: []*analysis.Analyzer{
-		testfunc.Analyzer,
+		testfuncdecl.Analyzer,
 	},
 	Run: run,
 }
 
 func run(pass *analysis.Pass) (interface{}, error) {
-	testFuncs := pass.ResultOf[testfunc.Analyzer].([]*ast.FuncDecl)
+	testFuncs := pass.ResultOf[testfuncdecl.Analyzer].([]*ast.FuncDecl)
 
 	for _, testFunc := range testFuncs {
 		if strings.HasPrefix(testFunc.Name.Name, "TestAcc") {

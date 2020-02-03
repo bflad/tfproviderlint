@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/bflad/tfproviderlint/passes/testfunc"
+	"github.com/bflad/tfproviderlint/passes/testfuncdecl"
 	"golang.org/x/tools/go/analysis"
 )
 
@@ -13,14 +13,14 @@ var Analyzer = &analysis.Analyzer{
 	Name: "acctestfunc",
 	Doc:  "find function names starting with TestAcc for later passes",
 	Requires: []*analysis.Analyzer{
-		testfunc.Analyzer,
+		testfuncdecl.Analyzer,
 	},
 	Run:        run,
 	ResultType: reflect.TypeOf([]*ast.FuncDecl{}),
 }
 
 func run(pass *analysis.Pass) (interface{}, error) {
-	testFuncs := pass.ResultOf[testfunc.Analyzer].([]*ast.FuncDecl)
+	testFuncs := pass.ResultOf[testfuncdecl.Analyzer].([]*ast.FuncDecl)
 
 	var result []*ast.FuncDecl
 

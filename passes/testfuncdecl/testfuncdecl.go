@@ -1,4 +1,4 @@
-package testfunc
+package testfuncdecl
 
 import (
 	"go/ast"
