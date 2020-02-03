@@ -6,7 +6,7 @@ import (
 	"go/ast"
 
 	"github.com/bflad/tfproviderlint/helper/terraformtype/helper/resource"
-	"github.com/bflad/tfproviderlint/passes/acctestfunc"
+	"github.com/bflad/tfproviderlint/passes/testaccfuncdecl"
 	"golang.org/x/tools/go/analysis"
 )
 
@@ -21,13 +21,13 @@ var Analyzer = &analysis.Analyzer{
 	Name: analyzerName,
 	Doc:  Doc,
 	Requires: []*analysis.Analyzer{
-		acctestfunc.Analyzer,
+		testaccfuncdecl.Analyzer,
 	},
 	Run: run,
 }
 
 func run(pass *analysis.Pass) (interface{}, error) {
-	testFuncs := pass.ResultOf[acctestfunc.Analyzer].([]*ast.FuncDecl)
+	testFuncs := pass.ResultOf[testaccfuncdecl.Analyzer].([]*ast.FuncDecl)
 
 	for _, testFunc := range testFuncs {
 		var resourceTestInvocations int

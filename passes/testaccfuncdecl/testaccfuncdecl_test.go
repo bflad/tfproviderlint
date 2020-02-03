@@ -1,4 +1,4 @@
-package acctestfunc
+package testaccfuncdecl
 
 import (
 	"testing"
