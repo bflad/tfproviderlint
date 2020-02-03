@@ -67,6 +67,10 @@ func NewSchemaInfo(cl *ast.CompositeLit, info *types.Info) *SchemaInfo {
 		TypesInfo:       info,
 	}
 
+	if kvExpr := result.Fields[SchemaFieldAtLeastOneOf]; kvExpr != nil && astutils.ExprValue(kvExpr.Value) != nil {
+		result.Schema.AtLeastOneOf = []string{}
+	}
+
 	if kvExpr := result.Fields[SchemaFieldComputed]; kvExpr != nil && astutils.ExprBoolValue(kvExpr.Value) != nil {
 		result.Schema.Computed = *astutils.ExprBoolValue(kvExpr.Value)
 	}
@@ -79,8 +83,16 @@ func NewSchemaInfo(cl *ast.CompositeLit, info *types.Info) *SchemaInfo {
 		result.Schema.Default = func() (interface{}, error) { return nil, nil }
 	}
 
+	if kvExpr := result.Fields[SchemaFieldDefaultFunc]; kvExpr != nil && astutils.ExprValue(kvExpr.Value) != nil {
+		result.Schema.DefaultFunc = func() (interface{}, error) { return nil, nil }
+	}
+
 	if kvExpr := result.Fields[SchemaFieldDescription]; kvExpr != nil && astutils.ExprStringValue(kvExpr.Value) != nil {
 		result.Schema.Description = *astutils.ExprStringValue(kvExpr.Value)
+	}
+
+	if kvExpr := result.Fields[SchemaFieldExactlyOneOf]; kvExpr != nil && astutils.ExprValue(kvExpr.Value) != nil {
+		result.Schema.ExactlyOneOf = []string{}
 	}
 
 	if kvExpr := result.Fields[SchemaFieldDiffSuppressFunc]; kvExpr != nil && astutils.ExprValue(kvExpr.Value) != nil {
@@ -89,6 +101,10 @@ func NewSchemaInfo(cl *ast.CompositeLit, info *types.Info) *SchemaInfo {
 
 	if kvExpr := result.Fields[SchemaFieldForceNew]; kvExpr != nil && astutils.ExprBoolValue(kvExpr.Value) != nil {
 		result.Schema.ForceNew = *astutils.ExprBoolValue(kvExpr.Value)
+	}
+
+	if kvExpr := result.Fields[SchemaFieldInputDefault]; kvExpr != nil && astutils.ExprStringValue(kvExpr.Value) != nil {
+		result.Schema.InputDefault = *astutils.ExprStringValue(kvExpr.Value)
 	}
 
 	if kvExpr := result.Fields[SchemaFieldMaxItems]; kvExpr != nil && astutils.ExprIntValue(kvExpr.Value) != nil {
@@ -109,6 +125,10 @@ func NewSchemaInfo(cl *ast.CompositeLit, info *types.Info) *SchemaInfo {
 
 	if kvExpr := result.Fields[SchemaFieldSensitive]; kvExpr != nil && astutils.ExprBoolValue(kvExpr.Value) != nil {
 		result.Schema.Sensitive = *astutils.ExprBoolValue(kvExpr.Value)
+	}
+
+	if kvExpr := result.Fields[SchemaFieldStateFunc]; kvExpr != nil && astutils.ExprValue(kvExpr.Value) != nil {
+		result.Schema.StateFunc = func(interface{}) string { return "" }
 	}
 
 	if kvExpr := result.Fields[SchemaFieldValidateFunc]; kvExpr != nil && astutils.ExprValue(kvExpr.Value) != nil {

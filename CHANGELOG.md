@@ -9,6 +9,15 @@ BREAKING CHANGES
 FEATURES
 
 * **New Check:** `S024`: check for `Schema` that should omit `ForceNew` in data source schema attributes
+* **New Check:** `S025`: check for `Schema` of only `Computed` enabled with `AtLeastOneOf` configured
+* **New Check:** `S026`: check for `Schema` of only `Computed` enabled with `ConflictsWith` configured
+* **New Check:** `S027`: check for `Schema` of only `Computed` enabled with `Default` configured
+* **New Check:** `S028`: check for `Schema` of only `Computed` enabled with `DefaultFunc` configured
+* **New Check:** `S029`: check for `Schema` of only `Computed` enabled with `ExactlyOneOf` configured
+* **New Check:** `S030`: check for `Schema` of only `Computed` enabled with `InputDefault` configured
+* **New Check:** `S031`: check for `Schema` of only `Computed` enabled with `MaxItems` configured
+* **New Check:** `S032`: check for `Schema` of only `Computed` enabled with `MinItems` configured
+* **New Check:** `S033`: check for `Schema` of only `Computed` enabled with `StateFunc` configured
 * **New Check:** `V002`: check for deprecated `CIDRNetwork` validation function usage
 * **New Check:** `V003`: check for deprecated `IPRange` validation function usage
 * **New Check:** `V004`: check for deprecated `SingleIP` validation function usage

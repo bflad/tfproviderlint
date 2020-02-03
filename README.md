@@ -121,6 +121,15 @@ Standard lint checks are enabled by default in the `tfproviderlint` tool. Opt-in
 | [S022](passes/S022/README.md) | check for `Schema` of `TypeMap` with invalid `Elem` of `*schema.Resource` | AST |
 | [S023](passes/S023/README.md) | check for `Schema` that should omit `Elem` with incompatible `Type` | AST |
 | [S024](passes/S024/README.md) | check for `Schema` that should omit `ForceNew` in data source schema attributes | AST |
+| [S025](passes/S025/README.md) | check for `Schema` of `Computed` only with `AtLeastOneOf` configured | AST |
+| [S026](passes/S026/README.md) | check for `Schema` of `Computed` only with `ConflictsWith` configured | AST |
+| [S027](passes/S027/README.md) | check for `Schema` of `Computed` only with `Default` configured | AST |
+| [S028](passes/S028/README.md) | check for `Schema` of `Computed` only with `DefaultFunc` configured | AST |
+| [S029](passes/S029/README.md) | check for `Schema` of `Computed` only with `ExactlyOneOf` configured | AST |
+| [S030](passes/S030/README.md) | check for `Schema` of `Computed` only with `InputDefault` configured | AST |
+| [S031](passes/S031/README.md) | check for `Schema` of `Computed` only with `MaxItems` configured | AST |
+| [S032](passes/S032/README.md) | check for `Schema` of `Computed` only with `MinItems` configured | AST |
+| [S033](passes/S033/README.md) | check for `Schema` of `Computed` only with `StateFunc` configured | AST |
 
 ### Standard Validation Checks
 
