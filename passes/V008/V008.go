@@ -8,7 +8,7 @@ import (
 
 var Analyzer = analysisutils.DeprecatedWithReplacementSelectorExprAnalyzer(
 	"V008",
-	validaterfc3339timestring.Analyzer,
+	validaterfc3339timestringselectorexpr.Analyzer,
 	validation.PackageName,
 	validation.FuncNameValidateRFC3339TimeString,
 	validation.PackageName,

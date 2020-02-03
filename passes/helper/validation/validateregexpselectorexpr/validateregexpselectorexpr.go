@@ -1,4 +1,4 @@
-package validateregexp
+package validateregexpselectorexpr
 
 import (
 	"github.com/bflad/tfproviderlint/helper/analysisutils"

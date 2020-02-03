@@ -1,4 +1,4 @@
-package validaterfc3339timestring
+package validaterfc3339timestringselectorexpr
 
 import (
 	"github.com/bflad/tfproviderlint/helper/analysisutils"

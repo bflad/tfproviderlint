@@ -1,4 +1,4 @@
-package resourcedatagetokexists
+package resourcedatagetokexistscallexpr
 
 import (
 	"github.com/bflad/tfproviderlint/helper/analysisutils"

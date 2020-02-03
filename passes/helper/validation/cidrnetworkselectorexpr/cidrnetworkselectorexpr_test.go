@@ -1,4 +1,4 @@
-package cidrnetwork
+package cidrnetworkselectorexpr
 
 import (
 	"testing"

@@ -1,4 +1,4 @@
-package singleip
+package singleipselectorexpr
 
 import (
 	"github.com/bflad/tfproviderlint/helper/analysisutils"

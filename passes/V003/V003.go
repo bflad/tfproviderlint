@@ -8,7 +8,7 @@ import (
 
 var Analyzer = analysisutils.DeprecatedWithReplacementSelectorExprAnalyzer(
 	"V003",
-	iprange.Analyzer,
+	iprangeselectorexpr.Analyzer,
 	validation.PackageName,
 	validation.FuncNameIPRange,
 	validation.PackageName,

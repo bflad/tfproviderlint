@@ -1,4 +1,4 @@
-package accteststep
+package teststepinfo
 
 import (
 	"go/ast"

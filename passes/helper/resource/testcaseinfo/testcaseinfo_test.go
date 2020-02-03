@@ -1,4 +1,4 @@
-package acctestcase
+package testcaseinfo
 
 import (
 	"testing"

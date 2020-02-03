@@ -1,4 +1,4 @@
-package validatejsonstring
+package validatejsonstringselectorexpr
 
 import (
 	"testing"

@@ -1,4 +1,4 @@
-package testcheckresourceattr
+package testcheckresourceattrcallexpr
 
 import (
 	"testing"

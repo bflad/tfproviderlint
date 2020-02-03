@@ -1,4 +1,4 @@
-package testmatchresourceattr
+package testmatchresourceattrcallexpr
 
 import (
 	"github.com/bflad/tfproviderlint/helper/analysisutils"

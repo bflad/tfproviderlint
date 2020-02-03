@@ -25,7 +25,7 @@ var Analyzer = &analysis.Analyzer{
 	Name: analyzerName,
 	Doc:  Doc,
 	Requires: []*analysis.Analyzer{
-		resourcedataset.Analyzer,
+		resourcedatasetcallexpr.Analyzer,
 		commentignore.Analyzer,
 	},
 	Run: run,
@@ -33,7 +33,7 @@ var Analyzer = &analysis.Analyzer{
 
 func run(pass *analysis.Pass) (interface{}, error) {
 	ignorer := pass.ResultOf[commentignore.Analyzer].(*commentignore.Ignorer)
-	sets := pass.ResultOf[resourcedataset.Analyzer].([]*ast.CallExpr)
+	sets := pass.ResultOf[resourcedatasetcallexpr.Analyzer].([]*ast.CallExpr)
 	for _, set := range sets {
 		if ignorer.ShouldIgnore(analyzerName, set) {
 			continue

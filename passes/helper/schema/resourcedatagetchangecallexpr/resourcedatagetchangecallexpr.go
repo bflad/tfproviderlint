@@ -1,4 +1,4 @@
-package resourcedatagetchange
+package resourcedatagetchangecallexpr
 
 import (
 	"github.com/bflad/tfproviderlint/helper/analysisutils"

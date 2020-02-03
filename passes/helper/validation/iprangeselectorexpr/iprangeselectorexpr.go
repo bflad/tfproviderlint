@@ -1,4 +1,4 @@
-package iprange
+package iprangeselectorexpr
 
 import (
 	"github.com/bflad/tfproviderlint/helper/analysisutils"

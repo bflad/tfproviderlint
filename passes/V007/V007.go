@@ -8,7 +8,7 @@ import (
 
 var Analyzer = analysisutils.DeprecatedWithReplacementSelectorExprAnalyzer(
 	"V007",
-	validateregexp.Analyzer,
+	validateregexpselectorexpr.Analyzer,
 	validation.PackageName,
 	validation.FuncNameValidateRegexp,
 	validation.PackageName,

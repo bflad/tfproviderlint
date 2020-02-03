@@ -1,4 +1,4 @@
-package resourcedataget
+package resourcedatagetcallexpr
 
 import (
 	"testing"

@@ -1,4 +1,4 @@
-package validateregexp
+package validateregexpselectorexpr
 
 import (
 	"testing"

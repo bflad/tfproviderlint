@@ -5,10 +5,9 @@ package XR001
 import (
 	"go/ast"
 
-	"golang.org/x/tools/go/analysis"
-
 	"github.com/bflad/tfproviderlint/passes/commentignore"
 	"github.com/bflad/tfproviderlint/passes/helper/schema/resourcedatagetokexistscallexpr"
+	"golang.org/x/tools/go/analysis"
 )
 
 const Doc = `check for ResourceData.GetOkExists() calls
@@ -23,7 +22,7 @@ var Analyzer = &analysis.Analyzer{
 	Name: analyzerName,
 	Doc:  Doc,
 	Requires: []*analysis.Analyzer{
-		resourcedatagetokexists.Analyzer,
+		resourcedatagetokexistscallexpr.Analyzer,
 		commentignore.Analyzer,
 	},
 	Run: run,
@@ -31,7 +30,7 @@ var Analyzer = &analysis.Analyzer{
 
 func run(pass *analysis.Pass) (interface{}, error) {
 	ignorer := pass.ResultOf[commentignore.Analyzer].(*commentignore.Ignorer)
-	callExprs := pass.ResultOf[resourcedatagetokexists.Analyzer].([]*ast.CallExpr)
+	callExprs := pass.ResultOf[resourcedatagetokexistscallexpr.Analyzer].([]*ast.CallExpr)
 	for _, callExpr := range callExprs {
 		if ignorer.ShouldIgnore(analyzerName, callExpr) {
 			continue

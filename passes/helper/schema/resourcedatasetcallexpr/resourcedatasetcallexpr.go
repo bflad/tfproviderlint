@@ -1,4 +1,4 @@
-package resourcedataset
+package resourcedatasetcallexpr
 
 import (
 	"github.com/bflad/tfproviderlint/helper/analysisutils"

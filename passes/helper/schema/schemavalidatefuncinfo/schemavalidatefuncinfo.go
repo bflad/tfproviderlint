@@ -1,4 +1,4 @@
-package schemavalidatefunc
+package schemavalidatefuncinfo
 
 import (
 	"go/ast"

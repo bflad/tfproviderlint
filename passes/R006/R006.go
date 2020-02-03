@@ -23,14 +23,14 @@ var Analyzer = &analysis.Analyzer{
 	Doc:  Doc,
 	Requires: []*analysis.Analyzer{
 		commentignore.Analyzer,
-		retryfunc.Analyzer,
+		retryfuncinfo.Analyzer,
 	},
 	Run: run,
 }
 
 func run(pass *analysis.Pass) (interface{}, error) {
 	ignorer := pass.ResultOf[commentignore.Analyzer].(*commentignore.Ignorer)
-	retryFuncs := pass.ResultOf[retryfunc.Analyzer].([]*resource.RetryFuncInfo)
+	retryFuncs := pass.ResultOf[retryfuncinfo.Analyzer].([]*resource.RetryFuncInfo)
 
 	for _, retryFunc := range retryFuncs {
 		if ignorer.ShouldIgnore(analyzerName, retryFunc.Node) {

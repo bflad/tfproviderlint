@@ -1,4 +1,4 @@
-package iprange
+package iprangeselectorexpr
 
 import (
 	"testing"

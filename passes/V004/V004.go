@@ -8,7 +8,7 @@ import (
 
 var Analyzer = analysisutils.DeprecatedWithReplacementSelectorExprAnalyzer(
 	"V004",
-	singleip.Analyzer,
+	singleipselectorexpr.Analyzer,
 	validation.PackageName,
 	validation.FuncNameSingleIP,
 	validation.PackageName,

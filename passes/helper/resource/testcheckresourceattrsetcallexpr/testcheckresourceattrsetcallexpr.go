@@ -1,4 +1,4 @@
-package testcheckresourceattrset
+package testcheckresourceattrsetcallexpr
 
 import (
 	"github.com/bflad/tfproviderlint/helper/analysisutils"

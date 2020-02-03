@@ -1,4 +1,4 @@
-package singleip
+package singleipselectorexpr
 
 import (
 	"testing"

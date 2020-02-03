@@ -1,4 +1,4 @@
-package resourcedatagetok
+package resourcedatagetokcallexpr
 
 import (
 	"github.com/bflad/tfproviderlint/helper/analysisutils"

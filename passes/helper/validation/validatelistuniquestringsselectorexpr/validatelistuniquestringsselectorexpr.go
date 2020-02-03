@@ -1,4 +1,4 @@
-package validatelistuniquestrings
+package validatelistuniquestringsselectorexpr
 
 import (
 	"github.com/bflad/tfproviderlint/helper/analysisutils"
