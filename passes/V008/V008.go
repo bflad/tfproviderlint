@@ -3,7 +3,7 @@ package V008
 import (
 	"github.com/bflad/tfproviderlint/helper/analysisutils"
 	"github.com/bflad/tfproviderlint/helper/terraformtype/helper/validation"
-	"github.com/bflad/tfproviderlint/passes/selectorexpr/helper/validation/validaterfc3339timestring"
+	"github.com/bflad/tfproviderlint/passes/helper/validation/validaterfc3339timestringselectorexpr"
 )
 
 var Analyzer = analysisutils.DeprecatedWithReplacementSelectorExprAnalyzer(
