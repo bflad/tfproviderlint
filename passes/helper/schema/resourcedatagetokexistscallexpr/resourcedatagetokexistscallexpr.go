@@ -6,7 +6,7 @@ import (
 )
 
 var Analyzer = analysisutils.ReceiverMethodCallExprAnalyzer(
-	"resourcedatagetokexists",
+	"resourcedatagetokexistscallexpr",
 	schema.IsReceiverMethod,
 	schema.PackagePath,
 	schema.TypeNameResourceData,

@@ -6,7 +6,7 @@ import (
 )
 
 var Analyzer = analysisutils.SelectorExprAnalyzer(
-	"singleip",
+	"singleipselectorexpr",
 	validation.IsFunc,
 	validation.PackagePath,
 	validation.FuncNameSingleIP,

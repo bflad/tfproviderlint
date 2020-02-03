@@ -6,7 +6,7 @@ import (
 )
 
 var Analyzer = analysisutils.SelectorExprAnalyzer(
-	"validaterfc3339timestring",
+	"validaterfc3339timestringselectorexpr",
 	validation.IsFunc,
 	validation.PackagePath,
 	validation.FuncNameValidateRFC3339TimeString,

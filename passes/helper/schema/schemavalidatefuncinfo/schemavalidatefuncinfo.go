@@ -12,7 +12,7 @@ import (
 )
 
 var Analyzer = &analysis.Analyzer{
-	Name: "schemavalidatefunc",
+	Name: "schemavalidatefuncinfo",
 	Doc:  "find github.com/hashicorp/terraform-plugin-sdk/helper/schema SchemaValidateFunc declarations for later passes",
 	Requires: []*analysis.Analyzer{
 		inspect.Analyzer,

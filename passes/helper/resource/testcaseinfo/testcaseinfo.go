@@ -11,7 +11,7 @@ import (
 )
 
 var Analyzer = &analysis.Analyzer{
-	Name: "acctestcase",
+	Name: "testcaseinfo",
 	Doc:  "find github.com/hashicorp/terraform-plugin-sdk/helper/resource.TestCase literals for later passes",
 	Requires: []*analysis.Analyzer{
 		inspect.Analyzer,

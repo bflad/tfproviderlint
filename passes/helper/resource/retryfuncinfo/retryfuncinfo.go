@@ -11,7 +11,7 @@ import (
 )
 
 var Analyzer = &analysis.Analyzer{
-	Name: "retryfunc",
+	Name: "retryfuncinfo",
 	Doc:  "find github.com/hashicorp/terraform-plugin-sdk/helper/resource RetryFunc declarations for later passes",
 	Requires: []*analysis.Analyzer{
 		inspect.Analyzer,

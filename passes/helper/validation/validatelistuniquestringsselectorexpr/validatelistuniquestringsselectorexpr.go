@@ -6,7 +6,7 @@ import (
 )
 
 var Analyzer = analysisutils.SelectorExprAnalyzer(
-	"validatelistuniquestrings",
+	"validatelistuniquestringsselectorexpr",
 	validation.IsFunc,
 	validation.PackagePath,
 	validation.FuncNameValidateListUniqueStrings,

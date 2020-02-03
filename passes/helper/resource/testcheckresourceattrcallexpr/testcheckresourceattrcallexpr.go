@@ -6,7 +6,7 @@ import (
 )
 
 var Analyzer = analysisutils.FunctionCallExprAnalyzer(
-	"testcheckresourceattr",
+	"testcheckresourceattrcallexpr",
 	resource.IsFunc,
 	resource.PackagePath,
 	resource.FuncNameTestCheckResourceAttr,
