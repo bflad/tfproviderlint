@@ -8,7 +8,7 @@ import (
 	"github.com/bflad/tfproviderlint/helper/astutils"
 	"github.com/bflad/tfproviderlint/helper/terraformtype/helper/schema"
 	"github.com/bflad/tfproviderlint/passes/commentignore"
-	"github.com/bflad/tfproviderlint/passes/schemavalidatefunc"
+	"github.com/bflad/tfproviderlint/passes/helper/schema/schemavalidatefuncinfo"
 	"golang.org/x/tools/go/analysis"
 )
 
