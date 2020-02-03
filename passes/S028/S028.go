@@ -1,6 +1,4 @@
-// Package S020 defines an Analyzer that checks for
-// Schema with only Computed enabled and ValidateFunc configured
-package S020
+package S028
 
 import (
 	"go/ast"
@@ -11,12 +9,12 @@ import (
 	"golang.org/x/tools/go/analysis"
 )
 
-const Doc = `check for Schema with only Computed enabled and ForceNew enabled
+const Doc = `check for Schema with only Computed enabled and DefaultFunc configured
 
-The S020 analyzer reports cases of schemas which only enables Computed
-and enables ForceNew, which is not valid.`
+The S028 analyzer reports cases of schemas which only enables Computed
+and configures DefaultFunc, which is not valid.`
 
-const analyzerName = "S020"
+const analyzerName = "S028"
 
 var Analyzer = &analysis.Analyzer{
 	Name: analyzerName,
@@ -36,19 +34,15 @@ func run(pass *analysis.Pass) (interface{}, error) {
 			continue
 		}
 
-		if !schemaInfo.Schema.Computed || schemaInfo.Schema.Optional || schemaInfo.Schema.Required {
-			continue
-		}
-
-		if !schemaInfo.Schema.ForceNew {
+		if schemaInfo.Schema.DefaultFunc == nil {
 			continue
 		}
 
 		switch t := schemaInfo.AstCompositeLit.Type.(type) {
 		default:
-			pass.Reportf(schemaInfo.AstCompositeLit.Lbrace, "%s: schema should not only enable Computed and enable ForceNew", analyzerName)
+			pass.Reportf(schemaInfo.AstCompositeLit.Lbrace, "%s: schema should not only enable Computed and configure DefaultFunc", analyzerName)
 		case *ast.SelectorExpr:
-			pass.Reportf(t.Sel.Pos(), "%s: schema should not only enable Computed and enable ForceNew", analyzerName)
+			pass.Reportf(t.Sel.Pos(), "%s: schema should not only enable Computed and configure DefaultFunc", analyzerName)
 		}
 	}
 

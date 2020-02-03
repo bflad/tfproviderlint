@@ -1,6 +1,4 @@
-// Package S020 defines an Analyzer that checks for
-// Schema with only Computed enabled and ValidateFunc configured
-package S020
+package S031
 
 import (
 	"go/ast"
@@ -11,12 +9,12 @@ import (
 	"golang.org/x/tools/go/analysis"
 )
 
-const Doc = `check for Schema with only Computed enabled and ForceNew enabled
+const Doc = `check for Schema with only Computed enabled and MaxItems configured
 
-The S020 analyzer reports cases of schemas which only enables Computed
-and enables ForceNew, which is not valid.`
+The S031 analyzer reports cases of schemas which only enables Computed
+and configures MaxItems, which is not valid.`
 
-const analyzerName = "S020"
+const analyzerName = "S031"
 
 var Analyzer = &analysis.Analyzer{
 	Name: analyzerName,
@@ -36,19 +34,15 @@ func run(pass *analysis.Pass) (interface{}, error) {
 			continue
 		}
 
-		if !schemaInfo.Schema.Computed || schemaInfo.Schema.Optional || schemaInfo.Schema.Required {
-			continue
-		}
-
-		if !schemaInfo.Schema.ForceNew {
+		if !schemaInfo.DeclaresField(schema.SchemaFieldMaxItems) {
 			continue
 		}
 
 		switch t := schemaInfo.AstCompositeLit.Type.(type) {
 		default:
-			pass.Reportf(schemaInfo.AstCompositeLit.Lbrace, "%s: schema should not only enable Computed and enable ForceNew", analyzerName)
+			pass.Reportf(schemaInfo.AstCompositeLit.Lbrace, "%s: schema should not only enable Computed and configure MaxItems", analyzerName)
 		case *ast.SelectorExpr:
-			pass.Reportf(t.Sel.Pos(), "%s: schema should not only enable Computed and enable ForceNew", analyzerName)
+			pass.Reportf(t.Sel.Pos(), "%s: schema should not only enable Computed and configure MaxItems", analyzerName)
 		}
 	}
 
