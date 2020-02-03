@@ -1,4 +1,4 @@
-# passes/schemaschema
+# passes/helper/schema/schemainfo
 
 This pass only works with Terraform schema that are fully defined:
 

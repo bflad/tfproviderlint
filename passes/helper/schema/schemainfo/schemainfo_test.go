@@ -1,4 +1,4 @@
-package schemaschema
+package schemainfo
 
 import (
 	"testing"

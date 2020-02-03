@@ -1,4 +1,4 @@
-package schemaschema
+package schemainfo
 
 import (
 	"go/ast"
@@ -13,7 +13,7 @@ import (
 )
 
 var Analyzer = &analysis.Analyzer{
-	Name: "schemaschema",
+	Name: "schemainfo",
 	Doc:  "find github.com/hashicorp/terraform-plugin-sdk/helper/schema.Schema literals for later passes",
 	Requires: []*analysis.Analyzer{
 		inspect.Analyzer,
