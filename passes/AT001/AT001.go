@@ -10,7 +10,7 @@ import (
 	"golang.org/x/tools/go/analysis"
 
 	"github.com/bflad/tfproviderlint/helper/terraformtype/helper/resource"
-	"github.com/bflad/tfproviderlint/passes/acctestcase"
+	"github.com/bflad/tfproviderlint/passes/helper/resource/testcaseinfo"
 	"github.com/bflad/tfproviderlint/passes/commentignore"
 )
 
