@@ -92,6 +92,8 @@ Standard lint checks are enabled by default in the `tfproviderlint` tool. Opt-in
 | [R004](passes/R004/README.md) | check for `ResourceData.Set()` calls using incompatible value types | AST |
 | [R005](passes/R005/README.md) | check for `ResourceData.HasChange()` calls that can be combined into one `HasChanges()` call | AST |
 | [R006](passes/R006/README.md) | check for `RetryFunc` that omit retryable errors | AST |
+| [R007](passes/R007/README.md) | check for deprecated `(schema.ResourceData).Partial` usage | AST |
+| [R008](passes/R008/README.md) | check for deprecated `(schema.ResourceData).SetPartial` usage | AST |
 
 ### Standard Schema Checks
 

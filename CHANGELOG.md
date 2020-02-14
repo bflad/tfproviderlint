@@ -1,3 +1,10 @@
+# v0.10.0
+
+FEATURES
+
+* **New Check:** `R007`: check for deprecated `(schema.ResourceData).Partial` receiver method usage
+* **New Check:** `R008`: check for deprecated `(schema.ResourceData).SetPartial` receiver method usage
+
 # v0.9.0
 
 BREAKING CHANGES
