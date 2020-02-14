@@ -14,6 +14,8 @@ import (
 	"github.com/bflad/tfproviderlint/passes/R004"
 	"github.com/bflad/tfproviderlint/passes/R005"
 	"github.com/bflad/tfproviderlint/passes/R006"
+	"github.com/bflad/tfproviderlint/passes/R007"
+	"github.com/bflad/tfproviderlint/passes/R008"
 	"github.com/bflad/tfproviderlint/passes/S001"
 	"github.com/bflad/tfproviderlint/passes/S002"
 	"github.com/bflad/tfproviderlint/passes/S003"
@@ -75,6 +77,8 @@ var AllChecks = []*analysis.Analyzer{
 	R004.Analyzer,
 	R005.Analyzer,
 	R006.Analyzer,
+	R007.Analyzer,
+	R008.Analyzer,
 	S001.Analyzer,
 	S002.Analyzer,
 	S003.Analyzer,
