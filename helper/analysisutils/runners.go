@@ -69,6 +69,39 @@ func FunctionCallExprRunner(packageFunc func(ast.Expr, *types.Info, string) bool
 	}
 }
 
+// ReceiverMethodAssignStmtRunner returns an Analyzer runner for receiver method *ast.AssignStmt
+func ReceiverMethodAssignStmtRunner(packageReceiverMethodFunc func(ast.Expr, *types.Info, string, string) bool, receiverName string, methodName string) func(*analysis.Pass) (interface{}, error) {
+	return func(pass *analysis.Pass) (interface{}, error) {
+		inspect := pass.ResultOf[inspect.Analyzer].(*inspector.Inspector)
+		nodeFilter := []ast.Node{
+			(*ast.AssignStmt)(nil),
+		}
+		var result []*ast.AssignStmt
+
+		inspect.Preorder(nodeFilter, func(n ast.Node) {
+			assignStmt := n.(*ast.AssignStmt)
+
+			if len(assignStmt.Rhs) != 1 {
+				return
+			}
+
+			callExpr, ok := assignStmt.Rhs[0].(*ast.CallExpr)
+
+			if !ok {
+				return
+			}
+
+			if !packageReceiverMethodFunc(callExpr.Fun, pass.TypesInfo, receiverName, methodName) {
+				return
+			}
+
+			result = append(result, assignStmt)
+		})
+
+		return result, nil
+	}
+}
+
 // ReceiverMethodCallExprRunner returns an Analyzer runner for receiver method *ast.CallExpr
 func ReceiverMethodCallExprRunner(packageReceiverMethodFunc func(ast.Expr, *types.Info, string, string) bool, receiverName string, methodName string) func(*analysis.Pass) (interface{}, error) {
 	return func(pass *analysis.Pass) (interface{}, error) {
