@@ -6,6 +6,7 @@ import (
 
 	"github.com/bflad/tfproviderlint/helper/astutils"
 	tfschema "github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 )
 
 const (
@@ -41,6 +42,10 @@ func NewResourceInfo(cl *ast.CompositeLit, info *types.Info) *ResourceInfo {
 		Fields:          astutils.CompositeLitFields(cl),
 		Resource:        &tfschema.Resource{},
 		TypesInfo:       info,
+	}
+
+	if kvExpr := result.Fields[ResourceFieldMigrateState]; kvExpr != nil && astutils.ExprValue(kvExpr.Value) != nil {
+		result.Resource.MigrateState = func(int, *terraform.InstanceState, interface{}) (*terraform.InstanceState, error) { return nil, nil }
 	}
 
 	return result
