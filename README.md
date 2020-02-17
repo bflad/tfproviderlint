@@ -95,6 +95,7 @@ Standard lint checks are enabled by default in the `tfproviderlint` tool. Opt-in
 | [R007](passes/R007/README.md) | check for deprecated `(schema.ResourceData).Partial` usage | AST |
 | [R008](passes/R008/README.md) | check for deprecated `(schema.ResourceData).SetPartial` usage | AST |
 | [R009](passes/R009/README.md) | check for Go panic usage | AST |
+| [R010](passes/R010/README.md) | check for `(schema.ResourceData).GetChange` assignment which should use `(schema.ResourceData).Get` | AST |
 
 ### Standard Schema Checks
 

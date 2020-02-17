@@ -5,6 +5,7 @@ FEATURES
 * **New Check:** `R007`: check for deprecated `(schema.ResourceData).Partial` receiver method usage
 * **New Check:** `R008`: check for deprecated `(schema.ResourceData).SetPartial` receiver method usage
 * **New Check:** `R009`: check for Go panic usage
+* **New Check:** `R010`: check for `(schema.ResourceData).GetChange` assignment which should use `(schema.ResourceData).Get`
 
 # v0.9.0
 

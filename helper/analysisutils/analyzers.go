@@ -68,6 +68,19 @@ func FunctionCallExprAnalyzer(analyzerName string, packageFunc func(ast.Expr, *t
 	}
 }
 
+// ReceiverMethodAssignStmtAnalyzer returns an Analyzer for receiver method *ast.AssignStmt
+func ReceiverMethodAssignStmtAnalyzer(analyzerName string, packageReceiverMethodFunc func(ast.Expr, *types.Info, string, string) bool, packagePath string, receiverName string, methodName string) *analysis.Analyzer {
+	return &analysis.Analyzer{
+		Name: analyzerName,
+		Doc:  fmt.Sprintf("find (%s.%s).%s assignments for later passes", packagePath, receiverName, methodName),
+		Requires: []*analysis.Analyzer{
+			inspect.Analyzer,
+		},
+		Run:        ReceiverMethodAssignStmtRunner(packageReceiverMethodFunc, receiverName, methodName),
+		ResultType: reflect.TypeOf([]*ast.AssignStmt{}),
+	}
+}
+
 // ReceiverMethodCallExprAnalyzer returns an Analyzer for receiver method *ast.CallExpr
 func ReceiverMethodCallExprAnalyzer(analyzerName string, packageReceiverMethodFunc func(ast.Expr, *types.Info, string, string) bool, packagePath string, receiverName string, methodName string) *analysis.Analyzer {
 	return &analysis.Analyzer{
