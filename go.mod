@@ -4,5 +4,5 @@ go 1.13
 
 require (
 	github.com/hashicorp/terraform-plugin-sdk v1.6.0
-	golang.org/x/tools v0.0.0-20200106190116-7be0a674c9fc
+	golang.org/x/tools v0.0.0-20200216192241-b320d3a0f5a2
 )
