@@ -99,6 +99,7 @@ Standard lint checks are enabled by default in the `tfproviderlint` tool. Opt-in
 | [R010](passes/R010/README.md) | check for `(schema.ResourceData).GetChange` assignment which should use `(schema.ResourceData).Get` | AST |
 | [R011](passes/R011/README.md) | check for `Resource` that configure `MigrateState` | AST |
 | [R012](passes/R012/README.md) | check for data source `Resource` that configure `CustomizeDiff` | AST |
+| [R013](passes/R013/README.md) | check for `map[string]*Resource` that resource names contain at least one underscore | AST |
 
 ### Standard Schema Checks
 

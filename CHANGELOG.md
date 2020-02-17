@@ -9,6 +9,7 @@ FEATURES
 * **New Check:** `R010`: check for `(schema.ResourceData).GetChange` assignment which should use `(schema.ResourceData).Get`
 * **New Check:** `R011`: check for `Resource` that configure `MigrateState`
 * **New Check:** `R012`: check for data source `Resource` that configure `CustomizeDiff`
+* **New Check:** `R013`: check for `map[string]*Resource` that resource names contain at least one underscore
 * **New Check:** `S034`: check for `Schema` that configure `PromoteSingle`
 
 # v0.9.0
