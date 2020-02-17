@@ -135,6 +135,7 @@ Standard lint checks are enabled by default in the `tfproviderlint` tool. Opt-in
 | [S031](passes/S031/README.md) | check for `Schema` of `Computed` only with `MaxItems` configured | AST |
 | [S032](passes/S032/README.md) | check for `Schema` of `Computed` only with `MinItems` configured | AST |
 | [S033](passes/S033/README.md) | check for `Schema` of `Computed` only with `StateFunc` configured | AST |
+| [S034](passes/S034/README.md) | check for `Schema` that configure `PromoteSingle` | AST |
 
 ### Standard Validation Checks
 
