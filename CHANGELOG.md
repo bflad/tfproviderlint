@@ -2,6 +2,7 @@
 
 FEATURES
 
+* **New Check:** `AT008`: check for acceptance test function declaration `*testing.T` parameter naming
 * **New Check:** `R007`: check for deprecated `(schema.ResourceData).Partial` receiver method usage
 * **New Check:** `R008`: check for deprecated `(schema.ResourceData).SetPartial` receiver method usage
 * **New Check:** `R009`: check for Go panic usage
