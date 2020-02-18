@@ -6,8 +6,11 @@ import (
 	"go/types"
 )
 
-// SchemaValidateFuncInfo represents all gathered SchemaValidateFunc data for easier access
-type SchemaValidateFuncInfo struct {
+// CRUDFuncInfo represents all gathered CreateFunc, ReadFunc, UpdateFunc, and DeleteFunc data for easier access
+// Since Create, Delete, Read, and Update functions all have the same function
+// signature, we cannot differentiate them in AST (except by potentially by
+// function declaration naming heuristics later on).
+type CRUDFuncInfo struct {
 	AstFuncDecl *ast.FuncDecl
 	AstFuncLit  *ast.FuncLit
 	Body        *ast.BlockStmt
@@ -17,9 +20,9 @@ type SchemaValidateFuncInfo struct {
 	TypesInfo   *types.Info
 }
 
-// NewSchemaValidateFuncInfo instantiates a SchemaValidateFuncInfo
-func NewSchemaValidateFuncInfo(node ast.Node, info *types.Info) *SchemaValidateFuncInfo {
-	result := &SchemaValidateFuncInfo{
+// NewCRUDFuncInfo instantiates a CRUDFuncInfo
+func NewCRUDFuncInfo(node ast.Node, info *types.Info) *CRUDFuncInfo {
+	result := &CRUDFuncInfo{
 		TypesInfo: info,
 	}
 

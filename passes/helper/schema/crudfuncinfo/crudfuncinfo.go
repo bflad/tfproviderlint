@@ -1,4 +1,4 @@
-package schemavalidatefuncinfo
+package crudfuncinfo
 
 import (
 	"go/ast"
@@ -12,13 +12,13 @@ import (
 )
 
 var Analyzer = &analysis.Analyzer{
-	Name: "schemavalidatefuncinfo",
-	Doc:  "find github.com/hashicorp/terraform-plugin-sdk/helper/schema SchemaValidateFunc declarations for later passes",
+	Name: "crudfuncinfo",
+	Doc:  "find github.com/hashicorp/terraform-plugin-sdk/helper/schema CreateFunc, ReadFunc, UpdateFunc, and DeleteFunc declarations for later passes",
 	Requires: []*analysis.Analyzer{
 		inspect.Analyzer,
 	},
 	Run:        run,
-	ResultType: reflect.TypeOf([]*schema.SchemaValidateFuncInfo{}),
+	ResultType: reflect.TypeOf([]*schema.CRUDFuncInfo{}),
 }
 
 func run(pass *analysis.Pass) (interface{}, error) {
@@ -27,7 +27,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 		(*ast.FuncDecl)(nil),
 		(*ast.FuncLit)(nil),
 	}
-	var result []*schema.SchemaValidateFuncInfo
+	var result []*schema.CRUDFuncInfo
 
 	inspect.Preorder(nodeFilter, func(n ast.Node) {
 		funcType := astutils.FuncTypeFromNode(n)
@@ -36,23 +36,19 @@ func run(pass *analysis.Pass) (interface{}, error) {
 			return
 		}
 
-		if !astutils.IsFieldListType(funcType.Params, 0, astutils.IsFunctionParameterTypeInterface) {
+		if !astutils.IsFieldListTypePackageType(funcType.Params, 0, pass.TypesInfo, schema.PackagePath, schema.TypeNameResourceData) {
 			return
 		}
 
-		if !astutils.IsFieldListType(funcType.Params, 1, astutils.IsFunctionParameterTypeString) {
+		if !astutils.IsFieldListType(funcType.Params, 1, astutils.IsFunctionParameterTypeInterface) {
 			return
 		}
 
-		if !astutils.IsFieldListType(funcType.Results, 0, astutils.IsFunctionParameterTypeArrayString) {
+		if !astutils.IsFieldListType(funcType.Results, 0, astutils.IsFunctionParameterTypeError) {
 			return
 		}
 
-		if !astutils.IsFieldListType(funcType.Results, 1, astutils.IsFunctionParameterTypeArrayError) {
-			return
-		}
-
-		result = append(result, schema.NewSchemaValidateFuncInfo(n, pass.TypesInfo))
+		result = append(result, schema.NewCRUDFuncInfo(n, pass.TypesInfo))
 	})
 
 	return result, nil

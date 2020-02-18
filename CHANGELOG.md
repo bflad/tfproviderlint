@@ -1,5 +1,9 @@
 # v0.10.0
 
+BREAKING CHANGES
+
+* helper/terraformtype/helper/schema: `NewSchemaValidateFuncInfo` now accepts a single `ast.Node` instead of separate `*ast.FuncDecl` and `*ast.FuncLit`
+
 FEATURES
 
 * **New Check:** `AT008`: check for acceptance test function declaration `*testing.T` parameter naming
@@ -10,6 +14,7 @@ FEATURES
 * **New Check:** `R011`: check for `Resource` that configure `MigrateState`
 * **New Check:** `R012`: check for data source `Resource` that configure `CustomizeDiff`
 * **New Check:** `R013`: check for `map[string]*Resource` that resource names contain at least one underscore
+* **New Check:** `R014`: check for `CreateFunc`, `DeleteFunc`, `ReadFunc`, and `UpdateFunc` parameter naming
 * **New Check:** `S034`: check for `Schema` that configure `PromoteSingle`
 
 # v0.9.0
