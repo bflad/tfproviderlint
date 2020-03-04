@@ -18,63 +18,10 @@ func f() {
 		},
 	}
 
-	/*
-		Skipping for now since there does not seem to be a way to
-		correctly add the want comment for multiline string literals
-
-		_ = resource.TestCase{
-			Steps: []resource.TestStep{
-				{
-					Config: configWithProvider1,
-				},
-			},
-		}
-
-		_ = resource.TestCase{
-			Steps: []resource.TestStep{
-				{
-					Config: configWithProvider2,
-				},
-			},
-		}
-
-		_ = resource.TestCase{
-			Steps: []resource.TestStep{
-				{
-					Config: configWithProvider3(),
-				},
-			},
-		}
-	*/
-
 	_ = resource.TestCase{
 		Steps: []resource.TestStep{
 			{
 				Config: ``,
-			},
-		},
-	}
-
-	_ = resource.TestCase{
-		Steps: []resource.TestStep{
-			{
-				Config: configWithoutProvider1,
-			},
-		},
-	}
-
-	_ = resource.TestCase{
-		Steps: []resource.TestStep{
-			{
-				Config: configWithoutProvider2,
-			},
-		},
-	}
-
-	_ = resource.TestCase{
-		Steps: []resource.TestStep{
-			{
-				Config: configWithoutProvider3(),
 			},
 		},
 	}
@@ -96,30 +43,48 @@ func f() {
 	})
 }
 
-/*
-Skipping for now since there does not seem to be a way to
-correctly add the want comment for multiline string literals
-
-const configWithProvider1 = `
+const configWithProvider1 = /* want "provider declaration should be omitted" */ `
 provider "aws" {
   region = "us-east-1"
 }
 `
 
-var configWithProvider2 = `
+var configWithProvider2 = /* want "provider declaration should be omitted" */ `
 provider "aws" {
   region = "us-east-1"
 }
 `
 
 func configWithProvider3() string {
+	return fmt.Sprintf( /* want "provider declaration should be omitted" */ `
+provider "aws" {
+  region = "us-east-1"
+}
+`)
+}
+
+//lintignore:AT004
+const configWithProviderIgnored1 = `
+provider "aws" {
+  region = "us-east-1"
+}
+`
+
+//lintignore:AT004
+var configWithProviderIgnored2 = `
+provider "aws" {
+  region = "us-east-1"
+}
+`
+
+func configWithProviderIgnored3() string {
+	//lintignore:AT004
 	return fmt.Sprintf(`
 provider "aws" {
   region = "us-east-1"
 }
 `)
 }
-*/
 
 const configWithoutProvider1 = `
 resource "aws_vpc" {

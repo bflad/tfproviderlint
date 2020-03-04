@@ -1,3 +1,12 @@
+# v0.11.0
+
+ENHANCEMENTS
+
+* passes/AT004: Support ignore comments
+* passes/AT005: Support ignore comments
+* passes/AT006: Support ignore comments
+* passes/AT007: Support ignore comments
+
 # v0.10.0
 
 BREAKING CHANGES
