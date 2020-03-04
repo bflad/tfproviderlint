@@ -10,6 +10,12 @@ func TestAccExampleThing_single(t *testing.T) {
 	resource.Test(t, resource.TestCase{})
 }
 
+//lintignore:AT006
+func TestAccExampleThing_ignored(t *testing.T) {
+	resource.Test(t, resource.TestCase{})
+	resource.Test(t, resource.TestCase{})
+}
+
 func TestAccExampleThing_multiple(t *testing.T) { // want "acceptance test function should contain only one Test invocation"
 	resource.Test(t, resource.TestCase{})
 	resource.Test(t, resource.TestCase{})
