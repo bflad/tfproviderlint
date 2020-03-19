@@ -1,3 +1,15 @@
+# v0.12.0
+
+BREAKING CHANGES
+
+* helper/astutils: The `IsFunctionParameterType*` functions have been renamed `IsExprType*` to better denote their purpose.
+
+FEATURES
+
+* **New Check:** `S035`: check for `Schema` with invalid `AtLeastOneOf` attribute references
+* **New Check:** `S036`: check for `Schema` with invalid `ConflictsWith` attribute references
+* **New Check:** `S037`: check for `Schema` with invalid `ExactlyOneOf` attribute references
+
 # v0.11.0
 
 ENHANCEMENTS

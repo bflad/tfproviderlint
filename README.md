@@ -140,6 +140,9 @@ Standard lint checks are enabled by default in the `tfproviderlint` tool. Opt-in
 | [S032](passes/S032/README.md) | check for `Schema` of `Computed` only with `MinItems` configured | AST |
 | [S033](passes/S033/README.md) | check for `Schema` of `Computed` only with `StateFunc` configured | AST |
 | [S034](passes/S034/README.md) | check for `Schema` that configure `PromoteSingle` | AST |
+| [S035](passes/S035/README.md) | check for `Schema` with invalid `AtLeastOneOf` attribute references | AST |
+| [S036](passes/S036/README.md) | check for `Schema` with invalid `ConflictsWith` attribute references | AST |
+| [S037](passes/S037/README.md) | check for `Schema` with invalid `ExactlyOneOf` attribute references | AST |
 
 ### Standard Validation Checks
 
