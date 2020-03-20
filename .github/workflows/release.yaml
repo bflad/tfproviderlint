@@ -1,5 +1,8 @@
-name: Incoming Checks
-on: [pull_request, push]
+name: Release
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
 
 jobs:
   go_test:
@@ -17,12 +20,24 @@ jobs:
     # Ignore duplicate events for local repository pull requests
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository)
     name: "goreleaser"
+    needs: go_test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - uses: actions/setup-go@v1
         with:
           go-version: "1.14"
+      - name: docker login
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin
+      - name: Generate Release Notes
+        run: |
+          sed -n -e "1{/# v/d;}" -e "2{/^$/d;}" "/# $(git describe --abbrev=0 --match='v*.*.*' --tags)/q;p" CHANGELOG.md > RELEASE-NOTES.md
       - name: goreleaser check
         uses: goreleaser/goreleaser-action@v1
         with:
@@ -30,4 +45,11 @@ jobs:
       - name: goreleaser release --skip-publish
         uses: goreleaser/goreleaser-action@v1
         with:
-          args: release --rm-dist --skip-publish  --skip-sign
+          args: release --release-notes RELEASE-NOTES.md --rm-dist --skip-publish
+      - name: goreleaser release
+        uses: goreleaser/goreleaser-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GORELEASER_GITHUB_TOKEN }}
+        with:
+          args: release --release-notes RELEASE-NOTES.md --rm-dist
+          key: ${{ secrets.GPG_KEY }}
