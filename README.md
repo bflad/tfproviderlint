@@ -191,6 +191,26 @@ Helpful tooling for development:
 * If the `Analyzer` reports issues, add to `AllChecks` variable in `passes/checks.go` (or `xpasses/checks.go` for extra checks)
 * Since the [`analysistest` package](https://godoc.org/golang.org/x/tools/go/analysis/analysistest) does not support Go Modules currently, each analyzer that implements testing must add a symlink to the top level `vendor` directory in the `testdata/src/a` directory. e.g. `ln -s ../../../../../vendor passes/NAME/testdata/src/a/vendor`
 
+### Implementing SuggestedFixes Testing
+
+The `helper/analysisfixtest` package contains functionality to verify `SuggestedFixes` by copying a source directory, running the `-fix` command against those copied files, then comparing expected file contents against those fixed files. Similar to the `go/analysis/analysistest` package, the testing can be invoked via:
+
+```go
+import (
+  "testing"
+  
+  "github.com/bflad/tfproviderlint/helper/analysisfixtest"
+  "golang.org/x/tools/go/analysis/analysistest"
+)
+
+func TestAnalyzerFixes(t *testing.T) {
+  testdata := analysistest.TestData()
+  analysisfixtest.Run(t, testdata, Analyzer, "a")
+}
+```
+
+To setup the necessary expected file content verification, the testing expects a directory suffixed with `_fixed` (e.g. `testdata/src/a_fixed` for `testdata/src/a` files). The verification will only check files present in the `_fixed` directory against those fixed.
+
 ### Implementing a Custom Lint Tool
 
 The `go/analysis` framework and this codebase are designed for flexibility. You may wish to permanently disable certain default checks or even implement your own provider-specific checks. An example of how to incorporate all default and extra checks in a CLI command can be found in `cmd/tfproviderlintx`. To permanently exclude checks, each desired `Analyzer` must be individually included, similar to how `AllChecks()` is built in `passes/checks.go`.
