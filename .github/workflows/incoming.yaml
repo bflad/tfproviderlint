@@ -1,0 +1,14 @@
+name: Incoming Checks
+on: [pull_request, push]
+
+jobs:
+  test:
+    # Ignore duplicate events for local repository pull requests
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-go@v1
+        with:
+          go-version: "1.14"
+      - run: go test ./...
