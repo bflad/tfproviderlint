@@ -16,17 +16,79 @@ import (
 )
 
 // DeprecatedReceiverMethodSelectorExprRunner returns an Analyzer runner for deprecated *ast.SelectorExpr
-func DeprecatedReceiverMethodSelectorExprRunner(analyzerName string, selectorExprAnalyzer *analysis.Analyzer, packageName, typeName, methodName string) func(*analysis.Pass) (interface{}, error) {
+func DeprecatedReceiverMethodSelectorExprRunner(analyzerName string, callExprAnalyzer, selectorExprAnalyzer *analysis.Analyzer, packagePath, typeName, methodName string) func(*analysis.Pass) (interface{}, error) {
 	return func(pass *analysis.Pass) (interface{}, error) {
+		callExprs := pass.ResultOf[callExprAnalyzer].([]*ast.CallExpr)
 		selectorExprs := pass.ResultOf[selectorExprAnalyzer].([]*ast.SelectorExpr)
 		ignorer := pass.ResultOf[commentignore.Analyzer].(*commentignore.Ignorer)
+
+		// CallExpr and SelectorExpr will overlap, so only perform one report/fix
+		reported := make(map[token.Pos]struct{})
+
+		for _, callExpr := range callExprs {
+			if ignorer.ShouldIgnore(analyzerName, callExpr) {
+				continue
+			}
+
+			var callExprBuf bytes.Buffer
+
+			if err := format.Node(&callExprBuf, pass.Fset, callExpr); err != nil {
+				return nil, fmt.Errorf("error formatting original: %s", err)
+			}
+
+			pass.Report(analysis.Diagnostic{
+				Pos:     callExpr.Pos(),
+				End:     callExpr.End(),
+				Message: fmt.Sprintf("%s: deprecated %s", analyzerName, callExprBuf.String()),
+				SuggestedFixes: []analysis.SuggestedFix{
+					{
+						Message: "Remove",
+						TextEdits: []analysis.TextEdit{
+							{
+								Pos:     callExpr.Pos(),
+								End:     callExpr.End(),
+								NewText: []byte{},
+							},
+						},
+					},
+				},
+			})
+
+			reported[callExpr.Pos()] = struct{}{}
+		}
 
 		for _, selectorExpr := range selectorExprs {
 			if ignorer.ShouldIgnore(analyzerName, selectorExpr) {
 				continue
 			}
 
-			pass.Reportf(selectorExpr.Pos(), "%s: deprecated (%s.%s).%s", analyzerName, packageName, typeName, methodName)
+			if _, ok := reported[selectorExpr.Pos()]; ok {
+				continue
+			}
+
+			var selectorExprBuf bytes.Buffer
+
+			if err := format.Node(&selectorExprBuf, pass.Fset, selectorExpr); err != nil {
+				return nil, fmt.Errorf("error formatting original: %s", err)
+			}
+
+			pass.Report(analysis.Diagnostic{
+				Pos:     selectorExpr.Pos(),
+				End:     selectorExpr.End(),
+				Message: fmt.Sprintf("%s: deprecated %s", analyzerName, selectorExprBuf.String()),
+				SuggestedFixes: []analysis.SuggestedFix{
+					{
+						Message: "Remove",
+						TextEdits: []analysis.TextEdit{
+							{
+								Pos:     selectorExpr.Pos(),
+								End:     selectorExpr.End(),
+								NewText: []byte{},
+							},
+						},
+					},
+				},
+			})
 		}
 
 		return nil, nil

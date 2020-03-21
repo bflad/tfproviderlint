@@ -2,11 +2,15 @@
 
 BREAKING CHANGES
 
-* helper/analysisutils: `DeprecatedWithReplacementSelectorExprAnalyzer` and `DeprecatedWithReplacementSelectorExprRunner` now expects package paths (e.g. `github.com/hashicorp/terraform-plugin-sdk/helper/validation`) instead of just package names (e.g. `validation`)
+* helper/analysisutils: `DeprecatedReceiverMethodSelectorExprAnalyzer` and `DeprecatedReceiverMethodSelectorExprRunner` now expect an `*ast.CallExpr` analyzer and package path (e.g. `github.com/hashicorp/terraform-plugin-sdk/helper/validation`) instead of just package name (e.g. `validation`)
+* helper/analysisutils: `DeprecatedWithReplacementSelectorExprAnalyzer` and `DeprecatedWithReplacementSelectorExprRunner` now expect package paths (e.g. `github.com/hashicorp/terraform-plugin-sdk/helper/validation`) instead of just package names (e.g. `validation`)
 
 ENHANCEMENTS
 
+* helper/analysisutils: `DeprecatedReceiverMethodSelectorExprRunner` now implements `SuggestedFixes`
 * helper/analysisutils: `DeprecatedWithReplacementSelectorExprRunner` now implements `SuggestedFixes`
+* passes/R007: Support suggested fix
+* passes/R008: Support suggested fix
 * passes/V002: Support suggested fix
 * passes/V003: Support suggested fix
 * passes/V004: Support suggested fix
