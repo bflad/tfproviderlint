@@ -9,20 +9,22 @@ func f() {
 
 	// Comment ignored
 
-	//lintignore:R008
-	d.SetPartial("test")
+	//lintignore:R007
+	d.Partial(true)
 
-	d.SetPartial("test") //lintignore:R008
+	d.Partial(true) //lintignore:R007
 
 	// Failing
 
-	d.SetPartial("test") // want "deprecated d.SetPartial"
+	// want "deprecated d.Partial"
+	// want "deprecated d.Partial"
 
 	fResourceFunc(&d, nil)
 }
 
 func fResourceFunc(d *schema.ResourceData, meta interface{}) error {
-	d.SetPartial("test") // want "deprecated d.SetPartial"
+	// want "deprecated d.Partial"
+	// want "deprecated d.Partial"
 
 	return nil
 }

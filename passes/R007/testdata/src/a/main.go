@@ -16,15 +16,15 @@ func f() {
 
 	// Failing
 
-	d.Partial(true)  // want "deprecated \\(schema.ResourceData\\).Partial"
-	d.Partial(false) // want "deprecated \\(schema.ResourceData\\).Partial"
+	d.Partial(true)  // want "deprecated d.Partial"
+	d.Partial(false) // want "deprecated d.Partial"
 
 	fResourceFunc(&d, nil)
 }
 
 func fResourceFunc(d *schema.ResourceData, meta interface{}) error {
-	d.Partial(true)  // want "deprecated \\(schema.ResourceData\\).Partial"
-	d.Partial(false) // want "deprecated \\(schema.ResourceData\\).Partial"
+	d.Partial(true)  // want "deprecated d.Partial"
+	d.Partial(false) // want "deprecated d.Partial"
 
 	return nil
 }

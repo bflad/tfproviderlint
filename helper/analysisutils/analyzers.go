@@ -12,22 +12,23 @@ import (
 )
 
 // DeprecatedReceiverMethodSelectorExprAnalyzer returns an Analyzer for deprecated *ast.SelectorExpr
-func DeprecatedReceiverMethodSelectorExprAnalyzer(analyzerName string, selectorExprAnalyzer *analysis.Analyzer, packageName, typeName, methodName string) *analysis.Analyzer {
+func DeprecatedReceiverMethodSelectorExprAnalyzer(analyzerName string, callExprAnalyzer, selectorExprAnalyzer *analysis.Analyzer, packagePath, typeName, methodName string) *analysis.Analyzer {
 	doc := fmt.Sprintf(`check for deprecated %[2]s.%[3]s usage
 
 The %[1]s analyzer reports usage of the deprecated:
 
 %[2]s.%[3]s
-`, analyzerName, packageName, typeName, methodName)
+`, analyzerName, packagePath, typeName, methodName)
 
 	return &analysis.Analyzer{
 		Name: analyzerName,
 		Doc:  doc,
 		Requires: []*analysis.Analyzer{
+			callExprAnalyzer,
 			commentignore.Analyzer,
 			selectorExprAnalyzer,
 		},
-		Run: DeprecatedReceiverMethodSelectorExprRunner(analyzerName, selectorExprAnalyzer, packageName, typeName, methodName),
+		Run: DeprecatedReceiverMethodSelectorExprRunner(analyzerName, callExprAnalyzer, selectorExprAnalyzer, packagePath, typeName, methodName),
 	}
 }
 
