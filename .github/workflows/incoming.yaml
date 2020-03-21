@@ -2,6 +2,26 @@ name: Incoming Checks
 on: [pull_request, push]
 
 jobs:
+  go_mod:
+    # Ignore duplicate events for local repository pull requests
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository)
+    name: "go mod"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-go@v1
+        with:
+          go-version: "1.14"
+      - name: go mod
+        run: |
+          echo "==> Checking source code with go mod vendor..."
+          go mod tidy
+          git diff --exit-code -- go.mod go.sum || \
+            (echo; echo "Unexpected difference in go.mod/go.sum files. Run 'go mod tidy' command or revert any go.mod/go.sum changes and commit."; exit 1)
+          echo "==> Checking source code with go mod vendor..."
+          go mod vendor
+          git diff --compact-summary --exit-code -- vendor || \
+            (echo; echo "Unexpected difference in vendor/ directory. Run 'go mod vendor' command or revert any go.mod/go.sum/vendor changes and commit."; exit 1)
   go_test:
     # Ignore duplicate events for local repository pull requests
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository)
