@@ -18,5 +18,6 @@ func f() {
 
 	// Failing
 
-	validation.SingleIP() // want "deprecated validation.SingleIP should be replaced with validation.IsIPAddress"
+	_ = validation.SingleIP // want "deprecated validation.SingleIP should be replaced with validation.IsIPAddress"
+	validation.SingleIP()   // want "deprecated validation.SingleIP() should be replaced with validation.IsIPAddress"
 }

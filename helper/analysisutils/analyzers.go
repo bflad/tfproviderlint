@@ -31,8 +31,8 @@ The %[1]s analyzer reports usage of the deprecated:
 	}
 }
 
-// DeprecatedWithReplacementSelectorExprAnalyzer returns an Analyzer for deprecated *ast.SelectorExpr with replacement
-func DeprecatedWithReplacementSelectorExprAnalyzer(analyzerName string, selectorExprAnalyzer *analysis.Analyzer, oldPackageName, oldSelectorName, newPackageName, newSelectorName string) *analysis.Analyzer {
+// DeprecatedEmptyCallExprWithReplacementSelectorExprAnalyzer returns an Analyzer for deprecated *ast.SelectorExpr with replacement
+func DeprecatedEmptyCallExprWithReplacementSelectorExprAnalyzer(analyzerName string, callExprAnalyzer, selectorExprAnalyzer *analysis.Analyzer, oldPackagePath, oldSelectorName, newPackagePath, newSelectorName string) *analysis.Analyzer {
 	doc := fmt.Sprintf(`check for deprecated %[2]s.%[3]s usage
 
 The %[1]s analyzer reports usage of the deprecated:
@@ -42,7 +42,32 @@ The %[1]s analyzer reports usage of the deprecated:
 That should be replaced with:
 
 %[4]s.%[5]s
-`, analyzerName, oldPackageName, oldSelectorName, newPackageName, newSelectorName)
+`, analyzerName, oldPackagePath, oldSelectorName, newPackagePath, newSelectorName)
+
+	return &analysis.Analyzer{
+		Name: analyzerName,
+		Doc:  doc,
+		Requires: []*analysis.Analyzer{
+			callExprAnalyzer,
+			commentignore.Analyzer,
+			selectorExprAnalyzer,
+		},
+		Run: DeprecatedEmptyCallExprWithReplacementSelectorExprRunner(analyzerName, callExprAnalyzer, selectorExprAnalyzer, oldPackagePath, oldSelectorName, newPackagePath, newSelectorName),
+	}
+}
+
+// DeprecatedWithReplacementSelectorExprAnalyzer returns an Analyzer for deprecated *ast.SelectorExpr with replacement
+func DeprecatedWithReplacementSelectorExprAnalyzer(analyzerName string, selectorExprAnalyzer *analysis.Analyzer, oldPackagePath, oldSelectorName, newPackagePath, newSelectorName string) *analysis.Analyzer {
+	doc := fmt.Sprintf(`check for deprecated %[2]s.%[3]s usage
+
+The %[1]s analyzer reports usage of the deprecated:
+
+%[2]s.%[3]s
+
+That should be replaced with:
+
+%[4]s.%[5]s
+`, analyzerName, oldPackagePath, oldSelectorName, newPackagePath, newSelectorName)
 
 	return &analysis.Analyzer{
 		Name: analyzerName,
@@ -51,7 +76,7 @@ That should be replaced with:
 			commentignore.Analyzer,
 			selectorExprAnalyzer,
 		},
-		Run: DeprecatedWithReplacementSelectorExprRunner(analyzerName, selectorExprAnalyzer, oldPackageName, oldSelectorName, newPackageName, newSelectorName),
+		Run: DeprecatedWithReplacementSelectorExprRunner(analyzerName, selectorExprAnalyzer, oldPackagePath, oldSelectorName, newPackagePath, newSelectorName),
 	}
 }
 
