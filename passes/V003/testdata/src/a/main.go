@@ -18,5 +18,6 @@ func f() {
 
 	// Failing
 
-	validation.IPRange() // want "deprecated validation.IPRange should be replaced with validation.IsIPv4Range"
+	_ = validation.IPRange // want "deprecated validation.IPRange should be replaced with validation.IsIPv4Range"
+	validation.IPRange()   // want "deprecated validation.IPRange() should be replaced with validation.IsIPv4Range"
 }

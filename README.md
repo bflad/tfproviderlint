@@ -42,10 +42,16 @@ $ tfproviderlint help
 
 ### Local Usage
 
-Change into the directory of the Terraform Provider code and run:
+To report issues, change into the directory of the Terraform Provider code and run:
 
 ```console
 $ tfproviderlint ./...
+```
+
+To apply automated fixes for checks that support them, change into the directory of the Terraform Provider code and run:
+
+```console
+$ tfproviderlint -fix ./...
 ```
 
 It is also possible to run via [`go vet`](https://golang.org/cmd/vet/):

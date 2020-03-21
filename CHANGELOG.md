@@ -1,3 +1,20 @@
+# v0.13.0
+
+BREAKING CHANGES
+
+* helper/analysisutils: `DeprecatedWithReplacementSelectorExprAnalyzer` and `DeprecatedWithReplacementSelectorExprRunner` now expects package paths (e.g. `github.com/hashicorp/terraform-plugin-sdk/helper/validation`) instead of just package names (e.g. `validation`)
+
+ENHANCEMENTS
+
+* helper/analysisutils: `DeprecatedWithReplacementSelectorExprRunner` now implements `SuggestedFixes`
+* passes/V002: Support suggested fix
+* passes/V003: Support suggested fix
+* passes/V004: Support suggested fix
+* passes/V005: Support suggested fix
+* passes/V006: Support suggested fix
+* passes/V007: Support suggested fix
+* passes/V008: Support suggested fix
+
 # v0.12.0
 
 BREAKING CHANGES
