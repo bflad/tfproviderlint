@@ -9,6 +9,7 @@ ENHANCEMENTS
 
 * helper/analysisutils: `DeprecatedReceiverMethodSelectorExprRunner` now implements `SuggestedFixes`
 * helper/analysisutils: `DeprecatedWithReplacementSelectorExprRunner` now implements `SuggestedFixes`
+* helper/terraformtype/terraform: Constants and functions for working with `ResourceProvider` type
 * passes/R007: Support suggested fix
 * passes/R008: Support suggested fix
 * passes/V002: Support suggested fix
