@@ -3,6 +3,7 @@
 ENHANCEMENTS
 
 * helper/terraformtype/helper/schema: Constants and functions for working with `Provider` type
+* helper/terraformtype/terraform: Constants and functions for working with `ResourceProviderFactory` type
 
 # v0.13.0
 
