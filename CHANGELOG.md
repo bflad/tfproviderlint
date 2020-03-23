@@ -11,9 +11,12 @@ ENHANCEMENTS
 * helper/analysisutils: `DeprecatedWithReplacementSelectorExprRunner` now implements `SuggestedFixes`
 * helper/astutils: Add `HasFieldListLength`, `IsExprTypeBool`, `IsExprTypeMapStringInterface` functions
 * helper/terraformtype/helper/customdiff: Constants and functions for working with entire package
+* helper/terraformtype/helper/schema: Constants and functions for working with `CustomizeDiffFunc` type
 * helper/terraformtype/helper/schema: Constants and functions for working with `StateUpgradeFunc` type
 * helper/terraformtype/terraform: Constants and functions for working with `ResourceProvider` type
 * passes/helper/customdiff: Passes for collecting `customdiff` function information for further analysis
+* passes/helper/schema: Pass for collecting `CustomizeDiffFunc` function information for further analysis
+* passes/helper/schema: Pass for collecting `StateUpgradeFunc` function information for further analysis
 * passes/R007: Support suggested fix
 * passes/R008: Support suggested fix
 * passes/V002: Support suggested fix
