@@ -1,3 +1,9 @@
+# v0.14.0
+
+ENHANCEMENTS
+
+* helper/terraformtype/helper/schema: Constants and functions for working with `Provider` type
+
 # v0.13.0
 
 BREAKING CHANGES
