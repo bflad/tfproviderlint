@@ -55,7 +55,7 @@ jobs:
           echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin
       - name: Generate Release Notes
         run: |
-          sed -n -e "1{/# v/d;}" -e "2{/^$/d;}" "/# $(git describe --abbrev=0 --match='v*.*.*' --tags)/q;p" CHANGELOG.md > RELEASE-NOTES.md
+          sed -n -e "1{/# v/d;}" -e "2{/^$/d;}" -e "/# $(git describe --abbrev=0 --exclude="$(git describe --abbrev=0 --match='v*.*.*' --tags)" --match='v*.*.*' --tags)/q;p" CHANGELOG.md > RELEASE-NOTES.md
       - name: goreleaser check
         uses: goreleaser/goreleaser-action@v1
         with:
