@@ -18,6 +18,13 @@ func IsExprTypeArrayError(e ast.Expr) bool {
 	return ok && IsExprTypeError(arrayType.Elt)
 }
 
+// IsExprTypeString returns true if the expression matches bool
+func IsExprTypeBool(e ast.Expr) bool {
+	ident, ok := e.(*ast.Ident)
+
+	return ok && ident.Name == "bool"
+}
+
 // IsExprTypeError returns true if the expression matches string
 func IsExprTypeError(e ast.Expr) bool {
 	ident, ok := e.(*ast.Ident)

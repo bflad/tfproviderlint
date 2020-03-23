@@ -9,7 +9,10 @@ ENHANCEMENTS
 
 * helper/analysisutils: `DeprecatedReceiverMethodSelectorExprRunner` now implements `SuggestedFixes`
 * helper/analysisutils: `DeprecatedWithReplacementSelectorExprRunner` now implements `SuggestedFixes`
+* helper/astutils: Add `HasFieldListLength` and `IsExprTypeBool` functions
+* helper/terraformtype/helper/customdiff: Constants and functions for working with entire package
 * helper/terraformtype/terraform: Constants and functions for working with `ResourceProvider` type
+* passes/helper/customdiff: Passes for collecting `customdiff` function information for further analysis
 * passes/R007: Support suggested fix
 * passes/R008: Support suggested fix
 * passes/V002: Support suggested fix
