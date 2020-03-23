@@ -39,6 +39,13 @@ func IsExprTypeInterface(e ast.Expr) bool {
 	return ok
 }
 
+// IsExprTypeMapStringInterface returns true if the expression matches []string
+func IsExprTypeMapStringInterface(e ast.Expr) bool {
+	mapType, ok := e.(*ast.MapType)
+
+	return ok && IsExprTypeString(mapType.Key) && IsExprTypeInterface(mapType.Value)
+}
+
 // IsExprTypeString returns true if the expression matches string
 func IsExprTypeString(e ast.Expr) bool {
 	ident, ok := e.(*ast.Ident)
