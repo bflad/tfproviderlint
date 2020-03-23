@@ -64,6 +64,7 @@ jobs:
         uses: goreleaser/goreleaser-action@v1
         with:
           args: release --release-notes RELEASE-NOTES.md --rm-dist --skip-publish
+          key: ${{ secrets.GPG_KEY }}
       - name: goreleaser release
         uses: goreleaser/goreleaser-action@v1
         env:
