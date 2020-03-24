@@ -24,7 +24,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 	var result []*schema.ResourceInfo
 
 	for _, resourceInfo := range resourceInfos {
-		if !resourceInfo.IsResource() {
+		if !resourceInfo.IsManagedResource() {
 			continue
 		}
 
