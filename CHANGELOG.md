@@ -1,3 +1,9 @@
+# v0.15.0
+
+ENHANCEMENTS
+
+* passes/terraform: Pass for collecting `terraform.ResourceProviderFactory` selectors
+
 # v0.14.0
 
 ENHANCEMENTS
