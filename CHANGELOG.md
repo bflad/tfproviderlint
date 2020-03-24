@@ -2,8 +2,12 @@
 
 ENHANCEMENTS
 
+* helper/analysisutils: Add `DeprecatedWithReplacementPointerSelectorExprAnalyzer`, `TypeAssertExprRemovalAnalyzer` and `TypeAssertExprAnalyzer` with associated runners
+* helper/astutils: Support `*ast.StarExpr` in `IsPackageFunc`
 * helper/terraformtype/helper/schema: Constants and functions for working with `Provider` type
 * helper/terraformtype/terraform: Constants and functions for working with `ResourceProviderFactory` type
+* passes/helper/schema: Pass for collecting `*schema.Provider` type assertions
+* passes/terraform: Pass for collecting `terraform.ResourceProvider` selectors
 
 # v0.13.0
 
