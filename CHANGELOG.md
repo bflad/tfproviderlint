@@ -1,5 +1,9 @@
 # v0.15.0
 
+FEATURES
+
+* **New Extra Check:** `XR005`: check for `Resource` that `Description` is configured
+
 ENHANCEMENTS
 
 * passes/terraform: Pass for collecting `terraform.ResourceProviderFactory` selectors
