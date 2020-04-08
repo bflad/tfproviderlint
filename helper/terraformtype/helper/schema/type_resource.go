@@ -14,6 +14,7 @@ const (
 	ResourceFieldCustomizeDiff      = `CustomizeDiff`
 	ResourceFieldDelete             = `Delete`
 	ResourceFieldDeprecationMessage = `DeprecationMessage`
+	ResourceFieldDescription        = `Description`
 	ResourceFieldExists             = `Exists`
 	ResourceFieldImporter           = `Importer`
 	ResourceFieldMigrateState       = `MigrateState`
@@ -42,6 +43,10 @@ func NewResourceInfo(cl *ast.CompositeLit, info *types.Info) *ResourceInfo {
 		Fields:          astutils.CompositeLitFields(cl),
 		Resource:        &tfschema.Resource{},
 		TypesInfo:       info,
+	}
+
+	if kvExpr := result.Fields[ResourceFieldDescription]; kvExpr != nil && astutils.ExprStringValue(kvExpr.Value) != nil {
+		result.Resource.Description = *astutils.ExprStringValue(kvExpr.Value)
 	}
 
 	if kvExpr := result.Fields[ResourceFieldMigrateState]; kvExpr != nil && astutils.ExprValue(kvExpr.Value) != nil {
