@@ -33,7 +33,6 @@ type ResourceInfo struct {
 	Fields          map[string]*ast.KeyValueExpr
 	Resource        *tfschema.Resource
 	TypesInfo       *types.Info
-	SchemaNames     []string
 }
 
 // NewResourceInfo instantiates a ResourceInfo
@@ -43,7 +42,6 @@ func NewResourceInfo(cl *ast.CompositeLit, info *types.Info) *ResourceInfo {
 		Fields:          astutils.CompositeLitFields(cl),
 		Resource:        &tfschema.Resource{},
 		TypesInfo:       info,
-		SchemaNames:     []string{},
 	}
 
 	if kvExpr := result.Fields[ResourceFieldSchema]; kvExpr != nil && astutils.ExprValue(kvExpr.Value) != nil {
@@ -54,9 +52,7 @@ func NewResourceInfo(cl *ast.CompositeLit, info *types.Info) *ResourceInfo {
 				keyPtr := astutils.ExprStringValue(kvExpr.Key)
 				key := *keyPtr // safe, since schema map key must be string
 				if cl, ok := kvExpr.Value.(*ast.CompositeLit); ok {
-					schemaInfo := NewSchemaInfo(cl, info)
-					result.SchemaNames = append(result.SchemaNames, key)
-					result.Resource.Schema[key] = schemaInfo.Schema
+					result.Resource.Schema[key] = NewSchemaInfo(cl, info).Schema
 				}
 			}
 		}
@@ -83,14 +79,9 @@ func (info *ResourceInfo) IsDataSource() bool {
 	return info.DeclaresField(ResourceFieldRead)
 }
 
-// IsManagedResource returns true if the Resource type matches a Terraform Managed Resource declaration
-func (info *ResourceInfo) IsManagedResource() bool {
-	return info.DeclaresField(ResourceFieldCreate)
-}
-
 // IsResource returns true if the Resource type matches a Terraform Resource declaration
 func (info *ResourceInfo) IsResource() bool {
-	return info.IsManagedResource() || info.IsDataSource()
+	return info.DeclaresField(ResourceFieldCreate)
 }
 
 // GetResourceMapResourceNames returns all resource names held in a map[string]*schema.Resource

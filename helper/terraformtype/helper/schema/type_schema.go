@@ -87,11 +87,17 @@ func NewSchemaInfo(cl *ast.CompositeLit, info *types.Info) *SchemaInfo {
 	if kvExpr := result.Fields[SchemaFieldDefault]; kvExpr != nil && astutils.ExprValue(kvExpr.Value) != nil {
 		switch result.Schema.Type {
 		case tfschema.TypeBool:
-			result.Schema.Default = *astutils.ExprBoolValue(kvExpr.Value)
+			if ptr := astutils.ExprBoolValue(kvExpr.Value); ptr != nil {
+				result.Schema.Default = *ptr
+			}
 		case tfschema.TypeInt:
-			result.Schema.Default = *astutils.ExprIntValue(kvExpr.Value)
+			if ptr := astutils.ExprIntValue(kvExpr.Value); ptr != nil {
+				result.Schema.Default = *ptr
+			}
 		case tfschema.TypeString:
-			result.Schema.Default = *astutils.ExprStringValue(kvExpr.Value)
+			if ptr := astutils.ExprStringValue(kvExpr.Value); ptr != nil {
+				result.Schema.Default = *ptr
+			}
 		default:
 			result.Schema.Default = func() (interface{}, error) { return nil, nil }
 		}
