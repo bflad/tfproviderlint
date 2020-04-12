@@ -1,8 +1,8 @@
-package S036
+package S038
 
 import (
 	"github.com/bflad/tfproviderlint/helper/analysisutils"
 	"github.com/bflad/tfproviderlint/helper/terraformtype/helper/schema"
 )
 
-var Analyzer = analysisutils.SchemaAttributeReferencesSyntaxAnalyzer("S036", schema.SchemaFieldConflictsWith)
+var Analyzer = analysisutils.SchemaAttributeReferencesSemanticsAnalyzer("S038", schema.SchemaFieldAtLeastOneOf)

@@ -5,4 +5,4 @@ import (
 	"github.com/bflad/tfproviderlint/helper/terraformtype/helper/schema"
 )
 
-var Analyzer = analysisutils.SchemaAttributeReferencesAnalyzer("S037", schema.SchemaFieldExactlyOneOf)
+var Analyzer = analysisutils.SchemaAttributeReferencesSyntaxAnalyzer("S037", schema.SchemaFieldExactlyOneOf)
