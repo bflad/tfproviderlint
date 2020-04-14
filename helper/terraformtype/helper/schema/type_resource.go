@@ -53,6 +53,20 @@ func NewResourceInfo(cl *ast.CompositeLit, info *types.Info) *ResourceInfo {
 		result.Resource.MigrateState = func(int, *terraform.InstanceState, interface{}) (*terraform.InstanceState, error) { return nil, nil }
 	}
 
+	if kvExpr := result.Fields[ResourceFieldSchema]; kvExpr != nil && astutils.ExprValue(kvExpr.Value) != nil {
+		result.Resource.Schema = map[string]*tfschema.Schema{}
+		if smap, ok := kvExpr.Value.(*ast.CompositeLit); ok {
+			for _, expr := range smap.Elts {
+				kvExpr := expr.(*ast.KeyValueExpr) // safe cast, map elements are always kv
+				keyPtr := astutils.ExprStringValue(kvExpr.Key)
+				key := *keyPtr // safe, since schema map key must be string
+				if cl, ok := kvExpr.Value.(*ast.CompositeLit); ok {
+					result.Resource.Schema[key] = NewSchemaInfo(cl, info).Schema
+				}
+			}
+		}
+	}
+
 	return result
 }
 
