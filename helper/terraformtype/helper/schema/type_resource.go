@@ -57,11 +57,29 @@ func NewResourceInfo(cl *ast.CompositeLit, info *types.Info) *ResourceInfo {
 		result.Resource.Schema = map[string]*tfschema.Schema{}
 		if smap, ok := kvExpr.Value.(*ast.CompositeLit); ok {
 			for _, expr := range smap.Elts {
-				kvExpr := expr.(*ast.KeyValueExpr) // safe cast, map elements are always kv
-				keyPtr := astutils.ExprStringValue(kvExpr.Key)
-				key := *keyPtr // safe, since schema map key must be string
-				if cl, ok := kvExpr.Value.(*ast.CompositeLit); ok {
-					result.Resource.Schema[key] = NewSchemaInfo(cl, info).Schema
+				switch elt := expr.(type) {
+				case *ast.KeyValueExpr:
+					var key string
+
+					switch keyExpr := elt.Key.(type) {
+					case *ast.BasicLit:
+						keyPtr := astutils.ExprStringValue(keyExpr)
+
+						if keyPtr == nil {
+							continue
+						}
+
+						key = *keyPtr
+					}
+
+					if key == "" {
+						continue
+					}
+
+					switch valueExpr := elt.Value.(type) {
+					case *ast.CompositeLit:
+						result.Resource.Schema[key] = NewSchemaInfo(valueExpr, info).Schema
+					}
 				}
 			}
 		}
