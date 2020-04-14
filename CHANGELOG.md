@@ -6,6 +6,7 @@ FEATURES
 
 ENHANCEMENTS
 
+* helper/terraformtype/helper/schema: Support basic linking of `ResourceInfo` and `SchemaInfo` (#129)
 * passes/terraform: Pass for collecting `terraform.ResourceProviderFactory` selectors
 
 # v0.14.0
