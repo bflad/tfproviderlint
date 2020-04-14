@@ -1,5 +1,9 @@
 # v0.15.0
 
+BREAKING CHANGES
+
+* helper/analysisfixtest: Removed package since testing for `SuggestedFixes` is now available with `golang.org/x/tools/go/analysis/analysistest.RunWithSuggestedFixes`
+
 FEATURES
 
 * **New Extra Check:** `XR005`: check for `Resource` that `Description` is configured

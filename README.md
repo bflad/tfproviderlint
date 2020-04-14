@@ -200,23 +200,22 @@ Helpful tooling for development:
 
 ### Implementing SuggestedFixes Testing
 
-The `helper/analysisfixtest` package contains functionality to verify `SuggestedFixes` by copying a source directory, running the `-fix` command against those copied files, then comparing expected file contents against those fixed files. Similar to the `go/analysis/analysistest` package, the testing can be invoked via:
+The upstream `analysistest` package now contains functionality to verify `SuggestedFixes` via `RunWithSuggestedFixes`.
 
 ```go
 import (
   "testing"
-  
-  "github.com/bflad/tfproviderlint/helper/analysisfixtest"
+
   "golang.org/x/tools/go/analysis/analysistest"
 )
 
 func TestAnalyzerFixes(t *testing.T) {
   testdata := analysistest.TestData()
-  analysisfixtest.Run(t, testdata, Analyzer, "a")
+  analysistest.RunWithSuggestedFixes(t, testdata, Analyzer, "a")
 }
 ```
 
-To setup the necessary expected file content verification, the testing expects a directory suffixed with `_fixed` (e.g. `testdata/src/a_fixed` for `testdata/src/a` files). The verification will only check files present in the `_fixed` directory against those fixed.
+To setup the expected file content verification, the testing expects a file suffixed with `.golden` (e.g. `testdata/src/a/main.go.golden`).
 
 ### Implementing a Custom Lint Tool
 

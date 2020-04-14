@@ -3,7 +3,6 @@ package V005_test
 import (
 	"testing"
 
-	"github.com/bflad/tfproviderlint/helper/analysisfixtest"
 	"github.com/bflad/tfproviderlint/passes/V005"
 	"golang.org/x/tools/go/analysis/analysistest"
 )
@@ -15,5 +14,5 @@ func TestV005(t *testing.T) {
 
 func TestAnalyzerFixes(t *testing.T) {
 	testdata := analysistest.TestData()
-	analysisfixtest.Run(t, testdata, V005.Analyzer, "a")
+	analysistest.RunWithSuggestedFixes(t, testdata, V005.Analyzer, "a")
 }
