@@ -61,9 +61,9 @@ func ParseAttributeReference(reference string) ([]string, error) {
 	return attributeReferenceParts, nil
 }
 
-// ValidateAttributeReference validates schema attribute reference.
+// ValidateAttributeReference validates schema attribute reference semantically.
 // Attribute references are used in Schema fields such as AtLeastOneOf, ConflictsWith, and ExactlyOneOf.
-func ValidateAttributeReference(tfresource *tfschema.Resource, reference string) ([]string, error) {
+func ValidateAttributeReference(tfresource *tfschema.Resource, reference string) error {
 	var curSchemaOrResource interface{} = tfresource
 	attributeReferenceParts := strings.Split(reference, ".")
 	for idx, attributeReferencePart := range attributeReferenceParts {
@@ -75,27 +75,39 @@ func ValidateAttributeReference(tfresource *tfschema.Resource, reference string)
 
 			configurationBlockReferenceErr := fmt.Errorf("%q configuration block attribute references must be separated by .0", attributeReference)
 			if err != nil {
-				return nil, configurationBlockReferenceErr
+				return configurationBlockReferenceErr
 			}
 			if attributeReferencePartInt != 0 {
-				return nil, configurationBlockReferenceErr
+				return configurationBlockReferenceErr
 			}
 
-			curSchema := curSchemaOrResource.(*tfschema.Schema)
-			if curSchema.MaxItems != 1 || curSchema.Type != tfschema.TypeList {
-				return nil, fmt.Errorf("%q configuration block attribute references are only valid for TypeList and MaxItems: 1 attributes", attributeReference)
+			switch curSchema := curSchemaOrResource.(type) {
+			case *tfschema.Schema:
+				if curSchema.MaxItems != 1 || curSchema.Type != tfschema.TypeList {
+					return fmt.Errorf("%q configuration block attribute references are only valid for TypeList and MaxItems: 1 attributes", attributeReference)
+				}
+				curSchemaOrResource = curSchema.Elem
+			default:
+				return nil
 			}
-			curSchemaOrResource = curSchema.Elem
 		} else {
 			// For even part, ensure it references to defined attribute
-			schema := curSchemaOrResource.(*tfschema.Resource).Schema[attributeReferencePart]
-			if schema == nil {
-				return nil, fmt.Errorf("%q references to unknown attribute", attributeReference)
+			switch curResource := curSchemaOrResource.(type) {
+			case *tfschema.Resource:
+				if curResource.Schema == nil {
+					return fmt.Errorf("%q references resource attribute without schema", attributeReference)
+				}
+				schema := curResource.Schema[attributeReferencePart]
+				if schema == nil {
+					return fmt.Errorf("%q references to unknown attribute", attributeReference)
+				}
+				curSchemaOrResource = schema
+			default:
+				return nil
 			}
-			curSchemaOrResource = schema
 		}
 	}
 
-	return attributeReferenceParts, nil
+	return nil
 }
 

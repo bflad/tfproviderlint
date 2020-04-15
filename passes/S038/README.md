@@ -1,13 +1,13 @@
 # S038
 
-The S038 analyzer reports cases of Schemas which include `ConflictsWith` and have invalid schema attribute references.
+The S038 analyzer reports cases of Schemas which include `AtLeastOneOf` and have invalid schema attribute references.
 
-NOTE: This pass only works with Terraform resources that are fully defined in a single function.
+NOTE: This pass only works with `schema.Resource` that are wholly declared.
 
 ## Flagged Code
 
 ```go
-// Attribute reference in multi nested block is not supported
+// Attribute reference in configuration block with potentially more than one element is not supported
 &schema.Resource{
     Schema: map[string]*schema.Schema{
         "x": {

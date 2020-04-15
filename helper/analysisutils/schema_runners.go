@@ -105,7 +105,7 @@ func SchemaAttributeReferencesSemanticsRunner(analyzerName string, fieldName str
 							continue
 						}
 
-						if _, err := schema.ValidateAttributeReference(resourceInfo.Resource, *attributeReference); err != nil {
+						if err := schema.ValidateAttributeReference(resourceInfo.Resource, *attributeReference); err != nil {
 							pass.Reportf(elt.Pos(), "%s: invalid %s attribute reference semantics: %s", analyzerName, fieldName, err)
 						}
 					}
