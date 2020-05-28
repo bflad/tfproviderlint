@@ -4,17 +4,20 @@ on:
     tags:
       - "v[0-9]+.[0-9]+.[0-9]+"
 
+env:
+  GO_VERSION: "1.14"
+
 jobs:
   go_mod:
     # Ignore duplicate events for local repository pull requests
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository)
-    name: "go mod"
+    name: go mod
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-go@v1
+      - uses: actions/setup-go@v2
         with:
-          go-version: "1.14"
+          go-version: ${{ env.GO_VERSION }}
       - name: go mod
         run: |
           go mod tidy
@@ -26,49 +29,53 @@ jobs:
   go_test:
     # Ignore duplicate events for local repository pull requests
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository)
-    name: "go test"
+    name: go test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-go@v1
+      - uses: actions/setup-go@v2
         with:
-          go-version: "1.14"
+          go-version: ${{ env.GO_VERSION }}
       - run: go test ./...
   goreleaser:
     # Ignore duplicate events for local repository pull requests
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository)
-    name: "goreleaser"
+    name: goreleaser
     needs: [go_mod, go_test]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - uses: actions/setup-go@v1
+      - uses: actions/setup-go@v2
         with:
-          go-version: "1.14"
+          go-version: ${{ env.GO_VERSION }}
       - name: docker login
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
           echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin
+      - name: Import GPG key
+        id: import_gpg
+        uses: crazy-max/ghaction-import-gpg@v2
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_KEY }}
       - name: Generate Release Notes
         run: |
           sed -n -e "1{/# v/d;}" -e "2{/^$/d;}" -e "/# $(git describe --abbrev=0 --exclude="$(git describe --abbrev=0 --match='v*.*.*' --tags)" --match='v*.*.*' --tags)/q;p" CHANGELOG.md > RELEASE-NOTES.md
       - name: goreleaser check
-        uses: goreleaser/goreleaser-action@v1
+        uses: goreleaser/goreleaser-action@v2
         with:
           args: check
       - name: goreleaser release --skip-publish
-        uses: goreleaser/goreleaser-action@v1
+        uses: goreleaser/goreleaser-action@v2
         with:
           args: release --release-notes RELEASE-NOTES.md --rm-dist --skip-publish
           key: ${{ secrets.GPG_KEY }}
       - name: goreleaser release
-        uses: goreleaser/goreleaser-action@v1
+        uses: goreleaser/goreleaser-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GORELEASER_GITHUB_TOKEN }}
         with:
-          args: release --release-notes RELEASE-NOTES.md --rm-dist
-          key: ${{ secrets.GPG_KEY }}
+          args: release --release-notes RELEASE-NOTES.md
