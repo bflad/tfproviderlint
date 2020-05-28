@@ -1,17 +1,20 @@
 name: Incoming Checks
 on: [pull_request, push]
 
+env:
+  GO_VERSION: "1.14"
+
 jobs:
   go_mod:
     # Ignore duplicate events for local repository pull requests
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository)
-    name: "go mod"
+    name: go mod
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-go@v1
+      - uses: actions/setup-go@v2
         with:
-          go-version: "1.14"
+          go-version: ${{ env.GO_VERSION }}
       - name: go mod
         run: |
           echo "==> Checking source code with go mod vendor..."
@@ -25,29 +28,29 @@ jobs:
   go_test:
     # Ignore duplicate events for local repository pull requests
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository)
-    name: "go test"
+    name: go test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-go@v1
+      - uses: actions/setup-go@v2
         with:
-          go-version: "1.14"
+          go-version: ${{ env.GO_VERSION }}
       - run: go test ./...
   goreleaser:
     # Ignore duplicate events for local repository pull requests
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository)
-    name: "goreleaser"
+    name: goreleaser
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-go@v1
+      - uses: actions/setup-go@v2
         with:
-          go-version: "1.14"
+          go-version: ${{ env.GO_VERSION }}
       - name: goreleaser check
-        uses: goreleaser/goreleaser-action@v1
+        uses: goreleaser/goreleaser-action@v2
         with:
           args: check
-      - name: goreleaser release --skip-publish
-        uses: goreleaser/goreleaser-action@v1
+      - name: goreleaser build
+        uses: goreleaser/goreleaser-action@v2
         with:
-          args: release --rm-dist --skip-publish  --skip-sign
+          args: build --snapshot
