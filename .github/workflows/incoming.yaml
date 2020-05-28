@@ -53,4 +53,4 @@ jobs:
       - name: goreleaser build
         uses: goreleaser/goreleaser-action@v2
         with:
-          args: build
+          args: build --snapshot
