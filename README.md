@@ -2,6 +2,8 @@
 
 A linting tool for [Terraform Provider](https://www.terraform.io/docs/providers/index.html) code.
 
+[![PkgGoDev](https://pkg.go.dev/badge/github.com/bflad/tfproviderlint)](https://pkg.go.dev/github.com/bflad/tfproviderlint)
+
 ## Install
 
 ### Local Install
