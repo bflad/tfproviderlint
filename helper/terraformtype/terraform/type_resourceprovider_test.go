@@ -14,27 +14,27 @@ func TestIsTypeResourceProvider(t *testing.T) {
 		Expected  bool
 	}{
 		{
-			Name: fmt.Sprintf("%s.%s", PackagePath, TypeNameResourceProvider),
+			Name: fmt.Sprintf("%s.%s", PackagePathVersion(1), TypeNameResourceProvider),
 			InputType: types.NewNamed(
-				types.NewTypeName(token.NoPos, types.NewPackage(PackagePath, PackageName), TypeNameResourceProvider, nil),
+				types.NewTypeName(token.NoPos, types.NewPackage(PackagePathVersion(1), PackageName), TypeNameResourceProvider, nil),
 				nil,
 				nil,
 			),
 			Expected: true,
 		},
 		{
-			Name: fmt.Sprintf("*%s.%s", PackagePath, TypeNameResourceProvider),
+			Name: fmt.Sprintf("*%s.%s", PackagePathVersion(1), TypeNameResourceProvider),
 			InputType: types.NewPointer(types.NewNamed(
-				types.NewTypeName(token.NoPos, types.NewPackage(PackagePath, PackageName), TypeNameResourceProvider, nil),
+				types.NewTypeName(token.NoPos, types.NewPackage(PackagePathVersion(1), PackageName), TypeNameResourceProvider, nil),
 				nil,
 				nil,
 			)),
 			Expected: true,
 		},
 		{
-			Name: fmt.Sprintf("%s.%s", PackagePath, "Not"),
+			Name: fmt.Sprintf("%s.%s", PackagePathVersion(1), "Not"),
 			InputType: types.NewNamed(
-				types.NewTypeName(token.NoPos, types.NewPackage(PackagePath, PackageName), "Not", nil),
+				types.NewTypeName(token.NoPos, types.NewPackage(PackagePathVersion(1), PackageName), "Not", nil),
 				nil,
 				nil,
 			),
