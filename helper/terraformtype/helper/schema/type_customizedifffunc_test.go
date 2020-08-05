@@ -12,41 +12,70 @@ func TestIsFuncTypeCustomizeDiffFunc(t *testing.T) {
 	boolIdent := &ast.Ident{
 		Name: types.Typ[types.Bool].String(),
 	}
+	contextIdent := &ast.Ident{
+		Name: "context",
+	}
+	contextContextIdent := &ast.Ident{
+		Name: "Context",
+	}
 	errorIdent := &ast.Ident{
 		Name: "error",
 	}
 	interfaceAst := &ast.InterfaceType{
 		Methods: &ast.FieldList{},
 	}
-	packageIdent := &ast.Ident{
+	packageIdentV1 := &ast.Ident{
 		Name: PackageName,
 	}
-	packageType := types.NewPackage(PackagePath, PackageName)
-	packageNameType := types.NewPkgName(token.NoPos, packageType, packageType.Name(), packageType)
+	packageIdentV2 := &ast.Ident{
+		Name: PackageName + `2`,
+	}
+	contextType := types.NewPackage("context", "context")
+	packageTypeV1 := types.NewPackage(PackagePathVersion(1), PackageName)
+	packageTypeV2 := types.NewPackage(PackagePathVersion(2), PackageName)
+	contextNameType := types.NewPkgName(token.NoPos, contextType, contextType.Name(), contextType)
+	packageNameTypeV1 := types.NewPkgName(token.NoPos, packageTypeV1, packageTypeV1.Name(), packageTypeV1)
+	packageNameTypeV2 := types.NewPkgName(token.NoPos, packageTypeV2, packageTypeV2.Name(), packageTypeV2)
 	packageFuncIdent := &ast.Ident{
 		Name: TypeNameResourceDiff,
 	}
-	packageSelectorExpr := &ast.SelectorExpr{
+	contextContextSelectorExpr := &ast.SelectorExpr{
+		Sel: contextContextIdent,
+		X:   contextIdent,
+	}
+	packageSelectorExprV1 := &ast.SelectorExpr{
 		Sel: packageFuncIdent,
-		X:   packageIdent,
+		X:   packageIdentV1,
+	}
+	packageSelectorExprV2 := &ast.SelectorExpr{
+		Sel: packageFuncIdent,
+		X:   packageIdentV2,
 	}
 	typesInfo := &types.Info{
 		Types: map[ast.Expr]types.TypeAndValue{
-			boolIdent: types.TypeAndValue{
+			boolIdent: {
 				Type: types.Typ[types.Bool],
 			},
-			errorIdent: types.TypeAndValue{
+			contextContextSelectorExpr: {
+				Type: types.NewNamed(types.NewTypeName(token.NoPos, contextType, contextContextIdent.Name, nil), nil, nil),
+			},
+			errorIdent: {
 				Type: types.NewNamed(types.NewTypeName(token.NoPos, nil, "error", nil), nil, nil),
 			},
-			interfaceAst: types.TypeAndValue{
+			interfaceAst: {
 				Type: types.NewInterfaceType(nil, nil),
 			},
-			packageSelectorExpr: types.TypeAndValue{
-				Type: types.NewNamed(types.NewTypeName(token.NoPos, packageType, TypeNameResourceDiff, nil), nil, nil),
+			packageSelectorExprV1: {
+				Type: types.NewNamed(types.NewTypeName(token.NoPos, packageTypeV1, TypeNameResourceDiff, nil), nil, nil),
+			},
+			packageSelectorExprV2: {
+				Type: types.NewNamed(types.NewTypeName(token.NoPos, packageTypeV2, TypeNameResourceDiff, nil), nil, nil),
 			},
 		},
 		Uses: map[*ast.Ident]types.Object{
-			packageIdent: packageNameType,
+			contextIdent:   contextNameType,
+			packageIdentV1: packageNameTypeV1,
+			packageIdentV2: packageNameTypeV2,
 		},
 	}
 
@@ -57,14 +86,14 @@ func TestIsFuncTypeCustomizeDiffFunc(t *testing.T) {
 		Expected bool
 	}{
 		{
-			Name: fmt.Sprintf("func(*%s.%s, interface{}) bool", PackagePath, TypeNameResourceDiff),
+			Name: fmt.Sprintf("func(*%s.%s, interface{}) bool", PackagePathVersion(1), TypeNameResourceDiff),
 			Node: &ast.FuncLit{
 				Type: &ast.FuncType{
 					Params: &ast.FieldList{
 						List: []*ast.Field{
 							{
 								Type: &ast.StarExpr{
-									X: packageSelectorExpr,
+									X: packageSelectorExprV1,
 								},
 							},
 							{
@@ -85,14 +114,45 @@ func TestIsFuncTypeCustomizeDiffFunc(t *testing.T) {
 			Expected: false,
 		},
 		{
-			Name: fmt.Sprintf("func(*%s.%s, interface{}) error", PackagePath, TypeNameResourceDiff),
+			Name: fmt.Sprintf("func(*%s.%s, interface{}) error", PackagePathVersion(1), TypeNameResourceDiff),
 			Node: &ast.FuncLit{
 				Type: &ast.FuncType{
 					Params: &ast.FieldList{
 						List: []*ast.Field{
 							{
 								Type: &ast.StarExpr{
-									X: packageSelectorExpr,
+									X: packageSelectorExprV1,
+								},
+							},
+							{
+								Type: interfaceAst,
+							},
+						},
+					},
+					Results: &ast.FieldList{
+						List: []*ast.Field{
+							{
+								Type: errorIdent,
+							},
+						},
+					},
+				},
+			},
+			Info:     typesInfo,
+			Expected: true,
+		},
+		{
+			Name: fmt.Sprintf("func(context.Context, *%s.%s, interface{}) error", PackagePathVersion(2), TypeNameResourceDiff),
+			Node: &ast.FuncLit{
+				Type: &ast.FuncType{
+					Params: &ast.FieldList{
+						List: []*ast.Field{
+							{
+								Type: contextContextSelectorExpr,
+							},
+							{
+								Type: &ast.StarExpr{
+									X: packageSelectorExprV2,
 								},
 							},
 							{
