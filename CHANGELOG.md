@@ -11,7 +11,9 @@ FEATURES
 ENHANCEMENTS
 
 * helper/terraformtype/helper/schema: Support basic linking of `ResourceInfo` and `SchemaInfo` (#129)
+* passes: Initial support for Terraform Plugin SDK v2
 * passes/terraform: Pass for collecting `terraform.ResourceProviderFactory` selectors
+* xpasses: Initial support for Terraform Plugin SDK v2
 
 # v0.14.0
 
