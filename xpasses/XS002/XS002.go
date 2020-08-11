@@ -2,14 +2,13 @@ package XS002
 
 import (
 	"go/ast"
-	"go/token"
 	"sort"
 
-	"golang.org/x/tools/go/analysis"
-
+	"github.com/bflad/tfproviderlint/helper/astutils"
 	"github.com/bflad/tfproviderlint/helper/terraformtype/helper/schema"
 	"github.com/bflad/tfproviderlint/passes/commentignore"
 	"github.com/bflad/tfproviderlint/passes/helper/schema/schemamapcompositelit"
+	"golang.org/x/tools/go/analysis"
 )
 
 const Doc = `check for Schema that attribute names are in alphabetical order
@@ -39,30 +38,14 @@ func run(pass *analysis.Pass) (interface{}, error) {
 		}
 
 		schemaKeys := make([]string, 0 , len(schema.GetSchemaMapAttributeNames(smap)))
-		schemaKeyPos := make([]token.Pos, 0 , len(schema.GetSchemaMapAttributeNames(smap)))
-
 		for _, attributeName := range schema.GetSchemaMapAttributeNames(smap) {
-			schemaKeys = append(schemaKeys, attributeName.(*ast.BasicLit).Value)
-			schemaKeyPos = append(schemaKeyPos, attributeName.(*ast.BasicLit).Pos())
+			if v := astutils.ExprStringValue(attributeName); v != nil {
+				schemaKeys = append(schemaKeys, *v)
+			}
 		}
 
 		if !sort.StringsAreSorted(schemaKeys) {
-			sortedSchemaKeys := make([]string, 0, len(schemaKeys))
-			for _, k := range schemaKeys {
-				sortedSchemaKeys = append(sortedSchemaKeys, k)
-			}
-			sort.Strings(sortedSchemaKeys)
-			// find occurrences out of alphabetical order
-			var pos []token.Pos
-			for i, v := range schemaKeys {
-				if v != sortedSchemaKeys[i] {
-					pos = append(pos, schemaKeyPos[i])
-				}
-			}
-			for _, p := range pos{
-				pass.Reportf(p, "%s: schema attribute name should be in alphabetical order", analyzerName)
-			}
-
+			pass.Reportf(smap.Pos(), "%s: schema attributes should be in alphabetical order", analyzerName)
 		}
 	}
 

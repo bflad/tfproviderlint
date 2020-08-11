@@ -1,10 +1,8 @@
 package a
 
-import (
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-)
+import "github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-func f() {
+func f_v2() {
 	_ = schema.Resource{
 		Schema: map[string]*schema.Schema{ // want "schema attributes should be in alphabetical order"
 			"name": {},

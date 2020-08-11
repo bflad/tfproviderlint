@@ -7,15 +7,8 @@ import (
 func foutside() {
 	_ = schema.Resource{
 		Schema: map[string]*schema.Schema{
-			"name": {}, // want "schema attribute name should be in alphabetical order"
+			"name": {},
 			"arn": {},
-		},
-	}
-
-	_ = schema.Resource{
-		Schema: map[string]*schema.Schema{
-			"arn": {},
-			"valid":  {},
 		},
 	}
 }
