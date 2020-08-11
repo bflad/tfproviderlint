@@ -5,6 +5,10 @@ BREAKING CHANGES
 * helper/terraformtype/helper/resource: Real SDK v1 types inside `RetryErrorInfo`, `TestCaseInfo`, and `TestStepInfo` have been replaced with internal representations to prevent importing SDK versions.
 * helper/terraformtype/helper/schema: Real SDK v1 types inside `SchemaInfo` and `ResourceInfo` have been replaced with internal representations to prevent importing SDK versions.
 
+FEATURES
+
+* **New Extra Check:** `XS002`: check for `map[string]*Schema` that keys are in alphabetical order (#177)
+
 # v0.15.0
 
 BREAKING CHANGES
