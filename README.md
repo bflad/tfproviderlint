@@ -184,6 +184,7 @@ Extra lint checks are not included in the `tfproviderlint` tool and must be acce
 | Check | Description | Type |
 |---|---|---|
 | [XS001](xpasses/XS001/README.md) | check for `map[string]*Schema` that `Description` is configured | AST |
+| [XS002](xpasses/XS002/README.md) | check for `map[string]*Schema` that keys are in alphabetical order | AST |
 
 ## Development and Testing
 
