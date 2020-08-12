@@ -1,3 +1,11 @@
+# v0.17.0
+
+ENHANCEMENTS
+
+* helper/analysisutils: Add `StdlibFunctionCallExprAnalyzer` with associated runner
+* helper/astutils: Support standard library handling equivalents (no vendoring) for package functions
+* passes/stdlib: Pass for collecting `fmt.Sprintf()` calls
+
 # v0.16.0
 
 BREAKING CHANGES
