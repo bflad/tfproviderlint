@@ -109,6 +109,9 @@ Standard lint checks are enabled by default in the `tfproviderlint` tool. Opt-in
 | [R012](passes/R012/README.md) | check for data source `Resource` that configure `CustomizeDiff` | AST |
 | [R013](passes/R013/README.md) | check for `map[string]*Resource` that resource names contain at least one underscore | AST |
 | [R014](passes/R014/README.md) | check for `CreateFunc`, `DeleteFunc`, `ReadFunc`, and `UpdateFunc` parameter naming | AST |
+| [R015](passes/R015/README.md) | check for `(*schema.ResourceData).SetId()` receiver method usage with unstable `resource.UniqueId()` value | AST |
+| [R016](passes/R016/README.md) | check for `(*schema.ResourceData).SetId()` receiver method usage with unstable `resource.PrefixedUniqueId()` value | AST |
+| [R017](passes/R017/README.md) | check for `(*schema.ResourceData).SetId()` receiver method usage with unstable `time.Now()` value | AST |
 
 ### Standard Schema Checks
 

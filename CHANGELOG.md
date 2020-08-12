@@ -1,3 +1,18 @@
+# v0.17.0
+
+FEATURES
+
+* **New Check:** `R015`: check for `(*schema.ResourceData).SetId()` receiver method usage with unstable `resource.UniqueId()` value
+* **New Check:** `R016`: check for `(*schema.ResourceData).SetId()` receiver method usage with unstable `resource.PrefixedUniqueId()` value
+* **New Check:** `R017`: check for `(*schema.ResourceData).SetId()` receiver method usage with unstable `time.Now()` value
+
+ENHANCEMENTS
+
+* helper/analysisutils: Add `StdlibFunctionCallExprAnalyzer` with associated runner
+* helper/astutils: Support standard library handling equivalents (no vendoring) for package functions
+* passes/helper/schema: Pass for collecting `(*schema.ResourceData).SetId()` calls
+* passes/stdlib: Pass for collecting `fmt.Sprintf()` calls
+
 # v0.16.0
 
 BREAKING CHANGES
