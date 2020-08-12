@@ -1,3 +1,9 @@
+# v0.18.0
+
+ENHANCEMENTS
+
+* passes/stdlib: Pass for collecting `fmt.Errorf()` calls
+
 # v0.17.0
 
 FEATURES
