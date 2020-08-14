@@ -2,6 +2,7 @@
 
 ENHANCEMENTS
 
+* passes/helper/validation: Pass for collecting `validation.StringInSlice()` calls
 * passes/stdlib: Pass for collecting `fmt.Errorf()` calls
 
 # v0.17.0
