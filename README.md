@@ -112,6 +112,7 @@ Standard lint checks are enabled by default in the `tfproviderlint` tool. Opt-in
 | [R015](passes/R015/README.md) | check for `(*schema.ResourceData).SetId()` receiver method usage with unstable `resource.UniqueId()` value | AST |
 | [R016](passes/R016/README.md) | check for `(*schema.ResourceData).SetId()` receiver method usage with unstable `resource.PrefixedUniqueId()` value | AST |
 | [R017](passes/R017/README.md) | check for `(*schema.ResourceData).SetId()` receiver method usage with unstable `time.Now()` value | AST |
+| [R018](passes/R018/README.md) | check for `time.Sleep()` function usage | AST |
 
 ### Standard Schema Checks
 
