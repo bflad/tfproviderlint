@@ -1,3 +1,13 @@
+# v0.19.0
+
+FEATURES
+
+* **New Check:** `R018`: check for `time.Sleep()` function usage
+
+ENHANCEMENTS
+
+* passes/stdlib: Pass for collecting `time.Sleep()` calls
+
 # v0.18.0
 
 ENHANCEMENTS
