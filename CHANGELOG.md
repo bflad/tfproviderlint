@@ -8,6 +8,10 @@ ENHANCEMENTS
 
 * passes/stdlib: Pass for collecting `time.Sleep()` calls
 
+BUG FIXES
+
+* helper/astutils: Prevent `(*types.Info).ObjectOf()` type assertion panics (#207)
+
 # v0.18.0
 
 ENHANCEMENTS
