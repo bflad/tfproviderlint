@@ -6,6 +6,7 @@ FEATURES
 
 ENHANCEMENTS
 
+* passes/commentignore: Support multiple comma separated keys and extra `//` comments (#208)
 * passes/stdlib: Pass for collecting `time.Sleep()` calls
 
 BUG FIXES
