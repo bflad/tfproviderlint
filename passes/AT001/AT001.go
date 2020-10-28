@@ -41,7 +41,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 	for _, testCase := range testCases {
 		fileName := filepath.Base(pass.Fset.File(testCase.AstCompositeLit.Pos()).Name())
 
-		if strings.HasPrefix(fileName, "data_source_") {
+		if strings.Contains(fileName, "data_source_") || strings.HasSuffix(fileName, "_data_source_test.go") {
 			continue
 		}
 
