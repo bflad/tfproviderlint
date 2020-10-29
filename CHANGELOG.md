@@ -1,7 +1,12 @@
 # v0.20.0
 
+FEATURES
+
+* **New Check:** `AT009`: check for `acctest.RandStringFromCharSet()` calls that can be `acctest.RandString`
+
 ENHANCEMENTS
 
+* passes/helper/acctest: Pass for collecting `acctest.RandStringFromCharSet()` calls
 * passes/АТ001: Add optional `-ignored-filename-suffixes` and `-ignored-filename-prefixes` flags (#210)
 
 # v0.19.0
