@@ -3,7 +3,9 @@
 package AT001
 
 import (
+	"flag"
 	"go/ast"
+	"log"
 	"path/filepath"
 	"strings"
 
@@ -25,9 +27,19 @@ https://www.terraform.io/docs/extend/testing/acceptance-tests/testcase.html#chec
 
 const analyzerName = "AT001"
 
+var ignoredSuffixes string
+
+func parseFlags() flag.FlagSet {
+	var flags = flag.NewFlagSet(analyzerName, flag.ExitOnError)
+	flags.StringVar(&ignoredSuffixes, "ignored-filename-suffixes", "", "File name suffixes to ignore")
+	return *flags
+}
+
+
 var Analyzer = &analysis.Analyzer{
 	Name: analyzerName,
 	Doc:  Doc,
+	Flags: parseFlags(),
 	Requires: []*analysis.Analyzer{
 		commentignore.Analyzer,
 		testcaseinfo.Analyzer,
@@ -35,13 +47,32 @@ var Analyzer = &analysis.Analyzer{
 	Run: run,
 }
 
+func isSuffixIgnored(fileName string, suffixesList string) bool {
+	suffixes := strings.Split(suffixesList, ",")
+
+	for _, suffix := range suffixes {
+		log.Println("Checking ", fileName, "against suffix", suffix)
+		if strings.HasSuffix(fileName, suffix) {
+			return true
+		}
+	}
+	return false
+}
+
 func run(pass *analysis.Pass) (interface{}, error) {
 	ignorer := pass.ResultOf[commentignore.Analyzer].(*commentignore.Ignorer)
 	testCases := pass.ResultOf[testcaseinfo.Analyzer].([]*resource.TestCaseInfo)
+
 	for _, testCase := range testCases {
 		fileName := filepath.Base(pass.Fset.File(testCase.AstCompositeLit.Pos()).Name())
 
-		if strings.Contains(fileName, "data_source_") || strings.HasSuffix(fileName, "_data_source_test.go") {
+		if strings.Contains(fileName, "data_source_") {
+			continue
+		}
+
+		log.Println(ignoredSuffixes)
+
+		if ignoredSuffixes != "" && isSuffixIgnored(fileName, ignoredSuffixes) {
 			continue
 		}
 
