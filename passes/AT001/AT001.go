@@ -5,7 +5,6 @@ package AT001
 import (
 	"flag"
 	"go/ast"
-	"log"
 	"path/filepath"
 	"strings"
 
@@ -20,17 +19,24 @@ const Doc = `check for TestCase missing CheckDestroy
 The AT001 analyzer reports likely incorrect uses of TestCase
 which do not define a CheckDestroy function. CheckDestroy is used to verify
 that test infrastructure has been removed at the end of an acceptance test.
-Ignores file names beginning with data_source_.
+
+Optional parameters:
+  - ignored-filename-prefixes Specify filename prefixes to ignore, defaults to 'data_source_'.
+  - ignored-filename-suffixes Specify filename suffixes to ignore, defaults to none.
 
 More information can be found at:
 https://www.terraform.io/docs/extend/testing/acceptance-tests/testcase.html#checkdestroy`
 
 const analyzerName = "AT001"
 
-var ignoredSuffixes string
+var (
+	ignoredSuffixes string
+	ignoredPrefixes string
+)
 
 func parseFlags() flag.FlagSet {
 	var flags = flag.NewFlagSet(analyzerName, flag.ExitOnError)
+	flags.StringVar(&ignoredPrefixes, "ignored-filename-prefixes", "data_source_", "File name suffixes to ignore")
 	flags.StringVar(&ignoredSuffixes, "ignored-filename-suffixes", "", "File name suffixes to ignore")
 	return *flags
 }
@@ -51,8 +57,18 @@ func isSuffixIgnored(fileName string, suffixesList string) bool {
 	suffixes := strings.Split(suffixesList, ",")
 
 	for _, suffix := range suffixes {
-		log.Println("Checking ", fileName, "against suffix", suffix)
 		if strings.HasSuffix(fileName, suffix) {
+			return true
+		}
+	}
+	return false
+}
+
+func isPrefixIgnored(fileName string, prefixesList string) bool {
+	prefixes := strings.Split(prefixesList, ",")
+
+	for _, prefix := range prefixes {
+		if strings.HasPrefix(fileName, prefix) {
 			return true
 		}
 	}
@@ -66,11 +82,9 @@ func run(pass *analysis.Pass) (interface{}, error) {
 	for _, testCase := range testCases {
 		fileName := filepath.Base(pass.Fset.File(testCase.AstCompositeLit.Pos()).Name())
 
-		if strings.Contains(fileName, "data_source_") {
+		if ignoredPrefixes != "" && isPrefixIgnored(fileName, ignoredPrefixes) {
 			continue
 		}
-
-		log.Println(ignoredSuffixes)
 
 		if ignoredSuffixes != "" && isSuffixIgnored(fileName, ignoredSuffixes) {
 			continue
