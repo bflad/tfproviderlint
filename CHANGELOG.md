@@ -1,3 +1,9 @@
+# v0.20.0
+
+ENHANCEMENTS
+
+* passes/АТ001: Add optional `-ignored-filename-suffixes` and `-ignored-filename-prefixes` flags (#210)
+
 # v0.19.0
 
 FEATURES
