@@ -6,8 +6,8 @@ that test infrastructure has been removed at the end of an acceptance test.
 
 Optional parameters:
 
-`-ignored-filename-prefixes` Specify filename prefixes to ignore, defaults to `data_source_`.  
-`-ignored-filename-suffixes` Specify filename suffixes to ignore, defaults to none.
+`-ignored-filename-prefixes` Comma-separated list of filename prefixes to ignore, defaults to `data_source_`.  
+`-ignored-filename-suffixes` Comma-separated list of filename suffixes to ignore, defaults to none.
 
 More information can be found at:
 https://www.terraform.io/docs/extend/testing/acceptance-tests/testcase.html#checkdestroy
