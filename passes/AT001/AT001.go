@@ -36,8 +36,8 @@ var (
 
 func parseFlags() flag.FlagSet {
 	var flags = flag.NewFlagSet(analyzerName, flag.ExitOnError)
-	flags.StringVar(&ignoredPrefixes, "ignored-filename-prefixes", "data_source_", "File name suffixes to ignore")
-	flags.StringVar(&ignoredSuffixes, "ignored-filename-suffixes", "", "File name suffixes to ignore")
+	flags.StringVar(&ignoredPrefixes, "ignored-filename-prefixes", "data_source_", "Comma-separated list of file name prefixes to ignore")
+	flags.StringVar(&ignoredSuffixes, "ignored-filename-suffixes", "", "Comma-separated list of file name suffixes to ignore")
 	return *flags
 }
 
