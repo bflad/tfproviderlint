@@ -2,6 +2,7 @@
 
 FEATURES
 
+* **New Check:** `R019`: check for `(*schema.ResourceData).HasChanges()` receiver method usage with many arguments
 * **New Check:** `V009`: check for `validation.StringMatch()` calls with empty message argument
 * **New Check:** `V010`: check for `validation.StringDoesNotMatch()` calls with empty message argument
 
