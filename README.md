@@ -42,6 +42,18 @@ The `tfproviderlint` and `tfproviderlintx` tools operate similarly except for wh
 $ tfproviderlint help
 ```
 
+To enable only specific checks, they can be passed in as flags:
+
+```console
+$ tfproviderlint -AT001
+```
+
+To enable all checks, but disable specific checks, they can be passed in as flags set to `false`:
+
+```console
+$ tfproviderlint -AT001=false
+```
+
 ### Local Usage
 
 To report issues, change into the directory of the Terraform Provider code and run:
@@ -82,93 +94,93 @@ Standard lint checks are enabled by default in the `tfproviderlint` tool. Opt-in
 
 | Check | Description | Type |
 |---|---|---|
-| [AT001](passes/AT001/README.md) | check for `TestCase` missing `CheckDestroy` | AST |
-| [AT002](passes/AT002/README.md) | check for acceptance test function names including the word import | AST |
-| [AT003](passes/AT003/README.md) | check for acceptance test function names missing an underscore | AST |
-| [AT004](passes/AT004/README.md) | check for `TestStep` `Config` containing provider configuration | AST |
-| [AT005](passes/AT005/README.md) | check for acceptance test function names missing `TestAcc` prefix | AST |
-| [AT006](passes/AT006/README.md) | check for acceptance test functions containing multiple `resource.Test()` invocations | AST |
-| [AT007](passes/AT007/README.md) | check for acceptance test functions containing multiple `resource.ParallelTest()` invocations | AST |
-| [AT008](passes/AT008/README.md) | check for acceptance test function declaration `*testing.T` parameter naming | AST |
-| [AT009](passes/AT009/README.md) | check for `acctest.RandStringFromCharSet()` calls that can be simplified to `acctest.RandString()` | AST |
+| [AT001](passes/AT001) | check for `TestCase` missing `CheckDestroy` | AST |
+| [AT002](passes/AT002) | check for acceptance test function names including the word import | AST |
+| [AT003](passes/AT003) | check for acceptance test function names missing an underscore | AST |
+| [AT004](passes/AT004) | check for `TestStep` `Config` containing provider configuration | AST |
+| [AT005](passes/AT005) | check for acceptance test function names missing `TestAcc` prefix | AST |
+| [AT006](passes/AT006) | check for acceptance test functions containing multiple `resource.Test()` invocations | AST |
+| [AT007](passes/AT007) | check for acceptance test functions containing multiple `resource.ParallelTest()` invocations | AST |
+| [AT008](passes/AT008) | check for acceptance test function declaration `*testing.T` parameter naming | AST |
+| [AT009](passes/AT009) | check for `acctest.RandStringFromCharSet()` calls that can be simplified to `acctest.RandString()` | AST |
 
 ### Standard Resource Checks
 
 | Check | Description | Type |
 |---|---|---|
-| [R001](passes/R001/README.md) | check for `ResourceData.Set()` calls using complex key argument | AST |
-| [R002](passes/R002/README.md) | check for `ResourceData.Set()` calls using `*` dereferences | AST |
-| [R003](passes/R003/README.md) | check for `Resource` having `Exists` functions | AST |
-| [R004](passes/R004/README.md) | check for `ResourceData.Set()` calls using incompatible value types | AST |
-| [R005](passes/R005/README.md) | check for `ResourceData.HasChange()` calls that can be combined into one `HasChanges()` call | AST |
-| [R006](passes/R006/README.md) | check for `RetryFunc` that omit retryable errors | AST |
-| [R007](passes/R007/README.md) | check for deprecated `(schema.ResourceData).Partial` usage | AST |
-| [R008](passes/R008/README.md) | check for deprecated `(schema.ResourceData).SetPartial` usage | AST |
-| [R009](passes/R009/README.md) | check for Go panic usage | AST |
-| [R010](passes/R010/README.md) | check for `(schema.ResourceData).GetChange` assignment which should use `(schema.ResourceData).Get` | AST |
-| [R011](passes/R011/README.md) | check for `Resource` that configure `MigrateState` | AST |
-| [R012](passes/R012/README.md) | check for data source `Resource` that configure `CustomizeDiff` | AST |
-| [R013](passes/R013/README.md) | check for `map[string]*Resource` that resource names contain at least one underscore | AST |
-| [R014](passes/R014/README.md) | check for `CreateFunc`, `DeleteFunc`, `ReadFunc`, and `UpdateFunc` parameter naming | AST |
-| [R015](passes/R015/README.md) | check for `(*schema.ResourceData).SetId()` receiver method usage with unstable `resource.UniqueId()` value | AST |
-| [R016](passes/R016/README.md) | check for `(*schema.ResourceData).SetId()` receiver method usage with unstable `resource.PrefixedUniqueId()` value | AST |
-| [R017](passes/R017/README.md) | check for `(*schema.ResourceData).SetId()` receiver method usage with unstable `time.Now()` value | AST |
-| [R018](passes/R018/README.md) | check for `time.Sleep()` function usage | AST |
+| [R001](passes/R001) | check for `ResourceData.Set()` calls using complex key argument | AST |
+| [R002](passes/R002) | check for `ResourceData.Set()` calls using `*` dereferences | AST |
+| [R003](passes/R003) | check for `Resource` having `Exists` functions | AST |
+| [R004](passes/R004) | check for `ResourceData.Set()` calls using incompatible value types | AST |
+| [R005](passes/R005) | check for `ResourceData.HasChange()` calls that can be combined into one `HasChanges()` call | AST |
+| [R006](passes/R006) | check for `RetryFunc` that omit retryable errors | AST |
+| [R007](passes/R007) | check for deprecated `(schema.ResourceData).Partial` usage | AST |
+| [R008](passes/R008) | check for deprecated `(schema.ResourceData).SetPartial` usage | AST |
+| [R009](passes/R009) | check for Go panic usage | AST |
+| [R010](passes/R010) | check for `(schema.ResourceData).GetChange` assignment which should use `(schema.ResourceData).Get` | AST |
+| [R011](passes/R011) | check for `Resource` that configure `MigrateState` | AST |
+| [R012](passes/R012) | check for data source `Resource` that configure `CustomizeDiff` | AST |
+| [R013](passes/R013) | check for `map[string]*Resource` that resource names contain at least one underscore | AST |
+| [R014](passes/R014) | check for `CreateFunc`, `DeleteFunc`, `ReadFunc`, and `UpdateFunc` parameter naming | AST |
+| [R015](passes/R015) | check for `(*schema.ResourceData).SetId()` receiver method usage with unstable `resource.UniqueId()` value | AST |
+| [R016](passes/R016) | check for `(*schema.ResourceData).SetId()` receiver method usage with unstable `resource.PrefixedUniqueId()` value | AST |
+| [R017](passes/R017) | check for `(*schema.ResourceData).SetId()` receiver method usage with unstable `time.Now()` value | AST |
+| [R018](passes/R018) | check for `time.Sleep()` function usage | AST |
 
 ### Standard Schema Checks
 
 | Check | Description | Type |
 |---|---|---|
-| [S001](passes/S001/README.md) | check for `Schema` of `TypeList` or `TypeSet` missing `Elem` | AST |
-| [S002](passes/S002/README.md) | check for `Schema` with both `Required` and `Optional` enabled | AST |
-| [S003](passes/S003/README.md) | check for `Schema` with both `Required` and `Computed` enabled | AST |
-| [S004](passes/S004/README.md) | check for `Schema` with both `Required` and `Default` configured | AST |
-| [S005](passes/S005/README.md) | check for `Schema` with both `Computed` and `Default` configured | AST |
-| [S006](passes/S006/README.md) | check for `Schema` of `TypeMap` missing `Elem` | AST |
-| [S007](passes/S007/README.md) | check for `Schema` with both `Required` and `ConflictsWith` configured | AST |
-| [S008](passes/S008/README.md) | check for `Schema` of `TypeList` or `TypeSet` with `Default` configured | AST |
-| [S009](passes/S009/README.md) | check for `Schema` of `TypeList` or `TypeSet` with `ValidateFunc` configured | AST |
-| [S010](passes/S010/README.md) | check for `Schema` of `Computed` only with `ValidateFunc` configured | AST |
-| [S011](passes/S011/README.md) | check for `Schema` of `Computed` only with `DiffSuppressFunc` configured | AST |
-| [S012](passes/S012/README.md) | check for `Schema` that `Type` is configured | AST |
-| [S013](passes/S013/README.md) | check for `map[string]*Schema` that one of `Computed`, `Optional`, or `Required` is configured | AST |
-| [S014](passes/S014/README.md) | check for `Schema` within `Elem` that `Computed`, `Optional`, and `Required` are not configured | AST |
-| [S015](passes/S015/README.md) | check for `map[string]*Schema` that attribute names are valid | AST |
-| [S016](passes/S016/README.md) | check for `Schema` that `Set` is only configured for `TypeSet` | AST |
-| [S017](passes/S017/README.md) | check for `Schema` that `MaxItems` and `MinItems` are only configured for `TypeList`, `TypeMap`, or `TypeSet` | AST |
-| [S018](passes/S018/README.md) | check for `Schema` that should use `TypeList` with `MaxItems: 1` | AST |
-| [S019](passes/S019/README.md) | check for `Schema` that should omit `Computed`, `Optional`, or `Required` set to `false` | AST |
-| [S020](passes/S020/README.md) | check for `Schema` of `Computed` only with `ForceNew` enabled | AST |
-| [S021](passes/S021/README.md) | check for `Schema` that should omit `ComputedWhen` | AST |
-| [S022](passes/S022/README.md) | check for `Schema` of `TypeMap` with invalid `Elem` of `*schema.Resource` | AST |
-| [S023](passes/S023/README.md) | check for `Schema` that should omit `Elem` with incompatible `Type` | AST |
-| [S024](passes/S024/README.md) | check for `Schema` that should omit `ForceNew` in data source schema attributes | AST |
-| [S025](passes/S025/README.md) | check for `Schema` of `Computed` only with `AtLeastOneOf` configured | AST |
-| [S026](passes/S026/README.md) | check for `Schema` of `Computed` only with `ConflictsWith` configured | AST |
-| [S027](passes/S027/README.md) | check for `Schema` of `Computed` only with `Default` configured | AST |
-| [S028](passes/S028/README.md) | check for `Schema` of `Computed` only with `DefaultFunc` configured | AST |
-| [S029](passes/S029/README.md) | check for `Schema` of `Computed` only with `ExactlyOneOf` configured | AST |
-| [S030](passes/S030/README.md) | check for `Schema` of `Computed` only with `InputDefault` configured | AST |
-| [S031](passes/S031/README.md) | check for `Schema` of `Computed` only with `MaxItems` configured | AST |
-| [S032](passes/S032/README.md) | check for `Schema` of `Computed` only with `MinItems` configured | AST |
-| [S033](passes/S033/README.md) | check for `Schema` of `Computed` only with `StateFunc` configured | AST |
-| [S034](passes/S034/README.md) | check for `Schema` that configure `PromoteSingle` | AST |
-| [S035](passes/S035/README.md) | check for `Schema` with invalid `AtLeastOneOf` attribute references | AST |
-| [S036](passes/S036/README.md) | check for `Schema` with invalid `ConflictsWith` attribute references | AST |
-| [S037](passes/S037/README.md) | check for `Schema` with invalid `ExactlyOneOf` attribute references | AST |
+| [S001](passes/S001) | check for `Schema` of `TypeList` or `TypeSet` missing `Elem` | AST |
+| [S002](passes/S002) | check for `Schema` with both `Required` and `Optional` enabled | AST |
+| [S003](passes/S003) | check for `Schema` with both `Required` and `Computed` enabled | AST |
+| [S004](passes/S004) | check for `Schema` with both `Required` and `Default` configured | AST |
+| [S005](passes/S005) | check for `Schema` with both `Computed` and `Default` configured | AST |
+| [S006](passes/S006) | check for `Schema` of `TypeMap` missing `Elem` | AST |
+| [S007](passes/S007) | check for `Schema` with both `Required` and `ConflictsWith` configured | AST |
+| [S008](passes/S008) | check for `Schema` of `TypeList` or `TypeSet` with `Default` configured | AST |
+| [S009](passes/S009) | check for `Schema` of `TypeList` or `TypeSet` with `ValidateFunc` configured | AST |
+| [S010](passes/S010) | check for `Schema` of `Computed` only with `ValidateFunc` configured | AST |
+| [S011](passes/S011) | check for `Schema` of `Computed` only with `DiffSuppressFunc` configured | AST |
+| [S012](passes/S012) | check for `Schema` that `Type` is configured | AST |
+| [S013](passes/S013) | check for `map[string]*Schema` that one of `Computed`, `Optional`, or `Required` is configured | AST |
+| [S014](passes/S014) | check for `Schema` within `Elem` that `Computed`, `Optional`, and `Required` are not configured | AST |
+| [S015](passes/S015) | check for `map[string]*Schema` that attribute names are valid | AST |
+| [S016](passes/S016) | check for `Schema` that `Set` is only configured for `TypeSet` | AST |
+| [S017](passes/S017) | check for `Schema` that `MaxItems` and `MinItems` are only configured for `TypeList`, `TypeMap`, or `TypeSet` | AST |
+| [S018](passes/S018) | check for `Schema` that should use `TypeList` with `MaxItems: 1` | AST |
+| [S019](passes/S019) | check for `Schema` that should omit `Computed`, `Optional`, or `Required` set to `false` | AST |
+| [S020](passes/S020) | check for `Schema` of `Computed` only with `ForceNew` enabled | AST |
+| [S021](passes/S021) | check for `Schema` that should omit `ComputedWhen` | AST |
+| [S022](passes/S022) | check for `Schema` of `TypeMap` with invalid `Elem` of `*schema.Resource` | AST |
+| [S023](passes/S023) | check for `Schema` that should omit `Elem` with incompatible `Type` | AST |
+| [S024](passes/S024) | check for `Schema` that should omit `ForceNew` in data source schema attributes | AST |
+| [S025](passes/S025) | check for `Schema` of `Computed` only with `AtLeastOneOf` configured | AST |
+| [S026](passes/S026) | check for `Schema` of `Computed` only with `ConflictsWith` configured | AST |
+| [S027](passes/S027) | check for `Schema` of `Computed` only with `Default` configured | AST |
+| [S028](passes/S028) | check for `Schema` of `Computed` only with `DefaultFunc` configured | AST |
+| [S029](passes/S029) | check for `Schema` of `Computed` only with `ExactlyOneOf` configured | AST |
+| [S030](passes/S030) | check for `Schema` of `Computed` only with `InputDefault` configured | AST |
+| [S031](passes/S031) | check for `Schema` of `Computed` only with `MaxItems` configured | AST |
+| [S032](passes/S032) | check for `Schema` of `Computed` only with `MinItems` configured | AST |
+| [S033](passes/S033) | check for `Schema` of `Computed` only with `StateFunc` configured | AST |
+| [S034](passes/S034) | check for `Schema` that configure `PromoteSingle` | AST |
+| [S035](passes/S035) | check for `Schema` with invalid `AtLeastOneOf` attribute references | AST |
+| [S036](passes/S036) | check for `Schema` with invalid `ConflictsWith` attribute references | AST |
+| [S037](passes/S037) | check for `Schema` with invalid `ExactlyOneOf` attribute references | AST |
 
 ### Standard Validation Checks
 
 | Check | Description | Type |
 |---|---|---|
-| [V001](passes/V001/README.md) | check for custom `SchemaValidateFunc` that implement `validation.StringMatch()` or `validation.StringDoesNotMatch()` | AST |
-| [V002](passes/V002/README.md) | check for deprecated `CIDRNetwork` validation function usage | AST |
-| [V003](passes/V003/README.md) | check for deprecated `IPRange` validation function usage | AST |
-| [V004](passes/V004/README.md) | check for deprecated `SingleIP` validation function usage | AST |
-| [V005](passes/V005/README.md) | check for deprecated `ValidateJsonString` validation function usage | AST |
-| [V006](passes/V006/README.md) | check for deprecated `ValidateListUniqueStrings` validation function usage | AST |
-| [V007](passes/V007/README.md) | check for deprecated `ValidateRegexp` validation function usage | AST |
-| [V008](passes/V008/README.md) | check for deprecated `ValidateRFC3339TimeString` validation function usage | AST |
+| [V001](passes/V001) | check for custom `SchemaValidateFunc` that implement `validation.StringMatch()` or `validation.StringDoesNotMatch()` | AST |
+| [V002](passes/V002) | check for deprecated `CIDRNetwork` validation function usage | AST |
+| [V003](passes/V003) | check for deprecated `IPRange` validation function usage | AST |
+| [V004](passes/V004) | check for deprecated `SingleIP` validation function usage | AST |
+| [V005](passes/V005) | check for deprecated `ValidateJsonString` validation function usage | AST |
+| [V006](passes/V006) | check for deprecated `ValidateListUniqueStrings` validation function usage | AST |
+| [V007](passes/V007) | check for deprecated `ValidateRegexp` validation function usage | AST |
+| [V008](passes/V008) | check for deprecated `ValidateRFC3339TimeString` validation function usage | AST |
 
 ## Extra Lint Checks
 
@@ -178,18 +190,18 @@ Extra lint checks are not included in the `tfproviderlint` tool and must be acce
 
 | Check | Description | Type |
 |---|---|---|
-| [XR001](xpasses/XR001/README.md) | check for usage of `ResourceData.GetOkExists()` calls | AST |
-| [XR002](xpasses/XR002/README.md) | check for `Resource` that should implement `Importer` | AST |
-| [XR003](xpasses/XR003/README.md) | check for `Resource` that should implement `Timeouts` | AST |
-| [XR004](xpasses/XR004/README.md) | check for `ResourceData.Set()` calls that should implement error checking with complex values | AST |
-| [XR005](xpasses/XR005/README.md) | check for `Resource` that `Description` is configured | AST |
+| [XR001](xpasses/XR001) | check for usage of `ResourceData.GetOkExists()` calls | AST |
+| [XR002](xpasses/XR002) | check for `Resource` that should implement `Importer` | AST |
+| [XR003](xpasses/XR003) | check for `Resource` that should implement `Timeouts` | AST |
+| [XR004](xpasses/XR004) | check for `ResourceData.Set()` calls that should implement error checking with complex values | AST |
+| [XR005](xpasses/XR005) | check for `Resource` that `Description` is configured | AST |
 
 ### Extra Schema Checks
 
 | Check | Description | Type |
 |---|---|---|
-| [XS001](xpasses/XS001/README.md) | check for `map[string]*Schema` that `Description` is configured | AST |
-| [XS002](xpasses/XS002/README.md) | check for `map[string]*Schema` that keys are in alphabetical order | AST |
+| [XS001](xpasses/XS001) | check for `map[string]*Schema` that `Description` is configured | AST |
+| [XS002](xpasses/XS002) | check for `map[string]*Schema` that keys are in alphabetical order | AST |
 
 ## Development and Testing
 
