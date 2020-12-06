@@ -181,6 +181,8 @@ Standard lint checks are enabled by default in the `tfproviderlint` tool. Opt-in
 | [V006](passes/V006) | check for deprecated `ValidateListUniqueStrings` validation function usage | AST |
 | [V007](passes/V007) | check for deprecated `ValidateRegexp` validation function usage | AST |
 | [V008](passes/V008) | check for deprecated `ValidateRFC3339TimeString` validation function usage | AST |
+| [V009](passes/V009) | check for `validation.StringMatch()` call with empty message argument | AST |
+| [V010](passes/V010) | check for `validation.StringDoesNotMatch()` call with empty message argument | AST |
 
 ## Extra Lint Checks
 

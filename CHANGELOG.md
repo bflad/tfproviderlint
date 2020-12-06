@@ -1,5 +1,10 @@
 # v0.21.0
 
+FEATURES
+
+* **New Check:** `V009`: check for `validation.StringMatch()` calls with empty message argument
+* **New Check:** `V010`: check for `validation.StringDoesNotMatch()` calls with empty message argument
+
 BUG FIXES
 
 * passes/AT009: Correct constant detection for `acctest.RandStringFromCharSet()` calls that can be `acctest.RandString` (#215)
