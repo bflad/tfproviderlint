@@ -1,3 +1,9 @@
+# v0.21.0
+
+BUG FIXES
+
+* passes/AT009: Correct constant detection for `acctest.RandStringFromCharSet()` calls that can be `acctest.RandString` (#215)
+
 # v0.20.0
 
 FEATURES
