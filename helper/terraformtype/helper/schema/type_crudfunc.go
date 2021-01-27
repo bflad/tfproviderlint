@@ -1,12 +1,63 @@
 package schema
 
 import (
+	"github.com/bflad/tfproviderlint/helper/astutils"
+	"github.com/bflad/tfproviderlint/helper/terraformtype/diag"
 	"go/ast"
 	"go/token"
 	"go/types"
 )
 
-// CRUDFuncInfo represents all gathered CreateFunc, ReadFunc, UpdateFunc, and DeleteFunc data for easier access
+// IsFuncTypeCRUDFunc returns true if the FuncType matches expected parameters and results types
+func IsFuncTypeCRUDFunc(node ast.Node, info *types.Info) bool {
+	funcType := astutils.FuncTypeFromNode(node)
+
+	if funcType == nil {
+		return false
+	}
+
+	return isFuncTypeCRUDFuncV1V2(funcType, info) || isFuncTypeCRUDFuncV2Context(funcType, info)
+}
+
+// isFuncTypeCRUDFuncV1V2 returns true if the FuncType matches expected parameters and results types of V1 or V2 without a context.
+func isFuncTypeCRUDFuncV1V2(funcType *ast.FuncType, info *types.Info) bool {
+	if !astutils.IsFieldListTypeModulePackageType(funcType.Params, 0, info, PackageModule, PackageModulePath, TypeNameResourceData) {
+		return false
+	}
+
+	if !astutils.IsFieldListType(funcType.Params, 1, astutils.IsExprTypeInterface) {
+		return false
+	}
+
+	return astutils.IsFieldListType(funcType.Results, 0, astutils.IsExprTypeError)
+}
+
+// isFuncTypeCRUDFuncV2Context returns true if the FuncType matches expected parameters and results types of V2 with a context.
+func isFuncTypeCRUDFuncV2Context(funcType *ast.FuncType, info *types.Info) bool {
+	if !astutils.HasFieldListLength(funcType.Params, 3) {
+		return false
+	}
+
+	if !astutils.IsFieldListTypePackageType(funcType.Params, 0, info, "context", "Context") {
+		return false
+	}
+
+	if !astutils.IsFieldListTypeModulePackageType(funcType.Params, 1, info, PackageModule, PackageModulePath, TypeNameResourceData) {
+		return false
+	}
+
+	if !astutils.IsFieldListType(funcType.Params, 2, astutils.IsExprTypeInterface) {
+		return false
+	}
+
+	if !astutils.IsFieldListTypeModulePackageType(funcType.Results, 0, info, diag.PackageModule, diag.PackageModulePath, diag.TypeNameDiagnostics) {
+		return false
+	}
+
+	return true
+}
+
+// CRUDFuncInfo represents all gathered CreateContext, ReadContext, UpdateContext, and DeleteContext data for easier access
 // Since Create, Delete, Read, and Update functions all have the same function
 // signature, we cannot differentiate them in AST (except by potentially by
 // function declaration naming heuristics later on).

@@ -17,22 +17,22 @@ func commentIgnoreSecondParameter_v2(d *schema.ResourceData, invalid interface{}
 // Failing
 
 func failingAnonymousFirstParameter_v2() {
-	_ = func(invalid *schema.ResourceData, meta interface{}) error { // want "\\*schema.ResourceData parameter of CreateFunc, ReadFunc, UpdateFunc, or DeleteFunc should be named d"
+	_ = func(invalid *schema.ResourceData, meta interface{}) error { // want "\\*schema.ResourceData parameter of CreateContext, ReadContext, UpdateContext, or DeleteContext should be named d"
 		return nil
 	}
 }
 
 func failingAnonymousSecondParameter_v2() {
-	_ = func(d *schema.ResourceData, invalid interface{}) error { // want "interface\\{\\} parameter of CreateFunc, ReadFunc, UpdateFunc, or DeleteFunc should be named meta"
+	_ = func(d *schema.ResourceData, invalid interface{}) error { // want "interface\\{\\} parameter of CreateContext, ReadContext, UpdateContext, or DeleteContext should be named meta"
 		return nil
 	}
 }
 
-func failingFirstParameter_v2(invalid *schema.ResourceData, meta interface{}) error { // want "\\*schema.ResourceData parameter of CreateFunc, ReadFunc, UpdateFunc, or DeleteFunc should be named d"
+func failingFirstParameter_v2(invalid *schema.ResourceData, meta interface{}) error { // want "\\*schema.ResourceData parameter of CreateContext, ReadContext, UpdateContext, or DeleteContext should be named d"
 	return nil
 }
 
-func failingSecondParameter_v2(d *schema.ResourceData, invalid interface{}) error { // want "interface\\{\\} parameter of CreateFunc, ReadFunc, UpdateFunc, or DeleteFunc should be named meta"
+func failingSecondParameter_v2(d *schema.ResourceData, invalid interface{}) error { // want "interface\\{\\} parameter of CreateContext, ReadContext, UpdateContext, or DeleteContext should be named meta"
 	return nil
 }
 

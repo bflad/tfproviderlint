@@ -1,6 +1,6 @@
 # R014
 
-The R014 analyzer reports when `CreateFunc`, `DeleteFunc`, `ReadFunc`, and `UpdateFunc` declarations do not use `d` as the name for the `*schema.ResourceData` parameter or `meta` as the name for the `interface{}` parameter. This parameter naming is the standard convention for resources.
+The R014 analyzer reports when `CreateContext`, `DeleteContext`, `ReadContext`, and `UpdateContext` declarations do not use `d` as the name for the `*schema.ResourceData` parameter or `meta` as the name for the `interface{}` parameter. This parameter naming is the standard convention for resources.
 
 ## Flagged Code
 

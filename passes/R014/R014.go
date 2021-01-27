@@ -37,13 +37,14 @@ func run(pass *analysis.Pass) (interface{}, error) {
 		}
 
 		params := crudFunc.Type.Params
+		paramCount := len(params.List)
 
-		if name := astutils.FieldListName(params, 0, 0); name != nil && *name != "_" && *name != "d" {
-			pass.Reportf(params.List[0].Pos(), "%s: *schema.ResourceData parameter of CreateFunc, ReadFunc, UpdateFunc, or DeleteFunc should be named d", analyzerName)
+		if name := astutils.FieldListName(params, paramCount-2, 0); name != nil && *name != "_" && *name != "d" {
+			pass.Reportf(params.List[paramCount-2].Pos(), "%s: *schema.ResourceData parameter of CreateContext, ReadContext, UpdateContext, or DeleteContext should be named d", analyzerName)
 		}
 
-		if name := astutils.FieldListName(params, 1, 0); name != nil && *name != "_" && *name != "meta" {
-			pass.Reportf(params.List[1].Pos(), "%s: interface{} parameter of CreateFunc, ReadFunc, UpdateFunc, or DeleteFunc should be named meta", analyzerName)
+		if name := astutils.FieldListName(params, paramCount-1, 0); name != nil && *name != "_" && *name != "meta" {
+			pass.Reportf(params.List[paramCount-1].Pos(), "%s: interface{} parameter of CreateContext, ReadContext, UpdateContext, or DeleteContext should be named meta", analyzerName)
 		}
 	}
 
