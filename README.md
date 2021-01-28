@@ -198,6 +198,7 @@ Extra lint checks are not included in the `tfproviderlint` tool and must be acce
 | [XR003](xpasses/XR003) | check for `Resource` that should implement `Timeouts` | AST |
 | [XR004](xpasses/XR004) | check for `ResourceData.Set()` calls that should implement error checking with complex values | AST |
 | [XR005](xpasses/XR005) | check for `Resource` that `Description` is configured | AST |
+| [XR006](xpasses/XR006) | check for `Resource` that implements redundant Timeouts | AST |
 
 ### Extra Schema Checks
 
