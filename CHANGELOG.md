@@ -5,6 +5,10 @@ ENHANCEMENTS
 * passes/helper/schema/crudfuncinfo: Support `CreateContextFunc`, `DeleteContextFunc`, `ReadContextFunc`, and `UpdateContextFunc` matches (#221)
 * passes/R014: Support `CreateContextFunc`, `DeleteContextFunc`, `ReadContextFunc`, and `UpdateContextFunc` reports (#221)
 
+BUG FIXES
+
+* helper/terraformtype/helper/schema: Prevent panics with function or variable `Elem` field values
+
 # v0.21.0
 
 FEATURES
