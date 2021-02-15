@@ -10,19 +10,23 @@ import (
 
 const (
 	ResourceFieldCreate             = `Create`
+	ResourceFieldCreateContext      = `CreateContext`
 	ResourceFieldCustomizeDiff      = `CustomizeDiff`
 	ResourceFieldDelete             = `Delete`
+	ResourceFieldDeleteContext      = `DeleteContext`
 	ResourceFieldDeprecationMessage = `DeprecationMessage`
 	ResourceFieldDescription        = `Description`
 	ResourceFieldExists             = `Exists`
 	ResourceFieldImporter           = `Importer`
 	ResourceFieldMigrateState       = `MigrateState`
 	ResourceFieldRead               = `Read`
+	ResourceFieldReadContext        = `ReadContext`
 	ResourceFieldSchema             = `Schema`
 	ResourceFieldSchemaVersion      = `SchemaVersion`
 	ResourceFieldStateUpgraders     = `StateUpgraders`
 	ResourceFieldTimeouts           = `Timeouts`
 	ResourceFieldUpdate             = `Update`
+	ResourceFieldUpdateContext      = `UpdateContext`
 
 	TypeNameResource = `Resource`
 )
@@ -36,12 +40,7 @@ type resourceType struct {
 	Description  string
 	MigrateState func(int, interface{}, interface{}) (interface{}, error)
 	Schema       map[string]*schemaType
-	Timeout resourceTimeoutType
-}
-
-// resourceTimeoutType is an internal representation of the SDK helper/schema.ResourceTimeout type
-type resourceTimeoutType struct {
-	Create, Read, Update, Delete, Default *time.Duration
+	Timeouts     resourceTimeoutType
 }
 
 // ResourceInfo represents all gathered Resource data for easier access
@@ -86,18 +85,18 @@ func NewResourceInfo(cl *ast.CompositeLit, info *types.Info) *ResourceInfo {
 							continue
 						}
 
-						if  astutils.ExprValue(elt.Value) != nil {
+						if astutils.ExprValue(elt.Value) != nil {
 							switch key {
 							case "Create":
-								result.Resource.Timeout.Create = new(time.Duration)
+								result.Resource.Timeouts.Create = new(time.Duration)
 							case "Read":
-								result.Resource.Timeout.Read = new(time.Duration)
+								result.Resource.Timeouts.Read = new(time.Duration)
 							case "Update":
-								result.Resource.Timeout.Update = new(time.Duration)
+								result.Resource.Timeouts.Update = new(time.Duration)
 							case "Delete":
-								result.Resource.Timeout.Delete = new(time.Duration)
+								result.Resource.Timeouts.Delete = new(time.Duration)
 							case "Default":
-								result.Resource.Timeout.Default = new(time.Duration)
+								result.Resource.Timeouts.Default = new(time.Duration)
 							}
 						}
 					}

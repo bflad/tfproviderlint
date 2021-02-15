@@ -1,5 +1,9 @@
 # v0.22.0
 
+FEATURES
+
+* **New Check:** `XR006`: check for `Resource` that implements `Timeouts` for missing `Create`, `Delete`, `Read`, or `Update` implementation (#222)
+
 ENHANCEMENTS
 
 * passes/helper/schema/crudfuncinfo: Support `CreateContextFunc`, `DeleteContextFunc`, `ReadContextFunc`, and `UpdateContextFunc` matches (#221)

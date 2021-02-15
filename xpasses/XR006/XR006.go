@@ -1,16 +1,16 @@
 package XR006
 
 import (
-	"github.com/bflad/tfproviderlint/passes/helper/schema/resourceinfo"
-	"golang.org/x/tools/go/analysis"
-
 	"github.com/bflad/tfproviderlint/helper/terraformtype/helper/schema"
 	"github.com/bflad/tfproviderlint/passes/commentignore"
+	"github.com/bflad/tfproviderlint/passes/helper/schema/resourceinfo"
+	"golang.org/x/tools/go/analysis"
 )
 
-const Doc = `check for Resource that implements redundant Timeouts
+const Doc = `check for Resource that implements Timeouts for missing Create, Delete, Read, or Update implementation
 
-The XR006 analyzer reports redundant Timeouts in resources.`
+The XR006 analyzer reports extraneous Timeouts fields in resources where the
+corresponding Create, Delete, Read, or Update implementation does not exist.`
 
 const analyzerName = "XR006"
 
@@ -32,15 +32,21 @@ func run(pass *analysis.Pass) (interface{}, error) {
 			continue
 		}
 
-		if (resource.Fields[schema.ResourceFieldCreate] == nil ) == (resource.Resource.Timeout.Create == nil ) &&
-			(resource.Fields[schema.ResourceFieldRead] == nil ) == (resource.Resource.Timeout.Read == nil ) &&
-			(resource.Fields[schema.ResourceFieldUpdate] == nil ) == (resource.Resource.Timeout.Update == nil ) &&
-			(resource.Fields[schema.ResourceFieldDelete] == nil ) == (resource.Resource.Timeout.Delete == nil ) {
-			continue
+		if !resource.DeclaresField(schema.ResourceFieldCreate) && !resource.DeclaresField(schema.ResourceFieldCreateContext) && resource.Resource.Timeouts.Create != nil {
+			pass.Reportf(resource.AstCompositeLit.Pos(), "%s: resource should not configure Timeouts.Create without Create implementation", analyzerName)
 		}
 
+		if !resource.DeclaresField(schema.ResourceFieldDelete) && !resource.DeclaresField(schema.ResourceFieldDeleteContext) && resource.Resource.Timeouts.Delete != nil {
+			pass.Reportf(resource.AstCompositeLit.Pos(), "%s: resource should not configure Timeouts.Delete without Delete implementation", analyzerName)
+		}
 
-		pass.Reportf(resource.AstCompositeLit.Pos(), "%s: resource should not include redundant Timeouts implementation", analyzerName)
+		if !resource.DeclaresField(schema.ResourceFieldRead) && !resource.DeclaresField(schema.ResourceFieldReadContext) && resource.Resource.Timeouts.Read != nil {
+			pass.Reportf(resource.AstCompositeLit.Pos(), "%s: resource should not configure Timeouts.Read without Read implementation", analyzerName)
+		}
+
+		if !resource.DeclaresField(schema.ResourceFieldUpdate) && !resource.DeclaresField(schema.ResourceFieldUpdateContext) && resource.Resource.Timeouts.Update != nil {
+			pass.Reportf(resource.AstCompositeLit.Pos(), "%s: resource should not configure Timeouts.Update without Update implementation", analyzerName)
+		}
 	}
 
 	return nil, nil
