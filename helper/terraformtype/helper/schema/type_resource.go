@@ -3,6 +3,7 @@ package schema
 import (
 	"go/ast"
 	"go/types"
+	"time"
 
 	"github.com/bflad/tfproviderlint/helper/astutils"
 )
@@ -35,6 +36,12 @@ type resourceType struct {
 	Description  string
 	MigrateState func(int, interface{}, interface{}) (interface{}, error)
 	Schema       map[string]*schemaType
+	Timeout resourceTimeoutType
+}
+
+// resourceTimeoutType is an internal representation of the SDK helper/schema.ResourceTimeout type
+type resourceTimeoutType struct {
+	Create, Read, Update, Delete, Default *time.Duration
 }
 
 // ResourceInfo represents all gathered Resource data for easier access
@@ -60,6 +67,43 @@ func NewResourceInfo(cl *ast.CompositeLit, info *types.Info) *ResourceInfo {
 
 	if kvExpr := result.Fields[ResourceFieldMigrateState]; kvExpr != nil && astutils.ExprValue(kvExpr.Value) != nil {
 		result.Resource.MigrateState = func(int, interface{}, interface{}) (interface{}, error) { return nil, nil }
+	}
+
+	if kvExpr := result.Fields[ResourceFieldTimeouts]; kvExpr != nil && astutils.ExprValue(kvExpr.Value) != nil {
+		if timeoutUexpr, ok := kvExpr.Value.(*ast.UnaryExpr); ok {
+			if timeoutClit, ok := timeoutUexpr.X.(*ast.CompositeLit); ok {
+				for _, expr := range timeoutClit.Elts {
+					switch elt := expr.(type) {
+					case *ast.KeyValueExpr:
+						var key string
+
+						switch keyExpr := elt.Key.(type) {
+						case *ast.Ident:
+							key = keyExpr.Name
+						}
+
+						if key == "" {
+							continue
+						}
+
+						if  astutils.ExprValue(elt.Value) != nil {
+							switch key {
+							case "Create":
+								result.Resource.Timeout.Create = new(time.Duration)
+							case "Read":
+								result.Resource.Timeout.Read = new(time.Duration)
+							case "Update":
+								result.Resource.Timeout.Update = new(time.Duration)
+							case "Delete":
+								result.Resource.Timeout.Delete = new(time.Duration)
+							case "Default":
+								result.Resource.Timeout.Default = new(time.Duration)
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	if kvExpr := result.Fields[ResourceFieldSchema]; kvExpr != nil && astutils.ExprValue(kvExpr.Value) != nil {
