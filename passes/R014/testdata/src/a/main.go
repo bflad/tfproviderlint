@@ -51,3 +51,7 @@ func passing(d *schema.ResourceData, meta interface{}) error {
 func passingOther(diff *schema.ResourceDiff, meta interface{}) error {
 	return nil
 }
+
+func passingExtended(invalidResourceData *schema.ResourceData, invalidInterface interface{}, notCRUDFunc string) error {
+	return nil
+}

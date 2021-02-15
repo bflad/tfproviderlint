@@ -1,3 +1,10 @@
+# v0.22.0
+
+ENHANCEMENTS
+
+* passes/helper/schema/crudfuncinfo: Support `CreateContextFunc`, `DeleteContextFunc`, `ReadContextFunc`, and `UpdateContextFunc` matches (#221)
+* passes/R014: Support `CreateContextFunc`, `DeleteContextFunc`, `ReadContextFunc`, and `UpdateContextFunc` reports (#221)
+
 # v0.21.0
 
 FEATURES

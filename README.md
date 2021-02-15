@@ -121,7 +121,7 @@ Standard lint checks are enabled by default in the `tfproviderlint` tool. Opt-in
 | [R011](passes/R011) | check for `Resource` that configure `MigrateState` | AST |
 | [R012](passes/R012) | check for data source `Resource` that configure `CustomizeDiff` | AST |
 | [R013](passes/R013) | check for `map[string]*Resource` that resource names contain at least one underscore | AST |
-| [R014](passes/R014) | check for `CreateFunc`, `DeleteFunc`, `ReadFunc`, and `UpdateFunc` parameter naming | AST |
+| [R014](passes/R014) | check for `CreateFunc`, `CreateContextFunc`, `DeleteFunc`, `DeleteContextFunc`, `ReadFunc`, `ReadContextFunc`, `UpdateFunc`, and `UpdateContextFunc` parameter naming | AST |
 | [R015](passes/R015) | check for `(*schema.ResourceData).SetId()` receiver method usage with unstable `resource.UniqueId()` value | AST |
 | [R016](passes/R016) | check for `(*schema.ResourceData).SetId()` receiver method usage with unstable `resource.PrefixedUniqueId()` value | AST |
 | [R017](passes/R017) | check for `(*schema.ResourceData).SetId()` receiver method usage with unstable `time.Now()` value | AST |
