@@ -14,9 +14,29 @@ func f() {
 		Elem: &schema.Schema{Type: schema.TypeString},
 	}
 
-	_ = map[string]*schema.Schema{ 
+	_ = schema.Schema{
+		Type: schema.TypeMap,
+		Elem: schemaFunc(),
+	}
+
+	_ = schema.Schema{
+		Type: schema.TypeMap,
+		Elem: schemaVar,
+	}
+
+	_ = map[string]*schema.Schema{
 		"name": { // want "schema of TypeMap should include Elem"
 			Type: schema.TypeMap,
 		},
 	}
+}
+
+func schemaFunc() *schema.Schema {
+	return &schema.Schema{
+		Type: schema.TypeString,
+	}
+}
+
+var schemaVar = &schema.Schema{
+	Type: schema.TypeString,
 }
