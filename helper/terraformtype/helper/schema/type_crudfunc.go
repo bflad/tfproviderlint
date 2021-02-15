@@ -1,11 +1,12 @@
 package schema
 
 import (
-	"github.com/bflad/tfproviderlint/helper/astutils"
-	"github.com/bflad/tfproviderlint/helper/terraformtype/diag"
 	"go/ast"
 	"go/token"
 	"go/types"
+
+	"github.com/bflad/tfproviderlint/helper/astutils"
+	"github.com/bflad/tfproviderlint/helper/terraformtype/diag"
 )
 
 // IsFuncTypeCRUDFunc returns true if the FuncType matches expected parameters and results types
@@ -16,11 +17,15 @@ func IsFuncTypeCRUDFunc(node ast.Node, info *types.Info) bool {
 		return false
 	}
 
-	return isFuncTypeCRUDFuncV1V2(funcType, info) || isFuncTypeCRUDFuncV2Context(funcType, info)
+	return isFuncTypeCRUDFunc(funcType, info) || isFuncTypeCRUDContextFunc(funcType, info)
 }
 
-// isFuncTypeCRUDFuncV1V2 returns true if the FuncType matches expected parameters and results types of V1 or V2 without a context.
-func isFuncTypeCRUDFuncV1V2(funcType *ast.FuncType, info *types.Info) bool {
+// isFuncTypeCRUDFunc returns true if the FuncType matches expected parameters and results types of V1 or V2 without a context.
+func isFuncTypeCRUDFunc(funcType *ast.FuncType, info *types.Info) bool {
+	if !astutils.HasFieldListLength(funcType.Params, 2) {
+		return false
+	}
+
 	if !astutils.IsFieldListTypeModulePackageType(funcType.Params, 0, info, PackageModule, PackageModulePath, TypeNameResourceData) {
 		return false
 	}
@@ -29,11 +34,15 @@ func isFuncTypeCRUDFuncV1V2(funcType *ast.FuncType, info *types.Info) bool {
 		return false
 	}
 
+	if !astutils.HasFieldListLength(funcType.Results, 1) {
+		return false
+	}
+
 	return astutils.IsFieldListType(funcType.Results, 0, astutils.IsExprTypeError)
 }
 
-// isFuncTypeCRUDFuncV2Context returns true if the FuncType matches expected parameters and results types of V2 with a context.
-func isFuncTypeCRUDFuncV2Context(funcType *ast.FuncType, info *types.Info) bool {
+// isFuncTypeCRUDContextFunc returns true if the FuncType matches expected parameters and results types of V2 with a context.
+func isFuncTypeCRUDContextFunc(funcType *ast.FuncType, info *types.Info) bool {
 	if !astutils.HasFieldListLength(funcType.Params, 3) {
 		return false
 	}
@@ -47,6 +56,10 @@ func isFuncTypeCRUDFuncV2Context(funcType *ast.FuncType, info *types.Info) bool 
 	}
 
 	if !astutils.IsFieldListType(funcType.Params, 2, astutils.IsExprTypeInterface) {
+		return false
+	}
+
+	if !astutils.HasFieldListLength(funcType.Results, 1) {
 		return false
 	}
 

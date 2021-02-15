@@ -17,22 +17,22 @@ func commentIgnoreSecondParameter(d *schema.ResourceData, invalid interface{}) e
 // Failing
 
 func failingAnonymousFirstParameter() {
-	_ = func(invalid *schema.ResourceData, meta interface{}) error { // want "\\*schema.ResourceData parameter of CreateContext, ReadContext, UpdateContext, or DeleteContext should be named d"
+	_ = func(invalid *schema.ResourceData, meta interface{}) error { // want "\\*schema.ResourceData parameter of CreateFunc, ReadFunc, UpdateFunc, or DeleteFunc should be named d"
 		return nil
 	}
 }
 
 func failingAnonymousSecondParameter() {
-	_ = func(d *schema.ResourceData, invalid interface{}) error { // want "interface\\{\\} parameter of CreateContext, ReadContext, UpdateContext, or DeleteContext should be named meta"
+	_ = func(d *schema.ResourceData, invalid interface{}) error { // want "interface\\{\\} parameter of CreateFunc, ReadFunc, UpdateFunc, or DeleteFunc should be named meta"
 		return nil
 	}
 }
 
-func failingFirstParameter(invalid *schema.ResourceData, meta interface{}) error { // want "\\*schema.ResourceData parameter of CreateContext, ReadContext, UpdateContext, or DeleteContext should be named d"
+func failingFirstParameter(invalid *schema.ResourceData, meta interface{}) error { // want "\\*schema.ResourceData parameter of CreateFunc, ReadFunc, UpdateFunc, or DeleteFunc should be named d"
 	return nil
 }
 
-func failingSecondParameter(d *schema.ResourceData, invalid interface{}) error { // want "interface\\{\\} parameter of CreateContext, ReadContext, UpdateContext, or DeleteContext should be named meta"
+func failingSecondParameter(d *schema.ResourceData, invalid interface{}) error { // want "interface\\{\\} parameter of CreateFunc, ReadFunc, UpdateFunc, or DeleteFunc should be named meta"
 	return nil
 }
 
@@ -49,5 +49,9 @@ func passing(d *schema.ResourceData, meta interface{}) error {
 }
 
 func passingOther(diff *schema.ResourceDiff, meta interface{}) error {
+	return nil
+}
+
+func passingExtended(invalidResourceData *schema.ResourceData, invalidInterface interface{}, notCRUDFunc string) error {
 	return nil
 }
