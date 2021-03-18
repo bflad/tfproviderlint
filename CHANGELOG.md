@@ -1,3 +1,9 @@
+# v0.23.0
+
+FEATURES
+
+* **New Extra Check:** `XAT001`: check for `TestCase` missing `ErrorCheck` implementation
+
 # v0.22.0
 
 FEATURES
