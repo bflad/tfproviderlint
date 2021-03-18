@@ -189,6 +189,12 @@ Standard lint checks are enabled by default in the `tfproviderlint` tool. Opt-in
 
 Extra lint checks are not included in the `tfproviderlint` tool and must be accessed via the `tfproviderlintx` tool or [added to a custom lint tool](#implementing-a-custom-lint-tool). Generally these represent advanced Terraform Plugin SDK functionality that is not appropriate for all Terraform Providers.
 
+### Extra Acceptance Test Checks
+
+| Check | Description | Type |
+|---|---|---|
+| [XAT001](xpasses/XAT001) | check for `TestCase` missing `ErrorCheck` | AST |
+
 ### Extra Resource Checks
 
 | Check | Description | Type |
