@@ -1,4 +1,4 @@
-FROM golang:1.13-stretch
+FROM golang:1.16-buster
 WORKDIR /src
 COPY tfproviderlint /usr/bin/tfproviderlint
 ENTRYPOINT ["/usr/bin/tfproviderlint"]
