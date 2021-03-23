@@ -4,6 +4,7 @@ FEATURES
 
 * **New Check:** `AT010`: check for `TestCase` including `IDRefreshName` implementation
 * **New Check:** `AT011`: check for `TestCase` including `IDRefreshIgnore` implementation without `IDRefreshName`
+* **New Check:** `AT012`: check for files containing multiple acceptance test function name prefixes
 
 # v0.23.0
 
