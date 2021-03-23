@@ -103,6 +103,8 @@ Standard lint checks are enabled by default in the `tfproviderlint` tool. Opt-in
 | [AT007](passes/AT007) | check for acceptance test functions containing multiple `resource.ParallelTest()` invocations | AST |
 | [AT008](passes/AT008) | check for acceptance test function declaration `*testing.T` parameter naming | AST |
 | [AT009](passes/AT009) | check for `acctest.RandStringFromCharSet()` calls that can be simplified to `acctest.RandString()` | AST |
+| [AT010](passes/AT010) | check for `TestCase` including `IDRefreshName` implementation | AST |
+| [AT011](passes/AT011) | check for `TestCase` including `IDRefreshIgnore` implementation without `IDRefreshName` | AST |
 
 ### Standard Resource Checks
 
