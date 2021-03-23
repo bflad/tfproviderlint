@@ -1,3 +1,10 @@
+# v0.24.0
+
+FEATURES
+
+* **New Check:** `AT010`: check for `TestCase` including `IDRefreshName` implementation
+* **New Check:** `AT011`: check for `TestCase` including `IDRefreshIgnore` implementation without `IDRefreshName`
+
 # v0.23.0
 
 FEATURES
