@@ -79,6 +79,10 @@ import (
 	"github.com/bflad/tfproviderlint/passes/V008"
 	"github.com/bflad/tfproviderlint/passes/V009"
 	"github.com/bflad/tfproviderlint/passes/V010"
+	"github.com/bflad/tfproviderlint/passes/V011"
+	"github.com/bflad/tfproviderlint/passes/V012"
+	"github.com/bflad/tfproviderlint/passes/V013"
+	"github.com/bflad/tfproviderlint/passes/V014"
 	"golang.org/x/tools/go/analysis"
 )
 
@@ -164,4 +168,8 @@ var AllChecks = []*analysis.Analyzer{
 	V008.Analyzer,
 	V009.Analyzer,
 	V010.Analyzer,
+	V011.Analyzer,
+	V012.Analyzer,
+	V013.Analyzer,
+	V014.Analyzer,
 }

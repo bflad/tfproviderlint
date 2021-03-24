@@ -187,6 +187,10 @@ Standard lint checks are enabled by default in the `tfproviderlint` tool. Opt-in
 | [V008](passes/V008) | check for deprecated `ValidateRFC3339TimeString` validation function usage | AST |
 | [V009](passes/V009) | check for `validation.StringMatch()` call with empty message argument | AST |
 | [V010](passes/V010) | check for `validation.StringDoesNotMatch()` call with empty message argument | AST |
+| [V011](passes/V011) | check for custom `SchemaValidateFunc` that implement `validation.StringLenBetween()` | AST |
+| [V012](passes/V012) | check for custom `SchemaValidateFunc` that implement `validation.IntAtLeast()`, `validation.IntAtMost()`, or `validation.IntBetween()` | AST |
+| [V013](passes/V013) | check for custom `SchemaValidateFunc` that implement `validation.StringInSlice()` or `validation.StringNotInSlice()` | AST |
+| [V014](passes/V014) | check for custom `SchemaValidateFunc` that implement `validation.IntInSlice()` or `validation.IntNotInSlice()` | AST |
 
 ## Extra Lint Checks
 

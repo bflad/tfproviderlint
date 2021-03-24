@@ -5,6 +5,10 @@ FEATURES
 * **New Check:** `AT010`: check for `TestCase` including `IDRefreshName` implementation
 * **New Check:** `AT011`: check for `TestCase` including `IDRefreshIgnore` implementation without `IDRefreshName`
 * **New Check:** `AT012`: check for files containing multiple acceptance test function name prefixes
+* **New Check:** `V011`: check for custom `SchemaValidateFunc` that implement `validation.StringLenBetween()`
+* **New Check:** `V012`: check for custom `SchemaValidateFunc` that implement `validation.IntAtLeast()`, `validation.IntAtMost()`, or `validation.IntBetween()`
+* **New Check:** `V013`: check for custom `SchemaValidateFunc` that implement `validation.StringInSlice()` or `validation.StringNotInSlice()`
+* **New Check:** `V014`: check for custom `SchemaValidateFunc` that implement `validation.IntInSlice()` or `validation.IntNotInSlice()`
 
 # v0.23.0
 
