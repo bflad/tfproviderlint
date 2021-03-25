@@ -1,3 +1,10 @@
+# v0.25.0
+
+ENHANCEMENTS
+
+* helper/terraformtype/helper/schema: Add constants for new `Resource` type `CreateWithoutTimeout`, `DeleteWithoutTimeout`, `ReadWithoutTimeout`, and `DeleteWithoutTimeout` fields
+* xpasses/XR006: Support `CreateWithoutTimeout`, `DeleteWithoutTimeout`, `ReadWithoutTimeout`, and `DeleteWithoutTimeout`
+
 # v0.24.0
 
 FEATURES
