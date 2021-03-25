@@ -88,6 +88,34 @@ func f_v2() {
 			Update: schema.DefaultTimeout(time.Minute),
 		},
 	}
+
+	_ = schema.Resource{
+		CreateWithoutTimeout: createContextFunc_v2,
+		Timeouts: &schema.ResourceTimeout{
+			Create: schema.DefaultTimeout(time.Minute),
+		},
+	}
+
+	_ = schema.Resource{
+		DeleteWithoutTimeout: deleteContextFunc_v2,
+		Timeouts: &schema.ResourceTimeout{
+			Delete: schema.DefaultTimeout(time.Minute),
+		},
+	}
+
+	_ = schema.Resource{
+		ReadWithoutTimeout: readContextFunc_v2,
+		Timeouts: &schema.ResourceTimeout{
+			Read: schema.DefaultTimeout(time.Minute),
+		},
+	}
+
+	_ = schema.Resource{
+		UpdateWithoutTimeout: updateContextFunc_v2,
+		Timeouts: &schema.ResourceTimeout{
+			Update: schema.DefaultTimeout(time.Minute),
+		},
+	}
 }
 
 func createFunc_v2(d *schema.ResourceData, meta interface{}) error {
