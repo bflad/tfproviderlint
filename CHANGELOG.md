@@ -2,8 +2,8 @@
 
 FEATURES
 
-* **New Check:** `XR007`: check for `exec.Command` usage
-* **New Check:** `XR008`: check for `exec.CommandContext` usage
+* **New Check:** `XR007`: check for `os/exec.Command` usage
+* **New Check:** `XR008`: check for `os/exec.CommandContext` usage
 
 # v0.25.0
 
