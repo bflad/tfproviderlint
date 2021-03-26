@@ -1,3 +1,10 @@
+# v0.26.0
+
+FEATURES
+
+* **New Check:** `XR007`: check for `exec.Command` usage
+* **New Check:** `XR008`: check for `exec.CommandContext` usage
+
 # v0.25.0
 
 ENHANCEMENTS

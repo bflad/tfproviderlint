@@ -1,0 +1,22 @@
+package a
+
+import (
+	"os/exec"
+)
+
+// want "avoid os/exec.CommandContext"
+
+func f() {
+	// Comment ignored
+
+	//lintignore:XR007
+	exec.CommandContext("true")
+
+	exec.CommandContext("true") //lintignore:XR007
+
+	// Failing
+
+	// want "avoid os/exec.CommandContext"
+
+	failing("true")
+}
