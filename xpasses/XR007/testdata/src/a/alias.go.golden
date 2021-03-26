@@ -1,0 +1,13 @@
+package a
+
+import (
+	e "os/exec"
+)
+
+// want "avoid os/exec.Command"
+
+func fAlias() {
+	// want "avoid os/exec.Command"
+
+	failingAlias("true")
+}

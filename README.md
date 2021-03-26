@@ -212,6 +212,8 @@ Extra lint checks are not included in the `tfproviderlint` tool and must be acce
 | [XR004](xpasses/XR004) | check for `ResourceData.Set()` calls that should implement error checking with complex values | AST |
 | [XR005](xpasses/XR005) | check for `Resource` that `Description` is configured | AST |
 | [XR006](xpasses/XR006) | check for `Resource` that implements `Timeouts` for missing `Create`, `Delete`, `Read`, or `Update` implementation | AST |
+| [XR007](xpasses/XR007) | check for `os/exec.Command` usage | AST |
+| [XR008](xpasses/XR008) | check for `os/exec.CommandContext` usage | AST |
 
 ### Extra Schema Checks
 
