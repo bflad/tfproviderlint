@@ -53,7 +53,8 @@ func ExprStringValue(e ast.Expr) *string {
 		return &stringValue
 	}
 
-	return nil
+	s := ""
+	return  &s
 }
 
 // ExprValue fetches a pointer to the Expr
