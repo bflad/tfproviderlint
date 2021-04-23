@@ -44,7 +44,13 @@ schemaLoop:
 
 		elem := schemaInfo.Schema.Elem
 		resource, ok := elem.(*schema.ResourceType)
+		// Ignore if the Elem doesn't exist or is not a composite literal
 		if !ok || resource == nil {
+			continue
+		}
+
+		// Ignore if the nested schema map is not a composite literal
+		if len(resource.Schema) == 0 {
 			continue
 		}
 

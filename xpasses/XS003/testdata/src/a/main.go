@@ -175,4 +175,36 @@ func f() {
 			},
 		},
 	}
+
+	// The schema map is a reference.
+	tmpSchemaMap := map[string]*schema.Schema{"foo": {}}
+	_ = schema.Resource{
+		Schema: map[string]*schema.Schema{
+			"a": {
+				Required: true,
+				Type:     schema.TypeList,
+				Elem: &schema.Resource{
+					Schema: tmpSchemaMap,
+				},
+			},
+		},
+	}
+
+	// The nested resource is a reference.
+	tmpResource := &schema.Resource{
+		Schema: map[string]*schema.Schema{
+			"foo": {
+				Optional: true,
+			},
+		},
+	}
+	_ = schema.Resource{
+		Schema: map[string]*schema.Schema{
+			"a": {
+				Required: true,
+				Type:     schema.TypeList,
+				Elem:     tmpResource,
+			},
+		},
+	}
 }
