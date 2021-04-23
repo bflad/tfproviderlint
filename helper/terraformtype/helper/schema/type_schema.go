@@ -132,6 +132,7 @@ func NewSchemaInfo(cl *ast.CompositeLit, info *types.Info) *SchemaInfo {
 	}
 
 	if kvExpr := result.Fields[SchemaFieldDefault]; kvExpr != nil && astutils.ExprValue(kvExpr.Value) != nil {
+		result.Schema.Default = struct{}{}
 		switch result.Schema.Type {
 		case typeBool:
 			if ptr := astutils.ExprBoolValue(kvExpr.Value); ptr != nil {
@@ -145,8 +146,6 @@ func NewSchemaInfo(cl *ast.CompositeLit, info *types.Info) *SchemaInfo {
 			if ptr := astutils.ExprStringValue(kvExpr.Value); ptr != nil {
 				result.Schema.Default = *ptr
 			}
-		default:
-			result.Schema.Default = func() (interface{}, error) { return nil, nil }
 		}
 	}
 
