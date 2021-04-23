@@ -21,7 +21,7 @@ func f_v2() {
 
 	_ = schema.Resource{
 		Schema: map[string]*schema.Schema{
-				"a": { // want "XS003: schema might introduce crash or diff as it allows to be an empty block"
+			"a": { // want "XS003: schema might introduce crash or diff as it allows to be an empty block"
 				Required: true,
 				Type:     schema.TypeList,
 				Elem: &schema.Resource{
@@ -96,7 +96,7 @@ func f_v2() {
 					Schema: map[string]*schema.Schema{
 						"foo": {
 							Optional: true,
-							Default: 0,
+							Default:  0,
 						},
 					},
 				},
@@ -113,8 +113,8 @@ func f_v2() {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"foo": {
-							Optional: true,
-							DefaultFunc: func() (interface{}, error) {return nil, nil},
+							Optional:    true,
+							DefaultFunc: func() (interface{}, error) { return nil, nil },
 						},
 					},
 				},
@@ -131,7 +131,7 @@ func f_v2() {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"foo": {
-							Optional: true,
+							Optional:     true,
 							AtLeastOneOf: []string{},
 						},
 					},
@@ -149,9 +149,25 @@ func f_v2() {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"foo": {
-							Optional: true,
+							Optional:     true,
 							ExactlyOneOf: []string{},
 						},
+					},
+				},
+			},
+		},
+	}
+
+	// At least one of the child properties in the block whose schema is not a composite literal.
+	tmpSchema := &schema.Schema{Optional: true}
+	_ = schema.Resource{
+		Schema: map[string]*schema.Schema{
+			"a": {
+				Required: true,
+				Type:     schema.TypeList,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"foo": tmpSchema,
 					},
 				},
 			},

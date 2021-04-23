@@ -1,6 +1,8 @@
 # XS003
 
-The XS003 analyzer reports cases of schemas where a non-computed nested block property of `TypeList` contains optional-only and non-default child properties, which has no `AtLeastOneOf`/`ExactlyOneOf` constraint.
+The XS003 analyzer reports cases of schemas where a non-computed nested block property of `TypeList` that only contains optional-only and non-default child properties, which has no `AtLeastOneOf`/`ExactlyOneOf` constraint.
+
+Note that if any of the direct child's schema is not a composite literal, this rule will be skipped so as to make this rule "complete" (less estimation).
 
 ## Flagged Code
 

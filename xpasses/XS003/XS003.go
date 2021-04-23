@@ -1,10 +1,11 @@
 package XS003
 
 import (
+	"go/ast"
+
 	"github.com/bflad/tfproviderlint/helper/terraformtype/helper/schema"
 	"github.com/bflad/tfproviderlint/passes/commentignore"
 	"github.com/bflad/tfproviderlint/passes/helper/schema/schemainfo"
-	"go/ast"
 	"golang.org/x/tools/go/analysis"
 )
 
@@ -50,6 +51,9 @@ schemaLoop:
 		// Ignore if the child properties of this nested block has at least one required property, or Default/DefaultFunc,
 		// or one of "AtLeastOnOf"/"ExactlyOneOf" constraint.
 		for _, prop := range resource.Schema {
+			if prop == nil {
+				continue schemaLoop
+			}
 			if prop.Required || prop.Default != nil || prop.DefaultFunc != nil || prop.AtLeastOneOf != nil || prop.ExactlyOneOf != nil {
 				continue schemaLoop
 			}

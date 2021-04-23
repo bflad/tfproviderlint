@@ -135,6 +135,8 @@ func NewResourceInfo(cl *ast.CompositeLit, info *types.Info) *ResourceInfo {
 					switch valueExpr := elt.Value.(type) {
 					case *ast.CompositeLit:
 						result.Resource.Schema[key] = NewSchemaInfo(valueExpr, info).Schema
+					default:
+						result.Resource.Schema[key] = nil
 					}
 				}
 			}

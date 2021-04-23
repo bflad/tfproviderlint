@@ -159,4 +159,20 @@ func f() {
 			},
 		},
 	}
+
+	// At least one of the child properties in the block whose schema is not a composite literal.
+	tmpSchema := &schema.Schema{Optional: true}
+	_ = schema.Resource{
+		Schema: map[string]*schema.Schema{
+			"a": {
+				Required: true,
+				Type:     schema.TypeList,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"foo": tmpSchema,
+					},
+				},
+			},
+		},
+	}
 }
