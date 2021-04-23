@@ -42,7 +42,7 @@ func ExprIntValue(e ast.Expr) *int {
 }
 
 // ExprStringValue fetches a string value from the Expr
-// If the Expr is not BasicLit, returns an empty string.
+// If the Expr is not BasicLit, returns nil.
 func ExprStringValue(e ast.Expr) *string {
 	switch v := e.(type) {
 	case *ast.BasicLit:
@@ -53,8 +53,7 @@ func ExprStringValue(e ast.Expr) *string {
 		return &stringValue
 	}
 
-	s := ""
-	return  &s
+	return nil
 }
 
 // ExprValue fetches a pointer to the Expr
