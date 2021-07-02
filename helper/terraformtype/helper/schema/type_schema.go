@@ -48,12 +48,12 @@ const (
 	TypeNameValueType = `ValueType`
 )
 
-// schemaType is an internal representation of the SDK helper/schema.Schema type
+// SchemaType is an internal representation of the SDK helper/schema.Schema type
 //
 // This is used to prevent importing the real type since the project supports
 // multiple versions of the Terraform Plugin SDK, while allowing passes to
 // access the data in a familiar manner.
-type schemaType struct {
+type SchemaType struct {
 	AtLeastOneOf     []string
 	Computed         bool
 	ConflictsWith    []string
@@ -100,7 +100,7 @@ const (
 type SchemaInfo struct {
 	AstCompositeLit *ast.CompositeLit
 	Fields          map[string]*ast.KeyValueExpr
-	Schema          *schemaType
+	Schema          *SchemaType
 	SchemaValueType string
 	TypesInfo       *types.Info
 }
@@ -110,7 +110,7 @@ func NewSchemaInfo(cl *ast.CompositeLit, info *types.Info) *SchemaInfo {
 	result := &SchemaInfo{
 		AstCompositeLit: cl,
 		Fields:          astutils.CompositeLitFields(cl),
-		Schema:          &schemaType{},
+		Schema:          &SchemaType{},
 		SchemaValueType: typeSchemaType(cl, info),
 		TypesInfo:       info,
 	}
