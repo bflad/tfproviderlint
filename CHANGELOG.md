@@ -1,3 +1,9 @@
+# v0.27.0
+
+ENHANCEMENTS
+
+* passes/R006: Add `package-aliases` flag
+
 # v0.26.0
 
 FEATURES
