@@ -25,6 +25,22 @@ func f_v2() {
 		Schema:      map[string]*schema.Schema{},
 	}
 
+	_ = schema.Resource{
+		Create: createFunc_v2,
+		Description: "Line one.\n\n" +
+			"Line two",
+		Read:   readFunc_v2,
+		Schema: map[string]*schema.Schema{},
+	}
+
+	descriptions := map[string]string{"name": "test"}
+	_ = schema.Resource{
+		Create:      createFunc_v2,
+		Description: descriptions["name"],
+		Read:        readFunc_v2,
+		Schema:      map[string]*schema.Schema{},
+	}
+
 	_ = schema.Resource{ // want "resource should configure Description"
 		Read:   readFunc_v2,
 		Schema: map[string]*schema.Schema{},
