@@ -26,4 +26,22 @@ func f() {
 			Type:     schema.TypeString,
 		},
 	}
+
+	_ = map[string]*schema.Schema{
+		"name": {
+			Description: "Line one.\n\n" +
+				"Line two.",
+			Optional: true,
+			Type:     schema.TypeString,
+		},
+	}
+
+	descriptions := map[string]string{"name": "test"}
+	_ = map[string]*schema.Schema{
+		"name": {
+			Description: descriptions["name"],
+			Optional:    true,
+			Type:        schema.TypeString,
+		},
+	}
 }
