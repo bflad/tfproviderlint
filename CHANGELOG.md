@@ -1,3 +1,10 @@
+# v0.27.1
+
+BUG FIXES
+
+* xpasses/XS001: Prevent false positives with non string literal descriptions (#242)
+* xpasses/XR005: Prevent false positives with non string literal descriptions (#242)
+
 # v0.27.0
 
 ENHANCEMENTS
