@@ -86,6 +86,19 @@ $ docker run -v $(pwd):/src bflad/tfproviderlint ./...
 
 A [GitHub Action](https://github.com/features/actions) is available: [tfproviderlint-github-action](https://github.com/bflad/tfproviderlint-github-action)
 
+### Git [pre-commit](https://pre-commit.com) Hook
+A pre-commit hook is available: [tfproviderlint](https://github.com/FalcoSuessgott/tfproviderlint):
+
+Usage:
+> in your `.pre-commit-config.yaml`:
+```yaml
+repos:
+  - repo: https://github.com/FalcoSuessgott/tfproviderlint
+    rev: master
+    hooks:
+      - id: tfproviderlint
+```
+
 ## Standard Lint Checks
 
 Standard lint checks are enabled by default in the `tfproviderlint` tool. Opt-in checks can be found in the [Extra Lint Checks section](#extra-lint-checks). For additional information about each check, you can run `tfproviderlint help NAME`.
