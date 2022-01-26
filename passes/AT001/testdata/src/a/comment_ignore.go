@@ -20,4 +20,17 @@ func fcommentignore() {
 
 	//lintignore:AT001,AT002 // extra comment
 	_ = r.TestCase{}
+
+	// extra comment
+	//lintignore:AT001
+	_ = r.TestCase{}
+
+	// extra comment
+	//lintignore:AT001
+	// extra comment
+	_ = r.TestCase{}
+
+	//lintignore:AT001
+	// extra comment
+	_ = r.TestCase{}
 }
