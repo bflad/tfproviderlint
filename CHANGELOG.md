@@ -1,3 +1,9 @@
+# v0.28.0
+
+ENHANCEMENTS
+
+* passes/commentignore: Support multiple line comments (#249)
+
 # v0.27.1
 
 BUG FIXES
