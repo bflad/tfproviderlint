@@ -48,7 +48,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 					}
 
 					// Remove // comment prefix
-					commentText := strings.TrimPrefix(comment.Text, "//")
+					commentText := strings.TrimLeft(strings.TrimPrefix(comment.Text, "//"), " ")
 
 					if strings.HasPrefix(commentText, commentIgnorePrefix) {
 						commentIgnore := strings.TrimPrefix(commentText, commentIgnorePrefix)
