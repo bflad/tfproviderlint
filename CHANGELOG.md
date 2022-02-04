@@ -1,3 +1,9 @@
+# v0.28.1
+
+BUG FIXES
+
+* passes/commentignore: Prevent regression from v0.28.0 in which leading spaces before the lintignore directive would not trigger the directive (#252)
+
 # v0.28.0
 
 ENHANCEMENTS
