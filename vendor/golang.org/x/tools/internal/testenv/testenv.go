@@ -12,10 +12,12 @@ import (
 	"go/build"
 	"io/ioutil"
 	"os"
-	"os/exec"
 	"runtime"
 	"strings"
 	"sync"
+	"time"
+
+	exec "golang.org/x/sys/execabs"
 )
 
 // Testing is an abstraction of a *testing.T.
@@ -246,14 +248,31 @@ func NeedsGoBuild(t Testing) {
 //
 // It should be called from within a TestMain function.
 func ExitIfSmallMachine() {
-	switch os.Getenv("GO_BUILDER_NAME") {
-	case "linux-arm":
-		fmt.Fprintln(os.Stderr, "skipping test: linux-arm builder lacks sufficient memory (https://golang.org/issue/32834)")
-		os.Exit(0)
+	switch b := os.Getenv("GO_BUILDER_NAME"); b {
+	case "linux-arm-scaleway":
+		// "linux-arm" was renamed to "linux-arm-scaleway" in CL 303230.
+		fmt.Fprintln(os.Stderr, "skipping test: linux-arm-scaleway builder lacks sufficient memory (https://golang.org/issue/32834)")
 	case "plan9-arm":
 		fmt.Fprintln(os.Stderr, "skipping test: plan9-arm builder lacks sufficient memory (https://golang.org/issue/38772)")
-		os.Exit(0)
+	case "netbsd-arm-bsiegert", "netbsd-arm64-bsiegert":
+		// As of 2021-06-02, these builders are running with GO_TEST_TIMEOUT_SCALE=10,
+		// and there is only one of each. We shouldn't waste those scarce resources
+		// running very slow tests.
+		fmt.Fprintf(os.Stderr, "skipping test: %s builder is very slow\n", b)
+	case "dragonfly-amd64":
+		// As of 2021-11-02, this builder is running with GO_TEST_TIMEOUT_SCALE=2,
+		// and seems to have unusually slow disk performance.
+		fmt.Fprintln(os.Stderr, "skipping test: dragonfly-amd64 has slow disk (https://golang.org/issue/45216)")
+	case "linux-riscv64-unmatched":
+		// As of 2021-11-03, this builder is empirically not fast enough to run
+		// gopls tests. Ideally we should make the tests faster in short mode
+		// and/or fix them to not assume arbitrary deadlines.
+		// For now, we'll skip them instead.
+		fmt.Fprintf(os.Stderr, "skipping test: %s builder is too slow (https://golang.org/issue/49321)\n", b)
+	default:
+		return
 	}
+	os.Exit(0)
 }
 
 // Go1Point returns the x in Go 1.x.
@@ -288,4 +307,16 @@ func SkipAfterGo1Point(t Testing, x int) {
 	if Go1Point() > x {
 		t.Skipf("running Go version %q is version 1.%d, newer than maximum 1.%d", runtime.Version(), Go1Point(), x)
 	}
+}
+
+// Deadline returns the deadline of t, if known,
+// using the Deadline method added in Go 1.15.
+func Deadline(t Testing) (time.Time, bool) {
+	td, ok := t.(interface {
+		Deadline() (time.Time, bool)
+	})
+	if !ok {
+		return time.Time{}, false
+	}
+	return td.Deadline()
 }
