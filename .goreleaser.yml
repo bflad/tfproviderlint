@@ -32,6 +32,7 @@ builds:
   goarch:
   - amd64
   - 386
+  - arm64
   ldflags:
   - -s -w -X github.com/bflad/tfproviderlint/version.Version={{.Version}} -X github.com/bflad/tfproviderlint/version.VersionPrerelease= -X github.com/bflad/tfproviderlint/version.GitCommit={{.ShortCommit}}
   main: ./cmd/tfproviderlint
@@ -47,6 +48,7 @@ builds:
   goarch:
   - amd64
   - 386
+  - arm64
   id: tfproviderlintx
   ldflags:
   - -s -w -X github.com/bflad/tfproviderlint/version.Version={{.Version}} -X github.com/bflad/tfproviderlint/version.VersionPrerelease= -X github.com/bflad/tfproviderlint/version.GitCommit={{.ShortCommit}}
