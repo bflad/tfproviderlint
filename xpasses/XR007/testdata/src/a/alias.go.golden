@@ -4,10 +4,10 @@ import (
 	e "os/exec"
 )
 
-// want "avoid os/exec.Command"
-
 func fAlias() {
-	// want "avoid os/exec.Command"
+	failingAlias := // want "avoid os/exec.Command"
 
-	failingAlias("true")
+		// want "avoid os/exec.Command"
+
+		failingAlias("true")
 }

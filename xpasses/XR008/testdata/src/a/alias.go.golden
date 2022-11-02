@@ -5,10 +5,10 @@ import (
 	e "os/exec"
 )
 
-// want "avoid os/exec.CommandContext"
-
 func fAlias() {
-	// want "avoid os/exec.CommandContext"
+	failingAlias := // want "avoid os/exec.CommandContext"
 
-	failingAlias(context.Background(), "true")
+		// want "avoid os/exec.CommandContext"
+
+		failingAlias(context.Background(), "true")
 }

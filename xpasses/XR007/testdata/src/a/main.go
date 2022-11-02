@@ -4,9 +4,8 @@ import (
 	"os/exec"
 )
 
-var failing = exec.Command // want "avoid os/exec.Command"
-
 func f() {
+	failing := exec.Command // want "avoid os/exec.Command"
 	// Comment ignored
 
 	//lintignore:XR007

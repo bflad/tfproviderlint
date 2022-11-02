@@ -1,22 +1,23 @@
 package a
 
 import (
+	"context"
 	"os/exec"
 )
 
-// want "avoid os/exec.CommandContext"
-
 func f() {
-	// Comment ignored
+	failing := // want "avoid os/exec.CommandContext"
 
-	//lintignore:XR007
-	exec.CommandContext("true")
+		// Comment ignored
 
-	exec.CommandContext("true") //lintignore:XR007
+		//lintignore:XR008
+		exec.CommandContext(context.Background(), "true")
+
+	exec.CommandContext(context.Background(), "true") //lintignore:XR008
 
 	// Failing
 
 	// want "avoid os/exec.CommandContext"
 
-	failing("true")
+	failing(context.Background(), "true")
 }

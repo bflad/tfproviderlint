@@ -5,9 +5,9 @@ import (
 	"os/exec"
 )
 
-var failing = exec.CommandContext // want "avoid os/exec.CommandContext"
-
 func f() {
+	failing := exec.CommandContext // want "avoid os/exec.CommandContext"
+
 	// Comment ignored
 
 	//lintignore:XR008
