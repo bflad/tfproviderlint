@@ -1,3 +1,9 @@
+# v0.29.0
+
+NOTES
+
+* all: This Go module and the associated Docker image has been updated to Go 1.19 per the [Go support policy](https://go.dev/doc/devel/release#policy). Any consumers building on earlier Go versions or dependent on earlier Go version functionality may experience errors. (#269)
+
 # v0.28.1
 
 BUG FIXES
