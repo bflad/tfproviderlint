@@ -272,7 +272,7 @@ Primatives for working with Terraform Plugin SDK primatives can be found in `hel
 
 ### Updating Dependencies
 
-Dependency updates are managed by [Dependabot]().
+Dependency updates are managed by [Dependabot](https://docs.github.com/en/code-security/dependabot).
 
 ### Unit Testing
 
