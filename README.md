@@ -12,74 +12,74 @@ Release binaries are available in the [Releases](https://github.com/bflad/tfprov
 
 To instead use Go to install into your `$GOBIN` directory (e.g. `$GOPATH/bin`):
 
-```console
-$ go get github.com/bflad/tfproviderlint/cmd/tfproviderlint
+```shell
+go install github.com/bflad/tfproviderlint/cmd/tfproviderlint@latest
 ```
 
 If you wish to install the command which includes all linting checks, including [Extra Lint Checks](#extra-lint-checks):
 
-```console
-$ go get github.com/bflad/tfproviderlint/cmd/tfproviderlintx
+```shell
+go install github.com/bflad/tfproviderlint/cmd/tfproviderlintx@latest
 ```
 
 ### Docker Install
 
-```console
-$ docker pull bflad/tfproviderlint
+```shell
+docker pull bflad/tfproviderlint
 ```
 
 ### Homebrew Install
 
-```console
-$ brew install bflad/tap/tfproviderlint
+```shell
+brew install bflad/tap/tfproviderlint
 ```
 
 ## Usage
 
 The `tfproviderlint` and `tfproviderlintx` tools operate similarly except for which checks are available. Additional information about usage and configuration options can be found by passing the `help` argument:
 
-```console
-$ tfproviderlint help
+```shell
+tfproviderlint help
 ```
 
 To enable only specific checks, they can be passed in as flags:
 
-```console
-$ tfproviderlint -AT001
+```shell
+tfproviderlint -AT001
 ```
 
 To enable all checks, but disable specific checks, they can be passed in as flags set to `false`:
 
-```console
-$ tfproviderlint -AT001=false
+```shell
+tfproviderlint -AT001=false
 ```
 
 ### Local Usage
 
 To report issues, change into the directory of the Terraform Provider code and run:
 
-```console
-$ tfproviderlint ./...
+```shell
+tfproviderlint ./...
 ```
 
 To apply automated fixes for checks that support them, change into the directory of the Terraform Provider code and run:
 
-```console
-$ tfproviderlint -fix ./...
+```shell
+tfproviderlint -fix ./...
 ```
 
 It is also possible to run via [`go vet`](https://golang.org/cmd/vet/):
 
-```console
-$ go vet -vettool $(which tfproviderlint) ./...
+```shell
+go vet -vettool $(which tfproviderlint) ./...
 ```
 
 ### Docker Usage
 
 Change into the directory of the Terraform Provider code and run:
 
-```console
-$ docker run -v $(pwd):/src bflad/tfproviderlint ./...
+```shell
+docker run -v $(pwd):/src bflad/tfproviderlint ./...
 ```
 
 ### GitHub Action Usage
@@ -276,12 +276,12 @@ Dependency updates are managed by [Dependabot]().
 
 ### Unit Testing
 
-```console
-$ go test ./...
+```shell
+go test ./...
 ```
 
 ### Local Install Testing
 
-```console
-$ go install ./cmd/tfproviderlint
+```shell
+go install ./cmd/tfproviderlint
 ```
