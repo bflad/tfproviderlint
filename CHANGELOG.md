@@ -4,6 +4,10 @@ NOTES
 
 * all: This Go module and the associated Docker image has been updated to Go 1.19 per the [Go support policy](https://go.dev/doc/devel/release#policy). Any consumers building on earlier Go versions or dependent on earlier Go version functionality may experience errors. (#269)
 
+FEATURES
+
+* all: Released binaries now include `darwin/arm64`, `linux/arm64`, and `windows/arm64` (#258)
+
 BUG FIXES
 
 * all: Prevented Go 1.18 and later `internal error: package XXX without types was imported` errors (#270)
