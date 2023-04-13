@@ -31,7 +31,7 @@ $ docker pull bflad/tfproviderlint
 ### Homebrew Install
 
 ```console
-$ brew install bflad/tap/tfproviderlint
+$ brew install tfproviderlint
 ```
 
 ## Usage
