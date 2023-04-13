@@ -231,6 +231,12 @@ Helpful tooling for development:
 * [`astdump`](https://github.com/wingyplus/astdump): a tool for displaying the AST form of Go file
 * [`ssadump`](https://godoc.org/golang.org/x/tools/cmd/ssadump): a tool for displaying and interpreting the SSA form of Go programs
 
+## Go Compatibility
+
+This project follows the [Go support policy](https://golang.org/doc/devel/release.html#policy) for versions. The two latest major releases of Go are supported by the project.
+
+Currently, that means Go **1.19** or later must be used when including this project as a dependency.
+
 ### Adding an Analyzer
 
 * Create new analyzer in `passes/` (or `xpasses/` for extra checks)
@@ -266,11 +272,7 @@ Primatives for working with Terraform Plugin SDK primatives can be found in `hel
 
 ### Updating Dependencies
 
-```console
-$ go get URL
-$ go mod tidy
-$ go mod vendor
-```
+Dependency updates are managed by [Dependabot]().
 
 ### Unit Testing
 

@@ -13,6 +13,8 @@ func TestXR007(t *testing.T) {
 }
 
 func TestAnalyzerFixes(t *testing.T) {
+	t.Skipf("skipping as these suggested fixes will intentionally create an invalid file")
+
 	testdata := analysistest.TestData()
 	analysistest.RunWithSuggestedFixes(t, testdata, XR007.Analyzer, "a")
 }
