@@ -1,11 +1,5 @@
-name: Release
-on:
-  push:
-    tags:
-      - "v[0-9]+.[0-9]+.[0-9]+"
-
-permissions:
-  contents: write
+name: Test
+on: pull_request
 
 jobs:
   go_mod:
@@ -18,9 +12,11 @@ jobs:
           go-version-file: 'go.mod'
       - name: go mod
         run: |
+          echo "==> Checking source code with go mod vendor..."
           go mod tidy
           git diff --exit-code -- go.mod go.sum || \
             (echo; echo "Unexpected difference in go.mod/go.sum files. Run 'go mod tidy' command or revert any go.mod/go.sum changes and commit."; exit 1)
+          echo "==> Checking source code with go mod vendor..."
           go mod vendor
           git diff --compact-summary --exit-code -- vendor || \
             (echo; echo "Unexpected difference in vendor/ directory. Run 'go mod vendor' command or revert any go.mod/go.sum/vendor changes and commit."; exit 1)
@@ -35,35 +31,17 @@ jobs:
       - run: go test ./...
   goreleaser:
     name: goreleaser
-    needs: [go_mod, go_test]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
-        with:
-          fetch-depth: 0
       - uses: actions/setup-go@4d34df0c2316fe8122ab82dc22947d607c0c91f9 # v4.0.0
         with:
           go-version-file: 'go.mod'
-      - uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a # v2.1.0
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Import GPG key
-        id: import_gpg
-        uses: crazy-max/ghaction-import-gpg@111c56156bcc6918c056dbef52164cfa583dc549 # v5.2.0
-        with:
-          gpg_private_key: ${{ secrets.GPG_KEY }}
-      - name: Generate Release Notes
-        run: |
-          sed -n -e "1{/# v/d;}" -e "2{/^$/d;}" -e "/# $(git describe --abbrev=0 --exclude="$(git describe --abbrev=0 --match='v*.*.*' --tags)" --match='v*.*.*' --tags)/q;p" CHANGELOG.md > RELEASE-NOTES.md
       - name: goreleaser check
         uses: goreleaser/goreleaser-action@f82d6c1c344bcacabba2c841718984797f664a6b # v4.2.0
         with:
           args: check
-      - name: goreleaser release
+      - name: goreleaser build
         uses: goreleaser/goreleaser-action@f82d6c1c344bcacabba2c841718984797f664a6b # v4.2.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
         with:
-          args: release --release-notes RELEASE-NOTES.md --clean
+          args: build --snapshot
