@@ -12,7 +12,7 @@ brews:
   - go
   description: Terraform Provider Linter
   folder: Formula
-  tap:
+  repository:
     owner: bflad
     name: homebrew-tap
   homepage: https://github.com/bflad/tfproviderlint
