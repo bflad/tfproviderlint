@@ -17,7 +17,6 @@ import (
 	"go/format"
 	"go/token"
 	"go/types"
-	"io/ioutil"
 	"log"
 	"os"
 	"reflect"
@@ -172,6 +171,7 @@ func load(patterns []string, allSyntax bool) ([]*packages.Package, error) {
 	if allSyntax {
 		mode = packages.LoadAllSyntax
 	}
+	mode |= packages.NeedModule
 	conf := packages.Config{
 		Mode:  mode,
 		Tests: IncludeTests,
@@ -424,7 +424,7 @@ func applyFixes(roots []*action) error {
 
 	// Now we've got a set of valid edits for each file. Apply them.
 	for path, edits := range editsByPath {
-		contents, err := ioutil.ReadFile(path)
+		contents, err := os.ReadFile(path)
 		if err != nil {
 			return err
 		}
@@ -439,7 +439,7 @@ func applyFixes(roots []*action) error {
 			out = formatted
 		}
 
-		if err := ioutil.WriteFile(path, out, 0644); err != nil {
+		if err := os.WriteFile(path, out, 0644); err != nil {
 			return err
 		}
 	}
@@ -479,7 +479,7 @@ func validateEdits(edits []diff.Edit) ([]diff.Edit, int) {
 // diff3Conflict returns an error describing two conflicting sets of
 // edits on a file at path.
 func diff3Conflict(path string, xlabel, ylabel string, xedits, yedits []diff.Edit) error {
-	contents, err := ioutil.ReadFile(path)
+	contents, err := os.ReadFile(path)
 	if err != nil {
 		return err
 	}
