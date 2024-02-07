@@ -10,8 +10,8 @@ import (
 	"bytes"
 	"fmt"
 	"go/build"
-	"io/ioutil"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"runtime"
 	"runtime/debug"
@@ -22,8 +22,6 @@ import (
 
 	"golang.org/x/mod/modfile"
 	"golang.org/x/tools/internal/goroot"
-
-	exec "golang.org/x/sys/execabs"
 )
 
 // packageMainIsDevel reports whether the module containing package main
@@ -42,7 +40,7 @@ func packageMainIsDevel() bool {
 	return info.Main.Version == "(devel)"
 }
 
-var checkGoGoroot struct {
+var checkGoBuild struct {
 	once sync.Once
 	err  error
 }
@@ -67,7 +65,7 @@ func hasTool(tool string) error {
 	switch tool {
 	case "patch":
 		// check that the patch tools supports the -o argument
-		temp, err := ioutil.TempFile("", "patch-test")
+		temp, err := os.CreateTemp("", "patch-test")
 		if err != nil {
 			return err
 		}
@@ -79,40 +77,48 @@ func hasTool(tool string) error {
 		}
 
 	case "go":
-		checkGoGoroot.once.Do(func() {
-			// Ensure that the 'go' command found by exec.LookPath is from the correct
-			// GOROOT. Otherwise, 'some/path/go test ./...' will test against some
-			// version of the 'go' binary other than 'some/path/go', which is almost
-			// certainly not what the user intended.
-			out, err := exec.Command(tool, "env", "GOROOT").CombinedOutput()
-			if err != nil {
-				checkGoGoroot.err = err
-				return
-			}
-			GOROOT := strings.TrimSpace(string(out))
-			if GOROOT != runtime.GOROOT() {
-				checkGoGoroot.err = fmt.Errorf("'go env GOROOT' does not match runtime.GOROOT:\n\tgo env: %s\n\tGOROOT: %s", GOROOT, runtime.GOROOT())
-				return
+		checkGoBuild.once.Do(func() {
+			if runtime.GOROOT() != "" {
+				// Ensure that the 'go' command found by exec.LookPath is from the correct
+				// GOROOT. Otherwise, 'some/path/go test ./...' will test against some
+				// version of the 'go' binary other than 'some/path/go', which is almost
+				// certainly not what the user intended.
+				out, err := exec.Command(tool, "env", "GOROOT").CombinedOutput()
+				if err != nil {
+					checkGoBuild.err = err
+					return
+				}
+				GOROOT := strings.TrimSpace(string(out))
+				if GOROOT != runtime.GOROOT() {
+					checkGoBuild.err = fmt.Errorf("'go env GOROOT' does not match runtime.GOROOT:\n\tgo env: %s\n\tGOROOT: %s", GOROOT, runtime.GOROOT())
+					return
+				}
 			}
 
-			// Also ensure that that GOROOT includes a compiler: 'go' commands
-			// don't in general work without it, and some builders
-			// (such as android-amd64-emu) seem to lack it in the test environment.
-			cmd := exec.Command(tool, "tool", "-n", "compile")
-			stderr := new(bytes.Buffer)
-			stderr.Write([]byte("\n"))
-			cmd.Stderr = stderr
-			out, err = cmd.Output()
+			dir, err := os.MkdirTemp("", "testenv-*")
 			if err != nil {
-				checkGoGoroot.err = fmt.Errorf("%v: %v%s", cmd, err, stderr)
+				checkGoBuild.err = err
 				return
 			}
-			if _, err := exec.LookPath(string(bytes.TrimSpace(out))); err != nil {
-				checkGoGoroot.err = err
+			defer os.RemoveAll(dir)
+
+			mainGo := filepath.Join(dir, "main.go")
+			if err := os.WriteFile(mainGo, []byte("package main\nfunc main() {}\n"), 0644); err != nil {
+				checkGoBuild.err = err
+				return
+			}
+			cmd := exec.Command("go", "build", "-o", os.DevNull, mainGo)
+			cmd.Dir = dir
+			if out, err := cmd.CombinedOutput(); err != nil {
+				if len(out) > 0 {
+					checkGoBuild.err = fmt.Errorf("%v: %v\n%s", cmd, err, out)
+				} else {
+					checkGoBuild.err = fmt.Errorf("%v: %v", cmd, err)
+				}
 			}
 		})
-		if checkGoGoroot.err != nil {
-			return checkGoGoroot.err
+		if checkGoBuild.err != nil {
+			return checkGoBuild.err
 		}
 
 	case "diff":
@@ -352,7 +358,7 @@ func WriteImportcfg(t testing.TB, dstPath string, additionalPackageFiles map[str
 	if err != nil {
 		t.Fatalf("preparing the importcfg failed: %s", err)
 	}
-	ioutil.WriteFile(dstPath, []byte(importcfg), 0655)
+	os.WriteFile(dstPath, []byte(importcfg), 0655)
 	if err != nil {
 		t.Fatalf("writing the importcfg failed: %s", err)
 	}
@@ -438,5 +444,34 @@ func NeedsLocalXTools(t testing.TB) {
 
 	if want := "golang.org/x/tools"; modulePath != want {
 		t.Skipf("skipping test: %s module path is %q, not %q", modFilePath, modulePath, want)
+	}
+}
+
+// NeedsGoExperiment skips t if the current process environment does not
+// have a GOEXPERIMENT flag set.
+func NeedsGoExperiment(t testing.TB, flag string) {
+	t.Helper()
+
+	goexp := os.Getenv("GOEXPERIMENT")
+	set := false
+	for _, f := range strings.Split(goexp, ",") {
+		if f == "" {
+			continue
+		}
+		if f == "none" {
+			// GOEXPERIMENT=none disables all experiment flags.
+			set = false
+			break
+		}
+		val := true
+		if strings.HasPrefix(f, "no") {
+			f, val = f[2:], false
+		}
+		if f == flag {
+			set = val
+		}
+	}
+	if !set {
+		t.Skipf("skipping test: flag %q is not set in GOEXPERIMENT=%q", flag, goexp)
 	}
 }
