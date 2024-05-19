@@ -12,7 +12,7 @@ import (
 
 var Analyzer = &analysis.Analyzer{
 	Name: "valuevalidationfuncinfo",
-	Doc:  "find github.com/hashicorp/terraform-plugin-sdk/helper/customdiff ValueValidationFunc declarations for later passes",
+	Doc:  "find github.com/hashicorp/terraform-plugin-sdk/v2/helper/customdiff ValueValidationFunc declarations for later passes",
 	Requires: []*analysis.Analyzer{
 		inspect.Analyzer,
 	},

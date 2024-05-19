@@ -135,3 +135,13 @@ func fResourceFunc_v2(d *schema.ResourceData, meta interface{}) error {
 
 	return nil
 }
+
+func mapInterface() map[string]interface{} {
+	var mI map[string]interface{}
+	return mI
+}
+
+func sliceInterface() []interface{} {
+	var sI []interface{}
+	return sI
+}

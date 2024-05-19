@@ -7,13 +7,13 @@ import (
 func foutside() {
 	_ = schema.Schema{
 		Computed:  true,
-		StateFunc: stateFunc,
+		StateFunc: stateFunc_v2,
 	}
 
 	_ = map[string]*schema.Schema{
 		"name": {
 			Computed:  true,
-			StateFunc: stateFunc,
+			StateFunc: stateFunc_v2,
 		},
 	}
 }

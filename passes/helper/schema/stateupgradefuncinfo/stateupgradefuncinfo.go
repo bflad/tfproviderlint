@@ -12,7 +12,7 @@ import (
 
 var Analyzer = &analysis.Analyzer{
 	Name: "stateupgradefuncinfo",
-	Doc:  "find github.com/hashicorp/terraform-plugin-sdk/helper/schema StateUpgradeFunc declarations for later passes",
+	Doc:  "find github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema StateUpgradeFunc declarations for later passes",
 	Requires: []*analysis.Analyzer{
 		inspect.Analyzer,
 	},

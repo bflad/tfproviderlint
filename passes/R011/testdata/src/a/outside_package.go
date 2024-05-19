@@ -6,7 +6,7 @@ import (
 
 func foutside() {
 	_ = schema.Resource{
-		MigrateState:  migrateStateFunc,
+		MigrateState:  migrateStateFunc_v2,
 		SchemaVersion: 1,
 	}
 }
