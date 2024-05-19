@@ -9,10 +9,10 @@ import (
 
 func TestR007(t *testing.T) {
 	testdata := analysistest.TestData()
-	analysistest.Run(t, testdata, R007.Analyzer, "a")
+	analysistest.Run(t, testdata, R007.Analyzer, "testdata/src/a")
 }
 
 func TestAnalyzerFixes(t *testing.T) {
 	testdata := analysistest.TestData()
-	analysistest.RunWithSuggestedFixes(t, testdata, R007.Analyzer, "a")
+	analysistest.RunWithSuggestedFixes(t, testdata, R007.Analyzer, "testdata/src/a")
 }

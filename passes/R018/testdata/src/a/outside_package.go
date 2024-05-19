@@ -1,7 +1,7 @@
 package a
 
 import (
-	"a/time"
+	"testdata/src/a/time"
 )
 
 func foutside() {

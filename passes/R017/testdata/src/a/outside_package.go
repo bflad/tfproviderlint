@@ -1,8 +1,8 @@
 package a
 
 import (
-	"a/schema"
-	"a/time"
+	"testdata/src/a/schema"
+	"testdata/src/a/time"
 )
 
 func foutside() {

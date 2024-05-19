@@ -9,7 +9,7 @@ import (
 
 func TestXR007(t *testing.T) {
 	testdata := analysistest.TestData()
-	analysistest.Run(t, testdata, XR007.Analyzer, "a")
+	analysistest.Run(t, testdata, XR007.Analyzer, "testdata/src/a")
 }
 
 func TestAnalyzerFixes(t *testing.T) {

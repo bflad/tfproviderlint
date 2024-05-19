@@ -1,8 +1,8 @@
 package a
 
 import (
-	"a/validation"
 	"regexp"
+	"testdata/src/a/validation"
 )
 
 func foutside() {

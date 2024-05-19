@@ -12,14 +12,10 @@ jobs:
           go-version-file: 'go.mod'
       - name: go mod
         run: |
-          echo "==> Checking source code with go mod vendor..."
+          echo "==> Checking source code with go mod tidy..."
           go mod tidy
           git diff --exit-code -- go.mod go.sum || \
             (echo; echo "Unexpected difference in go.mod/go.sum files. Run 'go mod tidy' command or revert any go.mod/go.sum changes and commit."; exit 1)
-          echo "==> Checking source code with go mod vendor..."
-          go mod vendor
-          git diff --compact-summary --exit-code -- vendor || \
-            (echo; echo "Unexpected difference in vendor/ directory. Run 'go mod vendor' command or revert any go.mod/go.sum/vendor changes and commit."; exit 1)
   go_test:
     name: go test
     runs-on: ubuntu-latest
@@ -28,6 +24,8 @@ jobs:
       - uses: actions/setup-go@cdcb36043654635271a94b9a6d1392de5bb323a7 # v5.0.1
         with:
           go-version-file: 'go.mod'
+      # Prevent GOPROXY=off errors for analysistest
+      - run: for moddir in {,x}passes/*/testdata; do pushd $moddir; go mod download; popd; done
       - run: go test ./...
   goreleaser:
     name: goreleaser

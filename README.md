@@ -241,7 +241,6 @@ Currently, that means Go **1.21** or later must be used when including this proj
 
 * Create new analyzer in `passes/` (or `xpasses/` for extra checks)
 * If the `Analyzer` reports issues, add to `AllChecks` variable in `passes/checks.go` (or `xpasses/checks.go` for extra checks)
-* Since the [`analysistest` package](https://godoc.org/golang.org/x/tools/go/analysis/analysistest) does not support Go Modules currently, each analyzer that implements testing must add a symlink to the top level `vendor` directory in the `testdata/src/a` directory. e.g. `ln -s ../../../../../vendor passes/NAME/testdata/src/a/vendor`
 
 ### Implementing SuggestedFixes Testing
 
@@ -256,7 +255,7 @@ import (
 
 func TestAnalyzerFixes(t *testing.T) {
   testdata := analysistest.TestData()
-  analysistest.RunWithSuggestedFixes(t, testdata, Analyzer, "a")
+  analysistest.RunWithSuggestedFixes(t, testdata, Analyzer, "testdata/src/a")
 }
 ```
 

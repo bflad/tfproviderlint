@@ -1,7 +1,7 @@
 package a
 
 import (
-	"a/methodexpression"
+	"testdata/src/a/methodexpression"
 )
 
 func fmethodexpression() *methodexpression.RetryError {

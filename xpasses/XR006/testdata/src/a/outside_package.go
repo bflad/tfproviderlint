@@ -1,7 +1,7 @@
 package a
 
 import (
-	"a/schema"
+	"testdata/src/a/schema"
 	"time"
 )
 

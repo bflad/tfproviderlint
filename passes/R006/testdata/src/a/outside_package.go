@@ -1,7 +1,7 @@
 package a
 
 import (
-	"a/resource"
+	"testdata/src/a/resource"
 )
 
 func foutside() *resource.RetryError {

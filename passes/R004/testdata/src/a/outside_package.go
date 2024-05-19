@@ -3,7 +3,7 @@ package a
 import (
 	"time"
 
-	"a/schema"
+	"testdata/src/a/schema"
 )
 
 func foutside() {

@@ -10,12 +10,12 @@ import (
 
 func TestAT012(t *testing.T) {
 	testdata := analysistest.TestData()
-	analysistest.Run(t, testdata, AT012.Analyzer, "a")
+	analysistest.Run(t, testdata, AT012.Analyzer, "testdata/src/a")
 }
 
 func TestAT012IgnoredFilenames(t *testing.T) {
 	testdata := analysistest.TestData()
 	analyzer := AT012.Analyzer
 	analyzer.Flags.Set("ignored-filenames", "ignored_file_test.go")
-	analysistest.Run(t, testdata, analyzer, "ignoredfilenames")
+	analysistest.Run(t, testdata, analyzer, "testdata/src/ignoredfilenames")
 }
