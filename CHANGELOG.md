@@ -1,3 +1,23 @@
+# v0.30.0
+
+BREAKING CHANGES
+
+* passes/R008: Due to removing terraform-plugin-sdk v1 support, this check will no longer return reports.
+* passes/S034: Due to removing terraform-plugin-sdk v1 support, this check will no longer return reports.
+* passes/V002: Due to removing terraform-plugin-sdk v1 support, this check will no longer return reports.
+* passes/V003: Due to removing terraform-plugin-sdk v1 support, this check will no longer return reports.
+* passes/V004: Due to removing terraform-plugin-sdk v1 support, this check will no longer return reports.
+* passes/V005: Due to removing terraform-plugin-sdk v1 support, this check will no longer return reports.
+* passes/V006: Due to removing terraform-plugin-sdk v1 support, this check will no longer return reports.
+* passes/V007: Due to removing terraform-plugin-sdk v1 support, this check will no longer return reports.
+* passes/V008: Due to removing terraform-plugin-sdk v1 support, this check will no longer return reports.
+
+NOTES
+
+* all: This Go module and the associated Docker image has been updated to Go 1.21 per the [Go support policy](https://go.dev/doc/devel/release#policy). Any consumers building on earlier Go versions or dependent on earlier Go version functionality may experience errors. (#299 / #308)
+* all: Support for terraform-plugin-sdk v1 has been removed as it has been end-of-life for many years. Any checks that were only for that dependency have been converted to skip all logic and return no reports. (#305)
+* all: For Go module consumers, provider SDK dependencies such as github.com/hashicorp/terraform-plugin-sdk at a specific version are no reflected in the main Go module. This should prevent dependency conflict errors and potentially reduce indirect dependency security notices. (#307)
+
 # v0.29.0
 
 NOTES
