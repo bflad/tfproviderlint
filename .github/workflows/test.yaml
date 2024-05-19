@@ -24,6 +24,8 @@ jobs:
       - uses: actions/setup-go@cdcb36043654635271a94b9a6d1392de5bb323a7 # v5.0.1
         with:
           go-version-file: 'go.mod'
+      # Prevent GOPROXY=off errors for analysistest
+      - run: for moddir in {,x}passes/*/testdata; do pushd $moddir; go mod download; popd; done
       - run: go test ./...
   goreleaser:
     name: goreleaser
