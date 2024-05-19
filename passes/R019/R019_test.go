@@ -11,7 +11,7 @@ import (
 func TestR019(t *testing.T) {
 	testdata := analysistest.TestData()
 	analyzer := R019.Analyzer
-	analysistest.Run(t, testdata, analyzer, "a")
+	analysistest.Run(t, testdata, analyzer, "testdata/src/a")
 }
 
 func TestR019Threshold(t *testing.T) {
@@ -22,5 +22,5 @@ func TestR019Threshold(t *testing.T) {
 		t.Fatalf("error setting threshold flag: %s", err)
 	}
 
-	analysistest.Run(t, testdata, analyzer, "threshold")
+	analysistest.Run(t, testdata, analyzer, "testdata/src/threshold")
 }

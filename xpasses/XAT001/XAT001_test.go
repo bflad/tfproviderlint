@@ -10,5 +10,5 @@ import (
 
 func TestXAT001(t *testing.T) {
 	testdata := analysistest.TestData()
-	analysistest.Run(t, testdata, XAT001.Analyzer, "a")
+	analysistest.Run(t, testdata, XAT001.Analyzer, "testdata/src/a")
 }

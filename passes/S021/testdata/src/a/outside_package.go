@@ -1,18 +1,18 @@
 package a
 
 import (
-	"a/schema"
+	"testdata/src/a/schema"
 )
 
 func foutside() {
 	_ = schema.Schema{
-		Computed: true,
+		Computed:     true,
 		ComputedWhen: []string{"another_attr"},
 	}
 
 	_ = map[string]*schema.Schema{
 		"name": {
-			Computed: true,
+			Computed:     true,
 			ComputedWhen: []string{"another_attr"},
 		},
 	}

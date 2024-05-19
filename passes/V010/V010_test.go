@@ -10,5 +10,5 @@ import (
 
 func TestV010(t *testing.T) {
 	testdata := analysistest.TestData()
-	analysistest.Run(t, testdata, V010.Analyzer, "a")
+	analysistest.Run(t, testdata, V010.Analyzer, "testdata/src/a")
 }

@@ -10,19 +10,19 @@ import (
 
 func TestAT001(t *testing.T) {
 	testdata := analysistest.TestData()
-	analysistest.Run(t, testdata, AT001.Analyzer, "a")
+	analysistest.Run(t, testdata, AT001.Analyzer, "testdata/src/a")
 }
 
 func TestAT001CustomSuffixes(t *testing.T) {
 	testdata := analysistest.TestData()
 	analyzer := AT001.Analyzer
 	analyzer.Flags.Set("ignored-filename-suffixes", "_data_source_test.go")
-	analysistest.Run(t, testdata, analyzer, "suffixes")
+	analysistest.Run(t, testdata, analyzer, "testdata/src/suffixes")
 }
 
 func TestAT001CustomPrefixes(t *testing.T) {
 	testdata := analysistest.TestData()
 	analyzer := AT001.Analyzer
 	analyzer.Flags.Set("ignored-filename-prefixes", "extra_data_")
-	analysistest.Run(t, testdata, analyzer, "prefixes")
+	analysistest.Run(t, testdata, analyzer, "testdata/src/prefixes")
 }
