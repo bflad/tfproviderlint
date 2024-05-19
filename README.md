@@ -235,7 +235,7 @@ Helpful tooling for development:
 
 This project follows the [Go support policy](https://golang.org/doc/devel/release.html#policy) for versions. The two latest major releases of Go are supported by the project.
 
-Currently, that means Go **1.19** or later must be used when including this project as a dependency.
+Currently, that means Go **1.21** or later must be used when including this project as a dependency.
 
 ### Adding an Analyzer
 
