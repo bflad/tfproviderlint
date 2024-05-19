@@ -12,7 +12,7 @@ import (
 
 var Analyzer = &analysis.Analyzer{
 	Name: "valueconditionfuncinfo",
-	Doc:  "find github.com/hashicorp/terraform-plugin-sdk/helper/customdiff ValueConditionFunc declarations for later passes",
+	Doc:  "find github.com/hashicorp/terraform-plugin-sdk/v2/helper/customdiff ValueConditionFunc declarations for later passes",
 	Requires: []*analysis.Analyzer{
 		inspect.Analyzer,
 	},

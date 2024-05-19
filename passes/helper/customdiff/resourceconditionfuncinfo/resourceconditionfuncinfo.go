@@ -12,7 +12,7 @@ import (
 
 var Analyzer = &analysis.Analyzer{
 	Name: "resourceconditionfuncinfo",
-	Doc:  "find github.com/hashicorp/terraform-plugin-sdk/helper/customdiff ResourceConditionFunc declarations for later passes",
+	Doc:  "find github.com/hashicorp/terraform-plugin-sdk/v2/helper/customdiff ResourceConditionFunc declarations for later passes",
 	Requires: []*analysis.Analyzer{
 		inspect.Analyzer,
 	},
