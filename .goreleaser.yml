@@ -11,7 +11,7 @@ brews:
   dependencies:
   - go
   description: Terraform Provider Linter
-  folder: Formula
+  directory: Formula
   repository:
     owner: bflad
     name: homebrew-tap
