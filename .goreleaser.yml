@@ -1,79 +1,73 @@
+version: 2
 archives:
--
-  format_overrides:
-  - goos: windows
-    format: zip
+  - format_overrides:
+    - goos: windows
+      format: zip
 before:
   hooks:
     - go mod download
 brews:
--
-  dependencies:
-  - go
-  description: Terraform Provider Linter
-  directory: Formula
-  repository:
-    owner: bflad
-    name: homebrew-tap
-  homepage: https://github.com/bflad/tfproviderlint
-  install: |
-    bin.install "tfproviderlint"
-  test: |
-    system "#{bin}/tfproviderlint -V"
+  - dependencies:
+    - go
+    description: Terraform Provider Linter
+    directory: Formula
+    repository:
+      owner: bflad
+      name: homebrew-tap
+    homepage: https://github.com/bflad/tfproviderlint
+    install: |
+      bin.install "tfproviderlint"
+    test: |
+      system "#{bin}/tfproviderlint -V"
 builds:
--
-  env:
-  - CGO_ENABLED=0
-  goos:
-  - darwin
-  - windows
-  - linux
-  goarch:
-  - amd64
-  - 386
-  - arm64
-  ldflags:
-  - -s -w -X github.com/bflad/tfproviderlint/version.Version={{.Version}} -X github.com/bflad/tfproviderlint/version.VersionPrerelease= -X github.com/bflad/tfproviderlint/version.GitCommit={{.ShortCommit}}
-  main: ./cmd/tfproviderlint
--
-  binary: tfproviderlintx
-  env:
-  - CGO_ENABLED=0
-  goos:
-  - darwin
-  - windows
-  - linux
-  goarch:
-  - amd64
-  - 386
-  - arm64
-  id: tfproviderlintx
-  ldflags:
-  - -s -w -X github.com/bflad/tfproviderlint/version.Version={{.Version}} -X github.com/bflad/tfproviderlint/version.VersionPrerelease= -X github.com/bflad/tfproviderlint/version.GitCommit={{.ShortCommit}}
-  main: ./cmd/tfproviderlintx
+  - env:
+    - CGO_ENABLED=0
+    goos:
+    - darwin
+    - windows
+    - linux
+    goarch:
+    - amd64
+    - 386
+    - arm64
+    ldflags:
+    - -s -w -X github.com/bflad/tfproviderlint/version.Version={{.Version}} -X github.com/bflad/tfproviderlint/version.VersionPrerelease= -X github.com/bflad/tfproviderlint/version.GitCommit={{.ShortCommit}}
+    main: ./cmd/tfproviderlint
+  - binary: tfproviderlintx
+    env:
+    - CGO_ENABLED=0
+    goos:
+    - darwin
+    - windows
+    - linux
+    goarch:
+    - amd64
+    - 386
+    - arm64
+    id: tfproviderlintx
+    ldflags:
+    - -s -w -X github.com/bflad/tfproviderlint/version.Version={{.Version}} -X github.com/bflad/tfproviderlint/version.VersionPrerelease= -X github.com/bflad/tfproviderlint/version.GitCommit={{.ShortCommit}}
+    main: ./cmd/tfproviderlintx
 changelog:
-  skip: true
+  disable: true
 dockers:
--
-  build_flag_templates:
-  - "--label=org.label-schema.schema-version=1.0"
-  - "--label=org.label-schema.version={{.Version}}"
-  - "--label=org.label-schema.name={{.ProjectName}}"
-  image_templates:
-  - 'bflad/tfproviderlint:{{ .Version }}'
-  - 'bflad/tfproviderlint:{{ .Major }}.{{ .Minor }}'
-  - 'bflad/tfproviderlint:latest'
+  - build_flag_templates:
+    - "--label=org.label-schema.schema-version=1.0"
+    - "--label=org.label-schema.version={{.Version}}"
+    - "--label=org.label-schema.name={{.ProjectName}}"
+    image_templates:
+    - 'bflad/tfproviderlint:{{ .Version }}'
+    - 'bflad/tfproviderlint:{{ .Major }}.{{ .Minor }}'
+    - 'bflad/tfproviderlint:latest'
 milestones:
--
-  close: true
+  - close: true
 signs:
--
-  artifacts: checksum
-  args:
-    - "--batch"
-    - "--local-user"
-    - "{{ .Env.GPG_FINGERPRINT }}"
-    - "--output"
-    - "${signature}"
-    - "--detach-sign"
-    - "${artifact}"
+  - artifacts: checksum
+    args:
+      - "--batch"
+      - "--local-user"
+      - "{{ .Env.GPG_FINGERPRINT }}"
+      - "--output"
+      - "${signature}"
+      - "--detach-sign"
+      - "${artifact}"
