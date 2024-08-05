@@ -35,15 +35,15 @@ const (
 	TypeNameResource = `Resource`
 )
 
-// resourceType is an internal representation of the SDK helper/schema.Resource type
+// ResourceType is an internal representation of the SDK helper/schema.Resource type
 //
 // This is used to prevent importing the real type since the project supports
 // multiple versions of the Terraform Plugin SDK, while allowing passes to
 // access the data in a familiar manner.
-type resourceType struct {
+type ResourceType struct {
 	Description  string
 	MigrateState func(int, interface{}, interface{}) (interface{}, error)
-	Schema       map[string]*schemaType
+	Schema       map[string]*SchemaType
 	Timeouts     resourceTimeoutType
 }
 
@@ -51,7 +51,7 @@ type resourceType struct {
 type ResourceInfo struct {
 	AstCompositeLit *ast.CompositeLit
 	Fields          map[string]*ast.KeyValueExpr
-	Resource        *resourceType
+	Resource        *ResourceType
 	TypesInfo       *types.Info
 }
 
@@ -60,7 +60,7 @@ func NewResourceInfo(cl *ast.CompositeLit, info *types.Info) *ResourceInfo {
 	result := &ResourceInfo{
 		AstCompositeLit: cl,
 		Fields:          astutils.CompositeLitFields(cl),
-		Resource:        &resourceType{},
+		Resource:        &ResourceType{},
 		TypesInfo:       info,
 	}
 
@@ -110,7 +110,7 @@ func NewResourceInfo(cl *ast.CompositeLit, info *types.Info) *ResourceInfo {
 	}
 
 	if kvExpr := result.Fields[ResourceFieldSchema]; kvExpr != nil && astutils.ExprValue(kvExpr.Value) != nil {
-		result.Resource.Schema = map[string]*schemaType{}
+		result.Resource.Schema = map[string]*SchemaType{}
 		if smap, ok := kvExpr.Value.(*ast.CompositeLit); ok {
 			for _, expr := range smap.Elts {
 				switch elt := expr.(type) {
@@ -135,6 +135,8 @@ func NewResourceInfo(cl *ast.CompositeLit, info *types.Info) *ResourceInfo {
 					switch valueExpr := elt.Value.(type) {
 					case *ast.CompositeLit:
 						result.Resource.Schema[key] = NewSchemaInfo(valueExpr, info).Schema
+					default:
+						result.Resource.Schema[key] = nil
 					}
 				}
 			}
