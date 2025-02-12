@@ -2,7 +2,7 @@ version: 2
 archives:
   - format_overrides:
     - goos: windows
-      format: zip
+      formats: [zip]
 before:
   hooks:
     - go mod download
@@ -28,7 +28,7 @@ builds:
     - linux
     goarch:
     - amd64
-    - 386
+    - "386"
     - arm64
     ldflags:
     - -s -w -X github.com/bflad/tfproviderlint/version.Version={{.Version}} -X github.com/bflad/tfproviderlint/version.VersionPrerelease= -X github.com/bflad/tfproviderlint/version.GitCommit={{.ShortCommit}}
@@ -42,7 +42,7 @@ builds:
     - linux
     goarch:
     - amd64
-    - 386
+    - "386"
     - arm64
     id: tfproviderlintx
     ldflags:
