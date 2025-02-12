@@ -1,3 +1,9 @@
+# v0.31.0
+
+NOTES
+
+* all: This Go module and the associated Docker image has been updated to Go 1.22 per the [Go support policy](https://go.dev/doc/devel/release#policy). Any consumers building on earlier Go versions or dependent on earlier Go version functionality may experience errors.
+
 # v0.30.0
 
 BREAKING CHANGES
