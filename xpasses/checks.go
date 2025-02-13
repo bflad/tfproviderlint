@@ -12,6 +12,7 @@ import (
 	"github.com/bflad/tfproviderlint/xpasses/XR008"
 	"github.com/bflad/tfproviderlint/xpasses/XS001"
 	"github.com/bflad/tfproviderlint/xpasses/XS002"
+	"github.com/bflad/tfproviderlint/xpasses/XS003"
 	"golang.org/x/tools/go/analysis"
 )
 
@@ -30,4 +31,5 @@ var AllChecks = []*analysis.Analyzer{
 	XR008.Analyzer,
 	XS001.Analyzer,
 	XS002.Analyzer,
+	XS003.Analyzer,
 }
