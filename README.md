@@ -172,6 +172,7 @@ Standard lint checks are enabled by default in the `tfproviderlint` tool. Opt-in
 | [S035](passes/S035) | check for `Schema` with invalid `AtLeastOneOf` attribute references | AST |
 | [S036](passes/S036) | check for `Schema` with invalid `ConflictsWith` attribute references | AST |
 | [S037](passes/S037) | check for `Schema` with invalid `ExactlyOneOf` attribute references | AST |
+| [S038](passes/S038) | check for `Schema` with has `Default` value declared with incompatible `Type` | AST |
 
 ### Standard Validation Checks
 
