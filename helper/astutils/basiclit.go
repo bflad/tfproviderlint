@@ -14,7 +14,11 @@ func ExprBoolConstValue(e ast.Expr, info *types.Info) *bool {
 	if !ok {
 		return nil
 	}
-	if bt, ok := t.Type.(*types.Basic); !ok || bt.Kind() != types.Bool {
+	typ := t.Type
+	if tt, ok := typ.(*types.Named); ok {
+		typ = tt.Underlying()
+	}
+	if bt, ok := typ.(*types.Basic); !ok || bt.Kind() != types.Bool {
 		return nil
 	}
 	// Constant value is guaranteed non-nil
@@ -35,7 +39,11 @@ func ExprIntConstValue(e ast.Expr, info *types.Info) *int {
 	if !ok {
 		return nil
 	}
-	if bt, ok := t.Type.(*types.Basic); !ok || bt.Kind() != types.Int {
+	typ := t.Type
+	if tt, ok := typ.(*types.Named); ok {
+		typ = tt.Underlying()
+	}
+	if bt, ok := typ.(*types.Basic); !ok || bt.Kind() != types.Int {
 		return nil
 	}
 	// Constant value is guaranteed non-nil
@@ -56,7 +64,11 @@ func ExprStringConstValue(e ast.Expr, info *types.Info) *string {
 	if !ok {
 		return nil
 	}
-	if bt, ok := t.Type.(*types.Basic); !ok || bt.Kind() != types.String {
+	typ := t.Type
+	if tt, ok := typ.(*types.Named); ok {
+		typ = tt.Underlying()
+	}
+	if bt, ok := typ.(*types.Basic); !ok || bt.Kind() != types.String {
 		return nil
 	}
 	// Constant value is guaranteed non-nil
