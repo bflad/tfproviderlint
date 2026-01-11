@@ -1,8 +1,6 @@
 module github.com/bflad/tfproviderlint
 
-go 1.24.0
-
-toolchain go1.24.4
+go 1.25.5
 
 require (
 	github.com/bflad/gopaniccheck v0.1.0
