@@ -51,7 +51,7 @@ func (info *RetryErrorInfo) DeclaresField(fieldName string) bool {
 
 // IsTypeRetryError returns if the type is RetryError from the helper/resource package
 func IsTypeRetryError(t types.Type) bool {
-	switch t := t.(type) {
+	switch t := types.Unalias(t).(type) {
 	case *types.Named:
 		return IsNamedType(t, TypeNameRetryError)
 	case *types.Pointer:
